@@ -1,6 +1,7 @@
 version: "3"
 services: 
     webapi:
+        container_name: myCMS.js
         build: ./app
         working_dir: /src
         volumes: 
@@ -8,3 +9,18 @@ services:
         ports:
             - "9000:9000"
         command: bash -c "npm install && npm run dev"
+        depends_on:
+            - mongodb
+            - redis
+    mongodb:
+        container_name: mongoCMS
+        image: mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - data-volume-mongoCMS:/data/db
+    redis:
+        container_name: redisCMS
+        image: redis
+volumes:
+    data-volume-mongoCMS:
