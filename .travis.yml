@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- 13.10.1
+cache: npm
+before_install: 
+    - cd ./app
+install:
+    - npm install nodemon -g
+    - npm install
+script:
+    -  
+    - npm run test
