@@ -3,6 +3,7 @@ services:
     webapi:
         container_name: myCMS.js
         build: ./app
+        restart: always
         working_dir: /src
         volumes: 
             - ./app:/src
@@ -15,12 +16,26 @@ services:
     mongodb:
         container_name: mongoCMS
         image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: secret
+            MONGO_INITDB_DATABASE: cms
         ports:
-            - "27017:27017"
+            - "27017-27019:27017-27019"
         volumes:
+            - ./mongo-config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
             - data-volume-mongoCMS:/data/db
+        networks:
+            - app_net
     redis:
         container_name: redisCMS
         image: redis
+        restart: always
+        networks:
+            - app_net
 volumes:
     data-volume-mongoCMS:
+networks:
+    app_net:
+        driver: bridge
