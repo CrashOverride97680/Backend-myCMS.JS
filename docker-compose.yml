@@ -13,11 +13,14 @@ services:
         networks:
             - app_net
         depends_on:
-            - mongodb
+            - mongo
             - redis
             - jenkins
+        links:
+            - "mongo:databases"
+            - "redis:cachedb"
 
-    mongodb:
+    mongo:
         container_name: mongoCMS
         image: mongo:bionic
         restart: always

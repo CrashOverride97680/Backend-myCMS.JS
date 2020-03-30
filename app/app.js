@@ -26,6 +26,9 @@
         windowMs: 15 * 60 * 1000,
         max: 100 
     });
+// IMPORTING DB AND CONNECTS
+    const connect = require('./api/data/config/mongoConfig');
+    connect();
 // IMPORTING LANG AND DEBUG
     const langServer = `./lang/${( process.env.LANG_SERVER || 'eng' )}`;
     const lang = require(langServer);
