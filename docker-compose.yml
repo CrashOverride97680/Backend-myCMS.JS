@@ -15,6 +15,7 @@ services:
         depends_on:
             - mongodb
             - redis
+            - jenkins
     mongodb:
         container_name: mongoCMS
         image: mongo
@@ -42,9 +43,10 @@ services:
         restart: always
         volumes: 
             - jenkins_data:/var/jenkins_home
-        ports: 
-            - 8080:8080
-            - 50000:50000
+        ports:
+        - "8080:8080"
+        - "5000:5000"
+        - "50000:50000"
         networks:
             - app_net
 volumes:
