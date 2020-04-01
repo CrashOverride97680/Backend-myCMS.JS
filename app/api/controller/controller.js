@@ -18,47 +18,75 @@ module.exports = {
     notFound: (req, resp) => resp.status(404).json({resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND}),
     login: (req, resp) => 
     {
-        const user = 
+        try
         {
-            email: req.body.email,
-            password: req.body.password
-        };
-        
-        if ( user.email == testUser.email && user.password == testUser.password )
-        {
-            if ( process.env.NODE_ENV_DEV )
+            const user = 
             {
-                const { id, username } = testUser;
-                jwt.sign({_id: id, username}, secret, { expiresIn: 86400 }, ( err, token ) => 
+                email: req.body.email,
+                password: req.body.password
+            };
+            
+            if ( user.email == testUser.email && user.password == testUser.password )
+            {
+                if ( process.env.NODE_ENV_DEV )
                 {
-                    if ( err )
+                    const { id, username } = testUser;
+                    jwt.sign({_id: id, username}, secret, { expiresIn: '20s' }, ( err, token ) => 
                     {
-                        console.log(lang.LABEL_ERROR_RETURN, err);
-                        resp.status(500).json(lang.LABEL_500_HTTP);
-                    }
-                    else 
-                        resp.json({
-                            auth: true,
-                            token
-                        });
-                });
+                        if ( err )
+                        {
+                            console.log(lang.LABEL_ERROR_RETURN, err);
+                            resp.status(500).json(lang.LABEL_500_HTTP);
+                        }
+                        else 
+                            resp.json({
+                                auth: true,
+                                token
+                            });
+                    });
+                }
             }
+        }
+        catch(err)
+        {
+            console.log(lang.LABEL_ERROR_RETURN, err);
+            resp.status(500).json(lang.LABEL_500_HTTP);
         }
     },
     createPost: (req, resp) => 
     {
+        try
+        {
+            const auth = req.headers['authorization'];
+            console.log(typeof auth);
+            if ( (typeof auth) !== 'undefined' )
+            {
+                jwt.verify(auth, secret, (err, decode) => {
+                    if ( err )
+                        resp.sendStatus(403).json(lang.LABEL_403_HTTP);
+                    else
+                        resp.sendStatus(201).json(lang.LABEL_201_HTTP);
+                });
+            }
+            else
+                resp.sendStatus(403).json(lang.LABEL_403_HTTP);
+        }
+        catch(err)
+        {
+            console.log(lang.LABEL_ERROR_RETURN, err);
+            resp.status(500).json(lang.LABEL_500_HTTP);
+        }
+    },
+    refresh: ( req, resp ) => 
+    {
         const auth = req.headers['authorization'];
         console.log(typeof auth);
-        if ( (typeof auth) !== 'undefined' ){
+        if ( (typeof auth) !== 'undefined' )
+        {
             jwt.verify(auth, secret, (err, decode) => {
-                console.log('DECODE:', decode);
-                if ( err )
-                    resp.sendStatus(403).json(lang.LABEL_403_HTTP);
-                else
-                    resp.sendStatus(201).json(lang.LABEL_201_HTTP);
+                console.log("ERROR:", err);
+                console.log("DECODE:", decode);
             });
         }
-        else
-            resp.sendStatus(403).json(lang.LABEL_403_HTTP);
-    },
+    }
 };

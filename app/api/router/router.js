@@ -8,6 +8,7 @@
 // -> POST
     router
     .post('/login', controller.login)
+    .post('/refresh', controller.refresh)
     .post('/posts', controller.createPost);
 // -> PUT
 // -> DELETE

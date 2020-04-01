@@ -8,6 +8,7 @@ module.exports = {
     LABEL_ERROR_RETURN: 'ERROR',
 // LABEL HTTP SERVER
     LABEL_201_HTTP: { number: '201', message: '201 CREATED'},
+    LABEL_204_HTTP: { number: '204', message: '204 NO CONTENT'},
     LABEL_403_HTTP: { number: '403', message: '403 FORBIDDEN'},
     LABEL_500_HTTP: { number: '500', message: '500 INTERNAL SERVER ERROR'},
 // LABEL MONGOOSE
