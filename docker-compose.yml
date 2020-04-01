@@ -11,14 +11,14 @@ services:
             - "9000:9000"
         command: bash -c "npm install && npm run dev"
         networks:
-            - app_net
+            - cms_app_net
         depends_on:
             - mongo
             - redis
             - jenkins
         links:
-            - "mongo:databases"
-            - "redis:cachedb"
+            - "mongo"
+            - "redis"
 
     mongo:
         container_name: mongoCMS
@@ -34,14 +34,14 @@ services:
             - ./mongo-config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
             - data-volume-mongoCMS:/data/db
         networks:
-            - app_net
+            - cms_app_net
 
     redis:
         container_name: redisCMS
         image: redis:alpine
         restart: always
         networks:
-            - app_net
+            - cms_app_net
 
     jenkins:
         container_name: jenkinsCMS
@@ -53,7 +53,7 @@ services:
         - "8081:8080"
         - "50000:50000"
         networks:
-            - app_net
+            - cms_app_net
 #        depends_on:
 #            - gitrepository
 
@@ -64,7 +64,7 @@ services:
         ports:
         - "8082:80"
         networks:
-            - app_net
+            - cms_app_net
         depends_on:
             - webapi
 
@@ -72,7 +72,7 @@ services:
 #        container_name: gitapi
 #        image: 
 #        networks:
-#            - app_net
+#            - cms_app_net
 volumes:
     data-volume-mongoCMS:
         driver: local
@@ -80,5 +80,5 @@ volumes:
         driver: local
 
 networks:
-    app_net:
+    cms_app_net:
         driver: bridge

@@ -5,7 +5,7 @@
     const path = require('path');
     const dotenv = require('dotenv').config();
     const log4js = require('log4js');
-    //const router = require('./api/router/router'); 
+    const router = require('./api/router/router'); 
     log4js.configure({
         appenders: { 
             error: { 
@@ -32,7 +32,7 @@
 // IMPORTING LANG AND DEBUG
     const langServer = `./lang/${( process.env.LANG_SERVER || 'eng' )}`;
     const lang = require(langServer);
-    //  DEBUG VARIABLES ENVIROMENT
+//  DEBUG VARIABLES ENVIROMENT
     if ( process.env.NODE_ENV_DEV || process.env.NODE_DEV_ENV_VAR )
         console.log(lang.LABEL_ENV_VAR, dotenv);
 // INIZIALIZE FUNCTION, CLASS, ELEMENT AND MODULES
@@ -64,13 +64,8 @@
     app
     .use(limiter);
 //  ROUTER ENTRYPOINT
-/*
     app
     .use('/api', router);
-*/
-// ----> 404
-    app
-    .get('*', (req, resp) => resp.status(404).json({res: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS}));
 /*  
     app
     .use(express.static(path.join(__dirname, 'public')));
