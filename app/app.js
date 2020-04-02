@@ -5,6 +5,7 @@
     const path = require('path');
     const dotenv = require('dotenv').config();
     const log4js = require('log4js');
+    const cookieParser = require('cookie-parser');
     const router = require('./api/router/router'); 
     log4js.configure({
         appenders: { 
@@ -47,6 +48,8 @@
 // USE MIDDLEWARE
     app
     .use(compression({filter: shouldCompress}));
+    app
+    .use(cookieParser());
     app
     .use((req, res, next) =>  {
         res

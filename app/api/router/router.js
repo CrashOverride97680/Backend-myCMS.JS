@@ -8,14 +8,16 @@
 // -> POST
     router
     .post('/login', controller.login)
-    .post('/refresh', controller.refresh)
+    .post('/register', controller.register)
+    .post('/logout', controller.logout)
     .post('/posts', controller.createPost);
 // -> PUT
 // -> DELETE
 // -> TEST
 if ( process.env.NOD_ENV_TEST )
     router
-    .get('/test', controller.test);
+    .get('/test', controller.test)
+    .get('/secret', controller.requireSignin, controller.secretTest);
 // -> 404
     router
     .get('*', controller.notFound);

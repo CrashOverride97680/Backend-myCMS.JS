@@ -32,13 +32,17 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.0",
+    "express-jwt": "^5.3.1",
     "express-rate-limit": "^5.1.1",
+    "express-validator": "^6.4.0",
+    "formidable": "^1.2.2",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.1.2",
     "mocha": "^7.1.1",
     "mongoose": "^5.9.7",
     "nyc": "^15.0.0",
     "path": "^0.12.7",
+    "slugify": "^1.4.0",
     "supertest": "^4.0.2"
   },
   "devDependencies": {
