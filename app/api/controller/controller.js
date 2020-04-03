@@ -16,7 +16,8 @@
         confirmed: true,
     } : null;
 
-module.exports = {
+module.exports = 
+{
     test: (req, resp) => resp.json({resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS}),
     secretTest: ( req, resp ) => resp.json(lang.LABELL_ACCESS_PAGE),
     notFound: (req, resp) => resp.status(404).json({resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND}),
