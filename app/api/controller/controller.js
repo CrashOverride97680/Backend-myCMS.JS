@@ -112,5 +112,9 @@ module.exports =
         }
     },
     requireSignin: () => expressJWT({secret}),
-
+    register: ( req, resp ) => {
+        resp.json({
+            message: 'Register user',
+        })    
+    }
 };
