@@ -20,9 +20,9 @@
     module.exports = 
     {
         test: (req, resp) => resp.json({resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS}),
-        secretTest: ( req, resp ) => resp.json(lang.LABELL_ACCESS_PAGE),
+        secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
         notFound: (req, resp) => resp.status(404).json({resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND}),
-        login: ( req, resp ) => 
+        login: (req, resp) => 
         {
             try
             {
@@ -88,7 +88,7 @@
                 resp.status(500).json(lang.LABEL_500_HTTP);
             }
         },
-        refresh: ( req, resp ) => 
+        refresh: (req, resp) => 
         {
             const auth = req.headers['authorization'];
             console.log(typeof auth);
@@ -100,7 +100,7 @@
                 });
             }
         },
-        logout: ( req, resp ) =>
+        logout: (req, resp) =>
         {
             try
             {
@@ -114,7 +114,7 @@
             }
         },
         requireSignin: () => expressJWT({secret}),
-        register: ( req, resp ) => {
+        register: (req, resp) => {
                 
         }
     };
