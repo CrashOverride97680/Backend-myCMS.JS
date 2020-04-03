@@ -3,7 +3,7 @@
     const { Schema } = mongoose;
 // EXPORTING MODULES WITH SCHEMA
 module.exports = {
-    user: new Schema({
+    users: new Schema({
         _id: mongoose.Schema.Types.ObjectId,
         admin: 
         {
@@ -41,6 +41,12 @@ module.exports = {
             type: Boolean,
             required: true,
             default: false
-        }
+        },
+        create:
+        {
+            create: { type: Date },
+            updated: { type: Date, default: Date.now },
+            modified: { type: Date, default: Date.now },
+        },
     }),
 };

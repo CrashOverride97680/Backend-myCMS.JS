@@ -19,9 +19,13 @@
 //  EXPORTING MODULE
     module.exports = 
     {
+        // FATTO
         test: (req, resp) => resp.json({resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS}),
+        // FATTO
         secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
+        // FATTO
         notFound: (req, resp) => resp.status(404).json({resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND}),
+        // FATTO MA DA MODIFICARE
         login: (req, resp) => 
         {
             try
@@ -69,7 +73,6 @@
             try
             {
                 const auth = req.headers['authorization'];
-                console.log(typeof auth);
                 if ( (typeof auth) !== 'undefined' )
                 {
                     jwt.verify(auth, secret, (err, decode) => {
@@ -100,6 +103,7 @@
                 });
             }
         },
+        // FATTO
         logout: (req, resp) =>
         {
             try
@@ -113,8 +117,71 @@
                 resp.status(500).json(lang.LABEL_500_HTTP);
             }
         },
+        // FATTO
         requireSignin: () => expressJWT({secret}),
-        register: (req, resp) => {
+        register: async (req, resp) => {
+            try
+            {
+                const user = 
+                {
+                    email: req.body.email,
+                    password: req.body.password,
+                    username: req.body.username,
+                    name: req.body.name,
+                    surname: req.body.surname,
+                    token: req.headers['authorization']
+                };
                 
+                if (process.env.NODE_ENV_DEV)
+                    console.log("USER:", user);
+                
+                if (!user.token)
+                {
+                    const findUser = mongoose.model('user', 'users');
+                    const session = await createUsersTable.startSession();
+                    await session.startTransaction();
+                    try
+                    {
+                        await findUser.findOne(
+                            {
+                                email: user.email
+                            },
+                            (error, data) =>
+                            {
+                                if(error !== null)
+                                    resp.json({message: 'Resend Email for Confirm'});
+                                else
+                                {
+                                    if([data].length === 1)
+                                    {
+                                        if(data.confirmed !== true)
+                                            resp.json({message: "Resend email!!"});
+                                        else
+                                        {
+                                            const createUsersTable = mongoose.model('user', 'users');
+                                            createUsersTable.create({
+
+                                            }, (err, result) => {
+
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                    }
+                    catch
+                    {
+                        session.abortTransaction();
+                        session.endSession();
+                        resp.status(500).json(lang.LABEL_500_HTTP);
+                    }  
+                }
+                
+            }
+            catch(err)
+            {
+                console.log(lang.LABEL_ERROR_RETURN, err);
+                resp.status(500).json(lang.LABEL_500_HTTP);
+            }  
         }
     };

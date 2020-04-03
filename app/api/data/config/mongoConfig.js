@@ -1,10 +1,19 @@
 // IMPORT MODULES NODEJS
     const mongoose = require('mongoose');
-    const dbURL = 'mongodb://mongo:27017/cms';
+    const dbURL = 'mongodb://mongo:27017';
 // EXPORTING MODULE MONGO
 module.exports = () => 
 {
-    mongoose.connect(dbURL, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
+    mongoose.connect(dbURL, 
+        { 
+            useUnifiedTopology: true, 
+            useNewUrlParser: true, 
+            useCreateIndex: true,
+            user: 'root',
+            pass: 'secret',
+            dbName: 'cms' 
+        }
+    );
     mongoose.connection.on('connected', () =>
     {
         console.log('Mongoose default connection is open to:', dbURL);
@@ -45,4 +54,6 @@ module.exports = () =>
           process.kill(process.pid, 'SIGUSR2');
         });
     });
+
+    require('../model-schema/modelSchema');
 };

@@ -10,7 +10,7 @@
 // -> POST
     router
     .post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
-    .post('/register', controller.register)
+    .post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
     .post('/logout', controller.logout)
     .post('/posts', controller.createPost);
 // -> PUT
