@@ -3,11 +3,13 @@
     const router = express.Router();
     const dotenv = require('dotenv').config();
     const controller = require('../controller/controller');
+    const auth = require('../autentication/auth');
+    const isValid = require('../autentication'); 
 // ROUTES APP
 // -> GET
 // -> POST
     router
-    .post('/login', controller.login)
+    .post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
     .post('/register', controller.register)
     .post('/logout', controller.logout)
     .post('/posts', controller.createPost);

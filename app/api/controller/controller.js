@@ -1,6 +1,7 @@
 // IMPORT MODULES NODEJS
     const jwt = require('jsonwebtoken');
     const expressJWT = require('express-jwt');
+    const mongoose = require('mongoose');
 // IMPORTING LANG AND DEBUG
     const langServer = `../../lang/${( process.env.LANG_SERVER || 'eng' )}`;
     const lang = require(langServer);
@@ -10,18 +11,18 @@
         id: 1,
         admin: 1,
         email: 'email@test.xd',
-        password: 'test',
+        password: 'testUser',
         username: 'TestUser',
         surname: 'TestUser',
         confirmed: true,
     } : null;
-
+//  EXPORTING MODULE
 module.exports = 
 {
     test: (req, resp) => resp.json({resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS}),
     secretTest: ( req, resp ) => resp.json(lang.LABELL_ACCESS_PAGE),
     notFound: (req, resp) => resp.status(404).json({resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND}),
-    login: (req, resp) => 
+    login: ( req, resp ) => 
     {
         try
         {
@@ -30,7 +31,7 @@ module.exports =
                 email: req.body.email,
                 password: req.body.password
             };
-            
+
             if ( user.email == testUser.email && user.password == testUser.password )
             {
                 if ( process.env.NODE_ENV_DEV )
@@ -48,13 +49,14 @@ module.exports =
                             resp.cookie('token', token, {expiresIn: '1d'});
                             resp.json({
                                 auth: true,
-                                token,
-                                cookie
+                                token
                             });
                         }
                     });
                 }
             }
+            else
+                resp.status(403).json(lang.LABEL_403_HTTP);
         }
         catch(err)
         {
@@ -113,8 +115,6 @@ module.exports =
     },
     requireSignin: () => expressJWT({secret}),
     register: ( req, resp ) => {
-        resp.json({
-            message: 'Register user',
-        })    
+            
     }
 };
