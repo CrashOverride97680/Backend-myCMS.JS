@@ -7,6 +7,7 @@
     const lang = require(langServer);
 // IMPORT ENV DATA OR DEBUG
     const secret = process.env.SECRET_KEY || 'secret_key';
+    const bcrypt = require('bcrypt');
     const testUser = ( process.env.NODE_ENV_DEV ) ? {
         id: 1,
         admin: 1,
@@ -138,7 +139,7 @@
                 if (!user.token)
                 {
                     const findUser = mongoose.model('user', 'users');
-                    const session = await createUsersTable.startSession();
+                    const session = await findUser.startSession();
                     await session.startTransaction();
                     try
                     {
@@ -148,21 +149,31 @@
                             },
                             (error, data) =>
                             {
-                                if(error !== null)
-                                    resp.json({message: 'Resend Email for Confirm'});
-                                else
+                                if(error == null)
                                 {
                                     if([data].length === 1)
                                     {
-                                        if(data.confirmed !== true)
+                                        console.log("DATA:", data);
+                                        if(data.confirmed == true)
                                             resp.json({message: "Resend email!!"});
                                         else
                                         {
-                                            const createUsersTable = mongoose.model('user', 'users');
-                                            createUsersTable.create({
-
-                                            }, (err, result) => {
-
+                                            bcrypt.hash(user.password, 10, (error, hashGen) => {
+                                                if(!error)
+                                                {
+                                                    const createUsersTable = mongoose.model('user', 'users');
+                                                    createUsersTable.create(
+                                                        {
+                                                            email: user.email,
+                                                            password: hashGen,
+                                                            username: user.username,
+                                                            name: user.name,
+                                                            surname: user.surname,
+                                                            create: Date.now()
+                                                        }, (err, result) => {
+                                                            console.log("RESULT:", result);
+                                                        });
+                                                }
                                             });
                                         }
                                     }
