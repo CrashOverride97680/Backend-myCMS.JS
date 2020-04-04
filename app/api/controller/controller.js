@@ -151,31 +151,39 @@
                             {
                                 if(error == null)
                                 {
-                                    if([data].length === 1)
+                                    if(data != null)
                                     {
-                                        console.log("DATA:", data);
-                                        if(data.confirmed == true)
-                                            resp.json({message: "Resend email!!"});
-                                        else
+                                        if(data.confirmed == false)
+                                            resp.status(200).json({message: "Resend email!!"});
+                                    }
+                                    else
+                                    {
+                                        const createUser = mongoose.model('user', 'users');
+                                        bcrypt.hash(user.password, 10, (err, hash) => 
                                         {
-                                            bcrypt.hash(user.password, 10, (error, hashGen) => {
-                                                if(!error)
+                                            if(!err)
+                                            {
+                                                let dateObj = new Date();
+                                                createUser.create(
                                                 {
-                                                    const createUsersTable = mongoose.model('user', 'users');
-                                                    createUsersTable.create(
-                                                        {
-                                                            email: user.email,
-                                                            password: hashGen,
-                                                            username: user.username,
-                                                            name: user.name,
-                                                            surname: user.surname,
-                                                            create: Date.now()
-                                                        }, (err, result) => {
-                                                            console.log("RESULT:", result);
-                                                        });
-                                                }
-                                            });
-                                        }
+                                                    email: user.email,
+                                                    password: hash,
+                                                    username: user.username,
+                                                    name: user.name,
+                                                    surname: user.surname,
+                                                    create: dateObj.toISOString()
+                                                }, (err, result) => {
+                                                    console.log("ERROR:", err);
+                                                    process.exit();
+                                                    if(!err)
+                                                    {
+                                                        session.commitTransaction();
+                                                        session.endSessio();
+                                                        resp.status(201).json(lang.LABEL_201_HTTP);
+                                                    }
+                                                });
+                                            }
+                                        });
                                     }
                                 }
                             });

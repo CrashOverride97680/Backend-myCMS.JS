@@ -43,7 +43,7 @@ module.exports = {
             default: false
         },
         create: { type: Date },
-        updated: { type: Date, default: Date.now },
-        modified: { type: Date, default: Date.now },
+        updated: { type: Date, default: Date.now, required: true },
+        modified: { type: Date, default: Date.now, required: true },
     }),
 };
