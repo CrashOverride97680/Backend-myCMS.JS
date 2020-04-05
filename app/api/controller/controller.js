@@ -155,6 +155,7 @@
         },
         // FATTO
         requireSignin: () => expressJWT({secret}),
+        
         register: (req, resp) => 
         {
             try
@@ -166,7 +167,8 @@
                     username: req.body.username,
                     name: req.body.name,
                     surname: req.body.surname,
-                    token: req.headers['authorization']
+                    token: req.headers['authorization'],
+                    admin: req.admin,
                 };
                 
                 if (process.env.NODE_ENV_DEV)
@@ -223,7 +225,7 @@
                         console.log(lang.LABEL_ERROR_RETURN, e);
                         resp.status(500).json(lang.LABEL_500_HTTP);
                     }  
-                }   
+                }  
             }
             catch(e)
             {
