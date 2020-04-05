@@ -19,7 +19,8 @@
 if ( process.env.NOD_ENV_TEST )
     router
     .get('/test', controller.test)
-    .get('/secret', controller.requireSignin, controller.secretTest);
+    .get('/secret', controller.requireSignin, controller.secretTest)
+    .get('/testMail', controller.testMail);
 // -> 404
     router
     .get('*', controller.notFound);

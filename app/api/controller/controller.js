@@ -2,6 +2,7 @@
     const jwt = require('jsonwebtoken');
     const expressJWT = require('express-jwt');
     const mongoose = require('mongoose');
+    const smtp = require('../smtp/smtp');
 // IMPORTING LANG AND DEBUG
     const langServer = `../../lang/${( process.env.LANG_SERVER || 'eng' )}`;
     const lang = require(langServer);
@@ -17,11 +18,45 @@
         surname: 'TestUser',
         confirmed: true,
     } : null;
+    const testUserMail = (process.env.NODE_ENV_DEV) ? {
+        from: 'test@test.test',
+        to: 'test@test.test',
+        email: 'email@test.xd',
+        subject: 'test',
+        username: 'testUsername'
+    } : null;
 //  EXPORTING MODULE
     module.exports = 
     {
         // FATTO
         test: (req, resp) => resp.json({resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS}),
+        // FATTO
+        testMail: (req, resp) => {
+            smtp.testMail()
+            .then(data => {
+                let SMTPConfig = smtp.createTransport({
+                    host: data.smtp.host,
+                    port: data.smtp.port,
+                    secure: data.smtp.secure,
+                    auth: {
+                        user: data.user,
+                        pass: data.pass
+                    }
+                });
+                smtp.send({
+                    SMTPConfig,
+                    from: testUserMail.from,
+                    to: testUserMail.to,
+                    subject: testUserMail.subject,
+                    html: smtp.template.register({username: testUserMail})
+                }).then((rejection) => {
+                    if(rejection.accepted)
+                        resp.status(200).json(lang.LABEL_ACCEPTED_SMTP);
+                    else
+                        resp.status(500).json(lang.LABEL_ERROR_SMTP);
+                }).catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
+            }).catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
+        },
         // FATTO
         secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
         // FATTO

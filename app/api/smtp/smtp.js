@@ -1,7 +1,5 @@
 // IMPORT MODULES NODEJS
     const nodemailer = require("nodemailer");
-    if( !process.env.NODE_ENV_DEV )
-        const configMail = require('./config/config');
 // MODULE EXPORT MAIL 
 module.exports =
 {
@@ -17,40 +15,45 @@ module.exports =
             `
         },
     },
-    conf: async send({
+    testMail: async () => await nodemailer.createTestAccount(),
+    createTransport: ({
         host,
         port,
         secure,
         auth
-    }) => {
-        // Generate test SMTP service account from ethereal.email
-        // Only needed if you don't have a real mail account for testing
-        if(process.env.NODE_ENV_DEV)
-        {
-            let testAccount = await nodemailer.createTestAccount();
-            return testAccount
-        }
-        else
-        {
-            let SMTPConfig = nodemailer.createTransport({
-                host
-                port,
-                secure,
-                auth
-            });
-
-            return SMTPConfig;
-        }
-    },
-    send({
+    }) => nodemailer.createTransport({ host, port, secure, auth }),
+    send: async ({
         SMTPConfig,
         from,
+        to,
         subject,
         html
-    } => await SMTPConfig.sendMail(
+    }) => await SMTPConfig.sendMail(
         {
             from,
+            to,
             subject,
             html
-        })),
-} 
+        }),
+};
+
+if(!process.env.NODE_ENV_DEV)
+{
+    const importMailConf =  require('./config/config');
+    const { host, port, secure, auth } = importMailConf;
+    return module.exports.createConfMail = async ({
+        host,
+        port,
+        secure,
+        auth
+    }) => 
+    {
+        const SMTPConfig = nodemailer.createTransport({
+            host,
+            port,
+            secure,
+            auth
+        });
+        return SMTPConfig;
+    }
+}
