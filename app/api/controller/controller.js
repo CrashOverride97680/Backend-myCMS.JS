@@ -154,8 +154,7 @@
             }
         },
         // FATTO
-        requireSignin: () => expressJWT({secret}),
-        
+        requireSignin: () => expressJWT({secret}),   
         register: (req, resp) => 
         {
             try
