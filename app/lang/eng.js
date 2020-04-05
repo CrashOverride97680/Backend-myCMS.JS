@@ -40,4 +40,4 @@ module.exports = {
     LABEL_ENV_VAR: 'ENV_VAR:',
     LABELL_ACCESS_PAGE: { message: 'YOU HAVE ACCESS TO SECRET PAGE'},
 // LANG TEST FOR MOCHA
-}
+};
