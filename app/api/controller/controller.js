@@ -155,7 +155,8 @@
         },
         // FATTO
         requireSignin: () => expressJWT({secret}),
-        register: (req, resp) => {
+        register: (req, resp) => 
+        {
             try
             {
                 const user = 
