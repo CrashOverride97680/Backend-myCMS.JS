@@ -120,7 +120,7 @@
         },
         // FATTO
         requireSignin: () => expressJWT({secret}),
-        register: async (req, resp) => {
+        register: (req, resp) => {
             try
             {
                 const user = 
@@ -139,11 +139,9 @@
                 if (!user.token)
                 {
                     const findUser = mongoose.model('user', 'users');
-                    const session = await findUser.startSession();
-                    await session.startTransaction();
                     try
                     {
-                        await findUser.findOne(
+                        findUser.findOne(
                             {
                                 email: user.email
                             },
@@ -154,15 +152,15 @@
                                     if(data != null)
                                     {
                                         if(data.confirmed == false)
-                                            resp.status(200).json({message: "Resend email!!"});
+                                            resp.status(202).json(lang.LABEL_RESEND_EMAIL);
                                     }
                                     else
                                     {
-                                        const createUser = mongoose.model('user', 'users');
                                         bcrypt.hash(user.password, 10, (err, hash) => 
                                         {
                                             if(!err)
                                             {
+                                                const createUser = mongoose.model('user', 'users');
                                                 let dateObj = new Date();
                                                 createUser.create(
                                                 {
@@ -172,15 +170,11 @@
                                                     name: user.name,
                                                     surname: user.surname,
                                                     create: dateObj.toISOString()
-                                                }, (err, result) => {
-                                                    console.log("ERROR:", err);
-                                                    process.exit();
-                                                    if(!err)
-                                                    {
-                                                        session.commitTransaction();
-                                                        session.endSessio();
+                                                }, 
+                                                (err, result) => 
+                                                {
+                                                    if(err == null)
                                                         resp.status(201).json(lang.LABEL_201_HTTP);
-                                                    }
                                                 });
                                             }
                                         });
@@ -188,18 +182,16 @@
                                 }
                             });
                     }
-                    catch
+                    catch(e)
                     {
-                        session.abortTransaction();
-                        session.endSession();
+                        console.log(lang.LABEL_ERROR_RETURN, e);
                         resp.status(500).json(lang.LABEL_500_HTTP);
                     }  
-                }
-                
+                }   
             }
-            catch(err)
+            catch(e)
             {
-                console.log(lang.LABEL_ERROR_RETURN, err);
+                console.log(lang.LABEL_ERROR_RETURN, e);
                 resp.status(500).json(lang.LABEL_500_HTTP);
             }  
         }

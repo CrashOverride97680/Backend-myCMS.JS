@@ -4,7 +4,6 @@
 // EXPORTING MODULES WITH SCHEMA
 module.exports = {
     users: new Schema({
-        _id: mongoose.Schema.Types.ObjectId,
         admin: 
         {
             type: Boolean,
