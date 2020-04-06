@@ -188,6 +188,10 @@ module.exports = {
 					resp.status(500).json(lang.LABEL_500_HTTP);
 				}
 			}
+			else
+			{
+				
+			}
 		} catch (e) {
 			console.log(lang.LABEL_ERROR_RETURN, e);
 			resp.status(500).json(lang.LABEL_500_HTTP);
