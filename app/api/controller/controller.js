@@ -203,7 +203,53 @@ module.exports = {
 				}
 			}
 			else {
-				
+				const token = req.headers['authorization'];
+				jwt.verify(token, secret, (err, decoded) => 
+				{
+					if(!err)
+					{
+						const { id, admin } = decoded;
+						if(admin)
+						{
+							const findUser = mongoose.model('user', 'users');
+							findUser.findOne(id, (err, data) =>{
+								(error, data) => {
+									if (error == null) {
+										if (data != null) {
+											if (data.confirmed == false) resp.status(202).json(lang.LABEL_RESEND_EMAIL);
+										} else {
+											bcrypt.hash(user.password, 10, (err, hash) => {
+												if (!err) {
+													const createUser = mongoose.model('user', 'users');
+													let dateObj = new Date();
+													createUser.create(
+														{
+															admin: user.admin,
+															email: user.email,
+															password: hash,
+															username: user.username,
+															name: user.name,
+															surname: user.surname,
+															create: dateObj.toISOString()
+														},
+														(err, result) => {
+															if (err == null) resp.status(201).json(lang.LABEL_201_HTTP);
+														}
+													);
+												}
+											});
+										}
+									}
+								}
+							});
+						} else resp.status(403).json(lang.LABEL_403_HTTP);
+					}	
+					else
+					{
+						console.log(lang.LABEL_ERROR_RETURN, err);
+						resp.status(403).json(lang.LABEL_403_HTTP);
+					}
+				});
 			}
 		} catch (e) {
 			console.log(lang.LABEL_ERROR_RETURN, e);
