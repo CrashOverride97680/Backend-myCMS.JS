@@ -11,7 +11,7 @@ const secret = process.env.SECRET_KEY || 'secret_key';
 const bcrypt = require('bcrypt');
 const testUser = process.env.NODE_ENV_DEV
 	? {
-			id: Math.random() * (9999999999 - 999999999) + 999999999,
+			id: Math.floor(Math.random() * (999999999 - 99999999 + 1) + 99999999),
 			admin: 1,
 			email: 'email@test.xd',
 			password: 'testUser',
@@ -65,6 +65,7 @@ module.exports = {
 	},
 	// FATTO
 	secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
+	// FATTO
 	checkTokenTest: (req, resp) => {
 		const token = req.headers['authorization'];
 		jwt.verify(token, secret, (err, decoded) => 
