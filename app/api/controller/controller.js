@@ -11,7 +11,7 @@ const secret = process.env.SECRET_KEY || 'secret_key';
 const bcrypt = require('bcrypt');
 const testUser = process.env.NODE_ENV_DEV
 	? {
-			id: 1,
+			id: Math.random() * (9999999999 - 999999999) + 999999999,
 			admin: 1,
 			email: 'email@test.xd',
 			password: 'testUser',
@@ -78,8 +78,8 @@ module.exports = {
 
 			if (user.email == testUser.email && user.password == testUser.password) {
 				if (process.env.NODE_ENV_DEV) {
-					const { id, username } = testUser;
-					jwt.sign({ _id: id, username }, secret, { expiresIn: '1d' }, (err, token) => {
+					const { id, username, admin } = testUser;
+					jwt.sign({ _id: id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => {
 						if (err) {
 							console.log(lang.LABEL_ERROR_RETURN, err);
 							resp.status(500).json(lang.LABEL_500_HTTP);
@@ -188,8 +188,7 @@ module.exports = {
 					resp.status(500).json(lang.LABEL_500_HTTP);
 				}
 			}
-			else
-			{
+			else {
 				
 			}
 		} catch (e) {
