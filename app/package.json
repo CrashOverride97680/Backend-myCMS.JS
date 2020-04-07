@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon app.js --watch . --watch .env",
     "start": "node app.js",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "lint": "eslint .eslintrc.js"
   },
   "repository": {
     "type": "git",
