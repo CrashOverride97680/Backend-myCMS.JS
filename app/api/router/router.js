@@ -16,10 +16,14 @@ router
 // -> DELETE
 // -> TEST
 if (process.env.NOD_ENV_TEST)
+{
 	router
 		.get('/test', controller.test)
 		.get('/secret', controller.requireSignin, controller.secretTest)
-		.get('/testMail', controller.testMail);
+		.get('/testmail', controller.testMail);
+	router
+		.post('/checktoken', controller.checkTokenTest);
+}
 // -> 404
 router.get('*', controller.notFound);
 // EXPORTING ROUTES

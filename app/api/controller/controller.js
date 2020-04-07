@@ -65,6 +65,19 @@ module.exports = {
 	},
 	// FATTO
 	secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
+	checkTokenTest: (req, resp) => {
+		const token = req.headers['authorization'];
+		jwt.verify(token, secret, (err, decoded) => 
+		{
+			if(!err)
+				resp.status(200).json({
+					info: lang.LABEL_DECODE_TOKEN_TEST, 
+					message: decoded
+				});
+			else
+				console.log(lang.LABEL_ERROR_RETURN, err);
+		});
+	},
 	// FATTO
 	notFound: (req, resp) =>
 		resp.status(404).json({ resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND }),
