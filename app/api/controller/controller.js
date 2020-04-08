@@ -32,7 +32,9 @@ const testUserMail = process.env.NODE_ENV_DEV
 //  EXPORTING MODULE
 module.exports = {
 	// FATTO
-	test: (req, resp) => resp.json({ resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS }),
+	test: (req, resp) => {
+		resp.json({ resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS });
+	},
 	// FATTO
 	testMail: (req, resp) => {
 		smtp
@@ -76,12 +78,18 @@ module.exports = {
 					message: decoded
 				});
 			else
+			{
 				console.log(lang.LABEL_ERROR_RETURN, err);
+				resp.status(403).json(lang.LABEL_403_HTTP);
+			}
 		});
 	},
 	// FATTO
-	notFound: (req, resp) =>
-		resp.status(404).json({ resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND }),
+	notFound: (req, resp) => {
+		resp.status(404).json({ 
+			resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND 
+		});
+	},
 	// FATTO MA DA MODIFICARE
 	login: (req, resp) => {
 		try {
@@ -90,7 +98,7 @@ module.exports = {
 				password: req.body.password
 			};
 
-			if (user.email == testUser.email && user.password == testUser.password) {
+			if (user.email === testUser.email && user.password === testUser.password) {
 				if (process.env.NODE_ENV_DEV) {
 					const { id, username, admin } = testUser;
 					jwt.sign({ _id: id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => {
@@ -116,24 +124,16 @@ module.exports = {
 		try {
 			const auth = req.headers['authorization'];
 			if (typeof auth !== 'undefined') {
-				jwt.verify(auth, secret, (err, decode) => {
-					if (err) resp.status(403).json(lang.LABEL_403_HTTP);
-					else resp.status(201).json(lang.LABEL_201_HTTP);
-				});
+				jwt
+					.verify(auth, secret, 
+					(err, decode) => {
+						if (err) resp.status(403).json(lang.LABEL_403_HTTP);
+						else resp.status(201).json(lang.LABEL_201_HTTP);
+					});
 			} else resp.status(403).json(lang.LABEL_403_HTTP);
 		} catch (err) {
 			console.log(lang.LABEL_ERROR_RETURN, err);
 			resp.status(500).json(lang.LABEL_500_HTTP);
-		}
-	},
-	refresh: (req, resp) => {
-		const auth = req.headers['authorization'];
-		console.log(typeof auth);
-		if (typeof auth !== 'undefined') {
-			jwt.verify(auth, secret, (err, decode) => {
-				console.log('ERROR:', err);
-				console.log('DECODE:', decode);
-			});
 		}
 	},
 	// FATTO
@@ -172,7 +172,7 @@ module.exports = {
 						(error, data) => {
 							if (error == null) {
 								if (data != null) {
-									if (data.confirmed == false) resp.status(202).json(lang.LABEL_RESEND_EMAIL);
+									if (data.confirmed === false) resp.status(202).json(lang.LABEL_RESEND_EMAIL);
 								} else {
 									bcrypt.hash(user.password, 10, (err, hash) => {
 										if (!err) {

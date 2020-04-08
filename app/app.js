@@ -2,7 +2,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-const path = require('path');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const cookieParser = require('cookie-parser');
@@ -21,7 +20,6 @@ log4js.configure({
 		}
 	}
 });
-const logger = log4js.getLogger('error');
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
@@ -31,7 +29,7 @@ const limiter = rateLimit({
 const connect = require('./api/data/config/mongoConfig');
 connect();
 // IMPORTING LANG AND DEBUG
-const langServer = `./lang/${process.env.LANG_SERVER || 'eng'}`;
+const langServer = './lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 //  DEBUG VARIABLES ENVIROMENT
 if (process.env.NODE_ENV_DEV || process.env.NODE_DEV_ENV_VAR) console.log(lang.LABEL_ENV_VAR, dotenv);
