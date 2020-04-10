@@ -10,7 +10,7 @@ const lang = require(langServer);
 const secret = process.env.SECRET_KEY || 'secret_key';
 const bcrypt = require('bcrypt');
 const testUser = process.env.NODE_ENV_DEV
-	? {
+	? 	{
 			id: Math.floor(Math.random() * (999999999 - 99999999 + 1) + 99999999),
 			admin: 1,
 			email: 'email@test.xd',
@@ -21,7 +21,7 @@ const testUser = process.env.NODE_ENV_DEV
 		}
 	: null;
 const testUserMail = process.env.NODE_ENV_DEV
-	? {
+	? 	{
 			from: 'test@test.test',
 			to: 'test@test.test',
 			email: 'email@test.xd',
@@ -33,7 +33,10 @@ const testUserMail = process.env.NODE_ENV_DEV
 module.exports = {
 	// FATTO
 	test: (req, resp) => {
-		resp.json({ resp: lang.LABEL_JSON_STATUS_NUMBER, server: lang.LABEL_JSON_STATUS });
+		resp.json({ 
+			resp: lang.LABEL_JSON_STATUS_NUMBER, 
+			server: lang.LABEL_JSON_STATUS 
+		});
 	},
 	// FATTO
 	testMail: (req, resp) => {
