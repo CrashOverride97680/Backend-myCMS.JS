@@ -127,10 +127,13 @@ module.exports = {
 				jwt
 					.verify(auth, secret, 
 					(err, decode) => {
-						if (err) resp.status(403).json(lang.LABEL_403_HTTP);
-						else resp.status(201).json(lang.LABEL_201_HTTP);
+						if (err) 
+							resp.status(403).json(lang.LABEL_403_HTTP);
+						else 
+							resp.status(201).json(lang.LABEL_201_HTTP);
 					});
-			} else resp.status(403).json(lang.LABEL_403_HTTP);
+			} else 
+				resp.status(403).json(lang.LABEL_403_HTTP);
 		} catch (err) {
 			console.log(lang.LABEL_ERROR_RETURN, err);
 			resp.status(500).json(lang.LABEL_500_HTTP);
@@ -160,7 +163,8 @@ module.exports = {
 				admin: req.admin
 			};
 
-			if (process.env.NODE_ENV_DEV) console.log('USER:', user);
+			if (process.env.NODE_ENV_DEV) 
+				console.log('USER:', user);
 
 			if (!user.token) {
 				const findUser = mongoose.model('user', 'users');
@@ -172,7 +176,8 @@ module.exports = {
 						(error, data) => {
 							if (error == null) {
 								if (data != null) {
-									if (data.confirmed === false) resp.status(202).json(lang.LABEL_RESEND_EMAIL);
+									if (data.confirmed === false) 
+										resp.status(202).json(lang.LABEL_RESEND_EMAIL);
 								} else {
 									bcrypt.hash(user.password, 10, (err, hash) => {
 										if (!err) {
@@ -188,7 +193,8 @@ module.exports = {
 													create: dateObj.toISOString()
 												},
 												(err, result) => {
-													if (err == null) resp.status(201).json(lang.LABEL_201_HTTP);
+													if (err == null) 
+														resp.status(201).json(lang.LABEL_201_HTTP);
 												}
 											);
 										}
