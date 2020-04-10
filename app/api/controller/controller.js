@@ -207,6 +207,7 @@ module.exports =
 		{
 			resp
 				.clearCookie('token');
+			mongoose.connection.close();
 			resp
 				.status(200)
 				.json(lang.LABEL_LOGOUT);
@@ -247,14 +248,17 @@ module.exports =
 					findUser
 						.findOne({email: user.email}, (error, data) => 
 						{
-							if (error == null) 
+							if (error === null) 
 							{
-								if (data != null)
+								if (data !== null)
 								{
-									if (data.confirmed === false) 
+									if (data.confirmed === false)
+									{
+										mongoose.connection.close();
 										resp
 											.status(202)
 											.json(lang.LABEL_RESEND_EMAIL);
+									}
 								} 
 								else 
 								{
@@ -276,10 +280,13 @@ module.exports =
 												},
 												(err, result) => 
 												{
-													if (err == null) 
+													if (err === null) 
+													{
+														mongoose.connection.close();
 														resp
 															.status(201)
 															.json(lang.LABEL_201_HTTP);
+													}
 												});
 											}
 										});
@@ -313,11 +320,11 @@ module.exports =
 								findUser
 									.findOne(id, (error, data) => 
 									{
-										if (error == null) 
+										if (error === null) 
 										{
-											if (data != null) 
+											if (data !== null) 
 											{
-												if (data.confirmed == false) 
+												if (data.confirmed === false) 
 													resp
 														.status(202)
 														.json(lang.LABEL_RESEND_EMAIL);
@@ -344,10 +351,13 @@ module.exports =
 															},
 															(err, result) => 
 															{
-																if (err == null) 
+																if (err === null)
+																{
+																	mongoose.connection.close();
 																	resp
 																		.status(201)
 																		.json(lang.LABEL_201_HTTP);
+																} 
 															});
 														}
 													});
