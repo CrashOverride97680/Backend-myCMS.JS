@@ -212,8 +212,8 @@ module.exports = {
 						if(admin)
 						{
 							const findUser = mongoose.model('user', 'users');
-							findUser.findOne(id, (err, data) =>{
-								(error, data) => {
+							findUser.findOne(id, 
+							(error, data) => {
 									if (error == null) {
 										if (data != null) {
 											if (data.confirmed == false) resp.status(202).json(lang.LABEL_RESEND_EMAIL);
@@ -240,7 +240,6 @@ module.exports = {
 											});
 										}
 									}
-								}
 							});
 						} else resp.status(403).json(lang.LABEL_403_HTTP);
 					}	
