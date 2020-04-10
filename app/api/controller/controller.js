@@ -109,7 +109,8 @@ module.exports =
 		resp
 			.status(404)
 			.json({ 
-				resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, server: lang.LABEL_JSON_NOT_FOUND 
+				resp: lang.LABEL_JSON_STATUS_NUMBER_NOT_FOUND, 
+				server: lang.LABEL_JSON_NOT_FOUND 
 			});
 	},
 	// FATTO MA DA MODIFICARE
