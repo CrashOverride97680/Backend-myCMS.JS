@@ -207,7 +207,6 @@ module.exports =
 		{
 			resp
 				.clearCookie('token');
-			mongoose.connection.close();
 			resp
 				.status(200)
 				.json(lang.LABEL_LOGOUT);
@@ -252,13 +251,10 @@ module.exports =
 							{
 								if (data !== null)
 								{
-									if (data.confirmed === false)
-									{
-										mongoose.connection.close();
+									if (data.confirmed === false) 
 										resp
 											.status(202)
 											.json(lang.LABEL_RESEND_EMAIL);
-									}
 								} 
 								else 
 								{
@@ -280,13 +276,10 @@ module.exports =
 												},
 												(err, result) => 
 												{
-													if (err === null) 
-													{
-														mongoose.connection.close();
+													if (err == null) 
 														resp
 															.status(201)
 															.json(lang.LABEL_201_HTTP);
-													}
 												});
 											}
 										});
