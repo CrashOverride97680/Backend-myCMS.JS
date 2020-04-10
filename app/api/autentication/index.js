@@ -1,7 +1,7 @@
 // IMPORT MODULES NODEJS
     const { validationResult } = require('express-validator');
 // IMPORTING LANG AND DEBUG
-    const langServer = `../../lang/${( process.env.LANG_SERVER || 'eng' )}`;
+    const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
     const lang = require(langServer);
 // EXPORTING MODULES
     module.exports.runValidation = (req, resp, next) => {

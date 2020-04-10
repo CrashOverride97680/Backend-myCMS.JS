@@ -4,7 +4,7 @@ const expressJWT = require('express-jwt');
 const mongoose = require('mongoose');
 const smtp = require('../smtp/smtp');
 // IMPORTING LANG AND DEBUG
-const langServer = `../../lang/${process.env.LANG_SERVER || 'eng'}`;
+const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 // IMPORT ENV DATA OR DEBUG
 const secret = process.env.SECRET_KEY || 'secret_key';
