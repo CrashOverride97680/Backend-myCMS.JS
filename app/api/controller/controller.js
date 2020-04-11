@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const testUser = process.env.NODE_ENV_DEV
 	? 	{
 			id: Math.floor(Math.random() * (999999999 - 99999999 + 1) + 99999999),
-			admin: 1,
+			admin: true,
 			email: 'email@test.xd',
 			password: 'testUser',
 			username: 'TestUser',
@@ -83,7 +83,7 @@ module.exports =
 	// FATTO
 	checkTokenTest: (req, resp) => 
 	{
-		const token = req.headers['authorization'];
+		const token = req.headers['Authorization'];
 		jwt
 			.verify(token, secret, (err, decoded) => 
 			{
@@ -113,7 +113,7 @@ module.exports =
 				server: lang.LABEL_JSON_NOT_FOUND 
 			});
 	},
-	// FATTO MA DA MODIFICARE
+	// FATTO
 	login: (req, resp) => 
 	{
 		try 
@@ -225,30 +225,13 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
+	// DA FARE
 	createPost: (req, resp) =>
 	{
 		try 
 		{
-			const auth = req.headers['authorization'];
-			if (typeof auth !== 'undefined') 
-			{
-				jwt
-					.verify(auth, secret, (err, decode) => 
-					{
-						if (err) 
-							resp
-								.status(403)
-								.json(lang.LABEL_403_HTTP);
-						else 
-							resp
-								.status(201)
-								.json(lang.LABEL_201_HTTP);
-					});
-			} 
-			else 
-				resp
-					.status(403)
-					.json(lang.LABEL_403_HTTP);
+			const auth = req.headers['Authorization'];
+			
 		} 
 		catch (err) 
 		{
@@ -279,6 +262,7 @@ module.exports =
 	},
 	// FATTO
 	requireSignin: () => expressJWT({ secret }),
+	// FATTO
 	register: (req, resp) => 
 	{
 		try 
@@ -290,7 +274,7 @@ module.exports =
 				username: req.body.username,
 				name: req.body.name,
 				surname: req.body.surname,
-				token: req.headers['authorization'],
+				token: req.headers['Authorization'],
 				admin: req.admin
 			};
 
@@ -355,7 +339,7 @@ module.exports =
 			}
 			else 
 			{
-				const token = req.headers['authorization'];
+				const token = req.headers['Authorization'];
 				jwt
 					.verify(token, secret, (err, decoded) => 
 					{
@@ -433,6 +417,42 @@ module.exports =
 		} 
 		catch (e) 
 		{
+			console.log(lang.LABEL_ERROR_RETURN, e);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
+	},
+	// FATTO
+	requireAdminUser: (req, resp, next) => 
+	{
+		try
+		{
+			const { Authorization } = req.headers;
+			if (typeof auth !== 'undefined') 
+			{
+				jwt
+					.verify(auth, secret, (err, decode) => 
+					{
+						if (err) 
+							resp
+								.status(403)
+								.json(lang.LABEL_403_HTTP);
+						else 
+						{
+							if(decode.admin)
+								next();
+							else
+								resp
+									.status(403)
+									.json(lang.LABEL_403_HTTP);
+
+						}
+					});
+			}
+		}
+		catch(err)
+		{	
 			console.log(lang.LABEL_ERROR_RETURN, e);
 			resp
 				.status(500)
