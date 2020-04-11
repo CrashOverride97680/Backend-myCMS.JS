@@ -10,5 +10,17 @@ module.exports = {
 		check('username').notEmpty(),
 		check('name').notEmpty(),
 		check('surname').notEmpty()
-	]
+	],
+	posts:[
+		check('page').notEmpty(),
+		check('lang').isLength({min: 1}),
+		check('typePage').isLength({min: 1}),
+		check('backgroundImage').notEmpty(),
+		check('h1').notEmpty(),
+		check('mainContent').notEmpty(),
+		check('breadcrumbs').notEmpty(),
+		check('bodyPosts').notEmpty(),
+		check('gallery').notEmpty(),
+		check('visible').isBoolean()
+	],
 };
