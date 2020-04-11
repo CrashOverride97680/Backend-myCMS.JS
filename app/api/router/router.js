@@ -11,7 +11,7 @@ router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
 	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
 	.post('/logout', controller.logout)
-	.post('/createpost', controller.createPost);
+	.post('/createpost', controller.requireAdminUser, controller.createPost);
 // -> PUT
 // -> DELETE
 // -> TEST

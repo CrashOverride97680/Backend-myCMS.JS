@@ -230,7 +230,20 @@ module.exports =
 	{
 		try 
 		{
-			const auth = req.headers['Authorization'];
+			const data = 
+			{
+				page: req.body.page,
+				lang: req.bory.lang,
+				type: req.body.type,
+				h1: req.body.h1,
+				mainContent: req.body.mainContent,
+				breadcrumbs: req.body.breadcrumbs,
+				bodyPost: req.body.bodyPost
+				backgroundImage: req.backgroundImage,
+				gallery: req.body.gallery,
+				visible: req.body.visible
+			};
+			
 			
 		} 
 		catch (err) 
