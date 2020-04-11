@@ -156,9 +156,9 @@ module.exports =
 				}
 				else
 				{
-					const mongoUser = mongoose.model('user', 'users');
 					try 
 					{
+						const mongoUser = mongoose.model('user', 'users');
 						const { email, password } = user;
 						mongoUser
 							.findOne({
