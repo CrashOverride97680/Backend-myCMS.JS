@@ -120,7 +120,7 @@ module.exports =
 		{
 			const user = {
 				email: req.body.email,
-				password: req.body.password
+				password: req.body.password,
 			};
 
 			if (user.email === testUser.email && user.password === testUser.password) 
@@ -153,6 +153,62 @@ module.exports =
 									});
 							}
 						});
+				}
+				else
+				{
+					const mongoUser = mongoose.model('user', 'users');
+					try 
+					{
+						const { email, password } = user;
+						mongoUser
+							.findOne({
+								email
+							}, (err, result) => {
+								if(err === null)
+								{
+									if(result !== null)
+									{
+										const data = result;
+										bcrypt
+											.compare(password, data.password, (err, result) =>
+											{
+												if(result)
+												{
+													const { _id, username, admin } = data;
+													jwt
+														.sign({ _id: id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
+														{
+															if (err) 
+															{
+																console.log(lang.LABEL_ERROR_RETURN, err);
+																resp
+																	.status(500)
+																	.json(lang.LABEL_500_HTTP);
+															}
+															else 
+															{
+																resp
+																	.cookie('token', token, { expiresIn: '1d' });
+																resp
+																	.json({
+																		auth: true,
+																		token
+																	});
+															}
+														});
+												}
+											});
+									}
+								}
+							});
+					}
+					catch(err)
+					{
+						console.log(lang.LABEL_ERROR_RETURN, err);
+						resp
+							.status(403)
+							.json(lang.LABEL_403_HTTP);
+					}
 				}
 			} 
 			else 
