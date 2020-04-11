@@ -176,7 +176,7 @@ module.exports =
 												{
 													const { _id, username, admin } = data;
 													jwt
-														.sign({ _id: id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
+														.sign({ _id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
 														{
 															if (err) 
 															{
@@ -192,6 +192,7 @@ module.exports =
 																resp
 																	.json({
 																		auth: true,
+																		admin,
 																		token
 																	});
 															}
