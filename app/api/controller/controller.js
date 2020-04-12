@@ -472,7 +472,7 @@ module.exports =
 		}
 		catch(err)
 		{	
-			console.log(lang.LABEL_ERROR_RETURN, e);
+			console.log(lang.LABEL_ERROR_RETURN, err);
 			resp
 				.status(500)
 				.json(lang.LABEL_500_HTTP);
@@ -480,7 +480,18 @@ module.exports =
 	},
 	uploadTest: (req, resp) =>
 	{
-		console.log(lang.LABEL_TEST_UPLOAD, req.file);
-    	resp.status(200).json(lang.LABEL_200_HTTP);	
+		try
+		{
+			console.log(lang.LABEL_TEST_UPLOAD, req.file);
+			console.log(lang.LABEL_RESULT_UPLOAD_OK);
+    		resp.status(200).json(lang.LABEL_200_HTTP);
+		}
+		catch(err)
+		{
+			console.log(lang.LABEL_ERROR_RETURN, err);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}	
 	},
 };
