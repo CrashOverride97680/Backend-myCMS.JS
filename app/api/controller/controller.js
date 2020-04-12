@@ -478,6 +478,7 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
+	// FATTO
 	uploadTest: (req, resp) =>
 	{
 		try
