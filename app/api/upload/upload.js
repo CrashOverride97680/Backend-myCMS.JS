@@ -5,10 +5,10 @@ const lang = require(langServer);
 const multer  = require('multer');
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-	  cb(null, '../../uploads/');
+	  cb(null, 'uploads/');
 	},
 	filename: (req, file, cb) => {
-	  cb(null, file.fieldname + '-' + Date.now());
+	  cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
     },
     fileFilter:  (req, file, cb) => {
         if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) 

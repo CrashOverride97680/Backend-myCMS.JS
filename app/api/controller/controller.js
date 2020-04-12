@@ -480,7 +480,7 @@ module.exports =
 	},
 	uploadTest: (req, resp) =>
 	{
-		console.log(req.file);
-    	resp.status(200).send("file uploaded");	
+		console.log(lang.LABEL_TEST_UPLOAD, req.file);
+    	resp.status(200).json(lang.LABEL_200_HTTP);	
 	},
 };
