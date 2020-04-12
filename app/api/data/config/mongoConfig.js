@@ -1,6 +1,9 @@
 // IMPORT MODULES NODEJS
 const mongoose = require('mongoose');
-const dbURL = 'mongodb://mongo:27017';
+const serverMongo = process.env.NODE_ENV_MONGO_SERVER || 'mongo';
+const mongoPort = process.env.NODE_ENV_MONGO_PORT || '27017';
+const mongoDBS = process.env.NODE_ENV_MONGO_DBS || 'cms';
+const dbURL = 'mongodb://'+ serverMongo + ':' + mongoPort + '/' + mongoDBS;
 // EXPORTING MODULE MONGO
 module.exports = () => {
 	mongoose.connect(dbURL, {

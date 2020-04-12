@@ -22,9 +22,9 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage: storage
 });
-const maxBgImages = process.env.POST_BG_MAX || 1;
-const maxImageBody = process.env.POST_MAX_GALLERY_BODY || 12;
-const maxGallery = process.env.POST_MAX_GALLERY || 12;
+const maxBgImages = process.env.NODE_ENV_POST_BG_MAX || 1;
+const maxImageBody = process.env.NODE_ENV_POST_MAX_GALLERY_BODY || 12;
+const maxGallery = process.env.NODE_ENV_POST_MAX_GALLERY || 12;
 // EXPORT MODULE NODEJS
 module.exports = 
 {
