@@ -4,6 +4,7 @@ const router = express.Router();
 const controller = require('../controller/controller');
 const auth = require('../autentication/auth');
 const isValid = require('../autentication');
+const upload = require('../upload/upload');
 // ROUTES APP
 // -> GET
 // -> POST
@@ -11,7 +12,7 @@ router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
 	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
 	.post('/logout', controller.logout)
-	.post('/createpost', controller.requireAdminUser, controller.createPost);
+	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
 // -> DELETE
 // -> TEST

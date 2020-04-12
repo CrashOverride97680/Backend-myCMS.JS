@@ -6,17 +6,6 @@ const smtp = require('../smtp/smtp');
 // IMPORTING LANG AND DEBUG
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
-// IMPORTING LIBRARY FOR UPLOAD
-const multer  = require('multer');
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-	  cb(null, '../uploads')
-	},
-	filename: function (req, file, cb) {
-	  cb(null, file.fieldname + '-' + Date.now())
-	}
-});
-const upload = multer({ storage });
 // IMPORT ENV DATA OR DEBUG
 const secret = process.env.SECRET_KEY || 'secret_key';
 const bcrypt = require('bcrypt');
@@ -257,10 +246,11 @@ module.exports =
 				visible: req.body.visible,
 				galleryUpload: upload.array('gallery'),
 			};
-			*/
-			if(process.env.NODE_ENV_DEV)
-				console.log(lang.LABEL_UPLOADFILE_CHECK, upload.array());
 			
+			if(process.env.NODE_ENV_DEV)
+				console.log(lang.LABEL_UPLOADFILE_CHECK, upload.array('photos', 12));
+			*/
+			console.log("FILES:", req.files);
 		} 
 		catch (err) 
 		{
