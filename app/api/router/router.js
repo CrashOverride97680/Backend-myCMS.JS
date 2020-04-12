@@ -24,6 +24,8 @@ if (process.env.NOD_ENV_TEST)
 		.get('/testmail', controller.testMail);
 	router
 		.post('/checktoken', controller.checkTokenTest);
+	router
+		.post('/testimg', upload.test, controller.uploadTest);
 }
 // -> 404
 router.get('*', controller.notFound);

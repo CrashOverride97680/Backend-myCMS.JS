@@ -250,7 +250,7 @@ module.exports =
 			if(process.env.NODE_ENV_DEV)
 				console.log(lang.LABEL_UPLOADFILE_CHECK, upload.array('photos', 12));
 			*/
-			console.log("FILES:", req.files);
+			resp.status(200).send("file uploaded");
 		} 
 		catch (err) 
 		{
@@ -477,5 +477,10 @@ module.exports =
 				.status(500)
 				.json(lang.LABEL_500_HTTP);
 		}
-	}
+	},
+	uploadTest: (req, resp) =>
+	{
+		console.log(req.file);
+    	resp.status(200).send("file uploaded");	
+	},
 };
