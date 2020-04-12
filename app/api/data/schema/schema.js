@@ -46,6 +46,11 @@ module.exports = {
         modified: { type: Date, default: Date.now, required: true },
     }),
     posts: new Schema({
+        template:
+        {
+            type: String,
+            default: default
+        },
         page:
         {
             type: String,
