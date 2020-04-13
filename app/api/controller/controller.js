@@ -234,23 +234,24 @@ module.exports =
 			/*
 			const data = 
 			{
+				template: req.body.template,
 				page: req.body.page,
-				lang: req.bory.lang,
+				lang: req.body.lang,
 				type: req.body.type,
 				h1: req.body.h1,
 				mainContent: req.body.mainContent,
 				breadcrumbs: req.body.breadcrumbs,
-				bodyPost: req.body.bodyPost
-				backgroundImage: ,
-				gallery: req.body.gallery,
+				bodyPost: req.body.bodyPost,
+				bodyPostImages:  req.files.bodyPostImages,
+				backgroundImage: req.files.backgroundImages,
+				gallery: req.files.gallery,
+				galleryAlt: req.body.galleryAlt,
 				visible: req.body.visible,
-				galleryUpload: upload.array('gallery'),
 			};
-			
-			if(process.env.NODE_ENV_DEV)
-				console.log(lang.LABEL_UPLOADFILE_CHECK, upload.array('photos', 12));
 			*/
-			resp.status(200).send("file uploaded");
+			if(process.env.NODE_ENV_DEV)
+				console.log(lang.LABEL_UPLOADFILE_CHECK, req.files);
+			resp.status(200).json(lang.LABEL_UPLOAD_STATUS_COMPLETE);
 		} 
 		catch (err) 
 		{

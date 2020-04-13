@@ -49,7 +49,7 @@ module.exports = {
         template:
         {
             type: String,
-            default: default
+            default: 'default'
         },
         page:
         {
