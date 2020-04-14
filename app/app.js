@@ -7,7 +7,7 @@ const log4js = require('log4js');
 const router = require('./api/router/router');
 // LOCAL CACHE LOWDB
 const { resetDB_LOCAL } = process.env.NODE_ENV_CACHE_LOCAL ? require('./api/cache/local_cache/cache') : null;
-if(NODE_DEV_ENV_LOCAL)
+if(process.env.NODE_DEV_ENV_LOCAL)
 	resetDB_LOCAL();
 // LOG LIBRARY
 log4js.configure({
