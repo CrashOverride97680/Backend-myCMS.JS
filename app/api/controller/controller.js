@@ -1,7 +1,16 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
+const jwtBlacklist = require('jwt-blacklist')(jwt);
+jwtBlacklist.config({
+    maxBlacklistPerUnit: 100000,
+    error: 0.00001,
+    unitType: 'd',
+    expiresDuration: '1'
+});
 const expressJWT = require('express-jwt');
+// IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
+// IMPORT SMTP ( IMPORTING SMTP)
 const smtp = require('../smtp/smtp');
 // IMPORTING LANG AND DEBUG
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
@@ -276,7 +285,7 @@ module.exports =
 	},
 	// FATTO
 	requireSignin: () => expressJWT({ secret }),
-	// FATTO
+	// DA RIFARE
 	register: (req, resp) => 
 	{
 		try 
