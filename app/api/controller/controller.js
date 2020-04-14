@@ -266,7 +266,7 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// FATTO
+	// DA RIFARE 
 	logout: (req, resp) => 
 	{
 		try 
@@ -287,7 +287,7 @@ module.exports =
 	},
 	// FATTO
 	requireSignin: () => expressJWT({ secret }),
-	// FATTO
+	// DA RIFARE
 	register: (req, resp) => 
 	{
 		try 
