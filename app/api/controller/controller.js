@@ -1,7 +1,8 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
-const cache = process.env.NODE_ENV_CACHE_LOCAL || false;
+const cacheLocal = process.env.NODE_ENV_CACHE_LOCAL ? require('../cache/local_cache/cache') : null;
+//const cacheRedis =;
 // IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
 // IMPORT SMTP ( IMPORTING SMTP)
@@ -266,9 +267,18 @@ module.exports =
 		try 
 		{
 			const token = req.headers['Authorization'];
-			resp
-				.status(200)
-				.json(lang.LABEL_LOGOUT);
+			if(process.env.NODE_ENV_CACHE_LOCAL)
+			{
+				let checkBlacklist = cacheLocal.findCache_LOCAL('tokens', token);
+				if(checkBlacklist)
+				{
+					cacheLocal
+						.insert_LOCAL('tokens', tokens);
+					resp
+						.status(200)
+						.json(lang.LABEL_LOGOUT);
+				}
+			}
 		} 
 		catch (err) 
 		{

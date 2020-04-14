@@ -4,10 +4,10 @@
   "description": "Cms written with Nodejs",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js --watch . --watch .env --ignore api/cache/tokens/tokens.json",
+    "dev": "nodemon app.js --watch . --watch .env --ignore api/cache/local_cache/cacheTokens.json",
     "start": "node app.js",
     "test": "mocha --exit",
-    "lint": "eslint \"**/*.js\" --fix --ignore-pattern node_modules/ --ignore-pattern api/cache/tokens/tokens.json"
+    "lint": "eslint \"**/*.js\" --fix --ignore-pattern node_modules/ --ignore-pattern api/cache/local_cache/cacheTokens.json"
   },
   "repository": {
     "type": "git",
