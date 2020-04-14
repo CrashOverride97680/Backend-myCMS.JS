@@ -1,13 +1,7 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
-const jwtBlacklist = require('jwt-blacklist')(jwt);
-jwtBlacklist.config({
-    maxBlacklistPerUnit: 100000,
-    error: 0.00001,
-    unitType: 'd',
-    expiresDuration: '1'
-});
 const expressJWT = require('express-jwt');
+const cache = process.env.NODE_ENV_CACHE_LOCAL || false;
 // IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
 // IMPORT SMTP ( IMPORTING SMTP)
@@ -93,7 +87,7 @@ module.exports =
 	checkTokenTest: (req, resp) => 
 	{
 		const token = req.headers['Authorization'];
-		jwtBlacklist
+		jwt
 			.verify(token, secret, (err, decoded) => 
 			{
 				if(!err)
@@ -141,7 +135,7 @@ module.exports =
 						username, 
 						admin 
 					} = testUser;
-					jwtBlacklist
+					jwt
 						.sign({ _id: id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
 						{
 							if (err) 
@@ -183,7 +177,7 @@ module.exports =
 												if(result)
 												{
 													const { _id, username, admin } = data;
-													jwtBlacklist
+													jwt
 														.sign({ _id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
 														{
 															if (err) 
@@ -272,7 +266,6 @@ module.exports =
 		try 
 		{
 			const token = req.headers['Authorization'];
-			jwtBlacklist.blacklist(token);
 			resp
 				.status(200)
 				.json(lang.LABEL_LOGOUT);
@@ -365,7 +358,7 @@ module.exports =
 			else 
 			{
 				const token = req.headers['Authorization'];
-				jwtBlacklist
+				jwt
 					.verify(token, secret, (err, decoded) => 
 					{
 						if(!err)
@@ -456,7 +449,7 @@ module.exports =
 			const { Authorization } = req.headers;
 			if (typeof auth !== 'undefined') 
 			{
-				jwtBlacklist
+				jwt
 					.verify(auth, secret, (err, decode) => 
 					{
 						if (err) 
