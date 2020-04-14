@@ -93,7 +93,7 @@ module.exports =
 	checkTokenTest: (req, resp) => 
 	{
 		const token = req.headers['Authorization'];
-		jwt
+		jwtBlacklist
 			.verify(token, secret, (err, decoded) => 
 			{
 				if(!err)
@@ -141,7 +141,7 @@ module.exports =
 						username, 
 						admin 
 					} = testUser;
-					jwt
+					jwtBlacklist
 						.sign({ _id: id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
 						{
 							if (err) 
@@ -183,7 +183,7 @@ module.exports =
 												if(result)
 												{
 													const { _id, username, admin } = data;
-													jwt
+													jwtBlacklist
 														.sign({ _id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
 														{
 															if (err) 
@@ -266,11 +266,13 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// DA RIFARE 
+	// FATTO
 	logout: (req, resp) => 
 	{
 		try 
 		{
+			const token = req.headers['Authorization'];
+			jwtBlacklist.blacklist(token);
 			resp
 				.status(200)
 				.json(lang.LABEL_LOGOUT);
@@ -363,7 +365,7 @@ module.exports =
 			else 
 			{
 				const token = req.headers['Authorization'];
-				jwt
+				jwtBlacklist
 					.verify(token, secret, (err, decoded) => 
 					{
 						if(!err)
@@ -454,7 +456,7 @@ module.exports =
 			const { Authorization } = req.headers;
 			if (typeof auth !== 'undefined') 
 			{
-				jwt
+				jwtBlacklist
 					.verify(auth, secret, (err, decode) => 
 					{
 						if (err) 
