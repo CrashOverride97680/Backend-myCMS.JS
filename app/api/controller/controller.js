@@ -87,7 +87,7 @@ module.exports =
 	// FATTO
 	checkTokenTest: (req, resp) => 
 	{
-		const token = req.headers['Authorization'];
+		const token = req.headers['authorization'];
 		jwt
 			.verify(token, secret, (err, decoded) => 
 			{
@@ -266,18 +266,35 @@ module.exports =
 	{
 		try 
 		{
-			const token = req.headers['Authorization'];
+			const token = req.headers['authorization'];
 			if(process.env.NODE_ENV_CACHE_LOCAL)
 			{
-				let checkBlacklist = cacheLocal.findCache_LOCAL('tokens', token);
-				if(checkBlacklist)
-				{
-					cacheLocal
-						.insert_LOCAL('tokens', tokens);
-					resp
-						.status(200)
-						.json(lang.LABEL_LOGOUT);
-				}
+				jwt
+					.verify(token, secret, (err, decoded) => 
+					{
+						const { _id, username } = decoded;
+						const tokenBlacklist = cacheLocal
+							.findCache_LOCAL('tokens', 
+							{
+								token
+							});
+						if(!tokenBlacklist)
+						{
+							cacheLocal
+								.insert_LOCAL('tokens', {
+									_id,
+									username,
+									token
+								});
+							resp
+								.status(200)
+								.json(lang.LABEL_200_HTTP);
+						}
+						else
+							resp
+								.status(403)
+								.json(lang.LABEL_403_HTTP);
+					});
 			}
 		} 
 		catch (err) 
@@ -302,7 +319,7 @@ module.exports =
 				username: req.body.username,
 				name: req.body.name,
 				surname: req.body.surname,
-				token: req.headers['Authorization'],
+				token: req.headers['authorization'],
 				admin: req.admin
 			};
 
@@ -367,7 +384,7 @@ module.exports =
 			}
 			else 
 			{
-				const token = req.headers['Authorization'];
+				const token = req.headers['authorization'];
 				jwt
 					.verify(token, secret, (err, decoded) => 
 					{

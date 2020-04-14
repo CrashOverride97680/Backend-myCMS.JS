@@ -3,16 +3,18 @@ const mongoose = require('mongoose');
 const serverMongo = process.env.NODE_ENV_MONGO_SERVER || 'mongo';
 const mongoPort = process.env.NODE_ENV_MONGO_PORT || '27017';
 const mongoDBS = process.env.NODE_ENV_MONGO_DBS || 'cms';
-const dbURL = 'mongodb://'+ serverMongo + ':' + mongoPort + '/' + mongoDBS;
+const user = process.env.NODE_ENV_MONGO_USER || 'root';
+const pass = process.env.NODE_ENV_MONGO_PASS || 'secret';
+const dbURL = 'mongodb://' + serverMongo + ':' + mongoPort;
 // EXPORTING MODULE MONGO
 module.exports = () => {
 	mongoose.connect(dbURL, {
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 		useCreateIndex: true,
-		user: 'root',
-		pass: 'secret',
-		dbName: 'cms'
+		user,
+		pass,
+		dbName: mongoDBS
 	});
 	mongoose.connection.on('connected', () => {
 		console.log('Mongoose default connection is open to:', dbURL);
