@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
-const cookieParser = require('cookie-parser');
 const router = require('./api/router/router');
 log4js.configure({
 	appenders: {
@@ -42,7 +41,6 @@ const shouldCompress = (req, res) => {
 };
 // USE MIDDLEWARE
 app.use(compression({ filter: shouldCompress }));
-app.use(cookieParser());
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Headers', '*');

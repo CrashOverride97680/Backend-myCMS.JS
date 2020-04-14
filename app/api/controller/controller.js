@@ -145,8 +145,6 @@ module.exports =
 							else 
 							{
 								resp
-									.cookie('token', token, { expiresIn: '1d' });
-								resp
 									.json({
 										auth: true,
 										token
@@ -188,8 +186,6 @@ module.exports =
 															}
 															else 
 															{
-																resp
-																	.cookie('token', token, { expiresIn: '1d' });
 																resp
 																	.json({
 																		auth: true,
@@ -261,13 +257,11 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// FATTO
+	// DA RIFARE 
 	logout: (req, resp) => 
 	{
 		try 
 		{
-			resp
-				.clearCookie('token');
 			resp
 				.status(200)
 				.json(lang.LABEL_LOGOUT);
