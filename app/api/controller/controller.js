@@ -287,7 +287,7 @@ module.exports =
 	},
 	// FATTO
 	requireSignin: () => expressJWT({ secret }),
-	// DA RIFARE
+	// FATTO
 	register: (req, resp) => 
 	{
 		try 
