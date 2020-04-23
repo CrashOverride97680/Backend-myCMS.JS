@@ -1,4 +1,4 @@
-# TODO LIST
+# TODO LIST ( 24/04/2020 )
 - [ ] Blacklist token --> ( lowdb )
 - [ ] Local-cache --> ( lowdb ) 	
 - [ ] Redis cache
@@ -6,3 +6,4 @@
 - [ ] Check token blacklist
 - [ ] Registration check token blacklist
 - [ ] Create lowdb token blacklist
+## EXECUTE TASK
