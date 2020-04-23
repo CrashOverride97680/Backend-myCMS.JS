@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon app.js --watch . --watch .env --ignore api/cache/local_cache/cacheTokens.json",
     "start": "node app.js",
+    "version": "auto-changelog -p && git add CHANGELOG.md",
     "test": "mocha --exit",
     "lint": "eslint \"**/*.js\" --fix --ignore-pattern node_modules/ --ignore-pattern api/cache/local_cache/cacheTokens.json"
   },
@@ -54,6 +55,7 @@
     "supertest": "^4.0.2"
   },
   "devDependencies": {
+    "auto-changelog": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
