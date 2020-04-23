@@ -10,10 +10,10 @@
 | 7. []    |  Create lowdb token blacklist       | lowdb       | 24/04/2020 |
 
 ## EXECUTE TASK
-- [ ] Blacklist token  ( 24/04/2020 )
-- [ ] Local-cache  ( 24/04/2020 )
-- [ ] Redis cache  ( 24/04/2020 )
-- [ ] Upload posts ( 24/04/2020 )
-- [ ] Check token blacklist ( 24/04/2020 )
-- [ ] Registration check token blacklist ( 24/04/2020 )
-- [ ] Create lowdb token blacklist ( 24/04/2020 )
+- [ ] Blacklist token 
+- [ ] Local-cache 
+- [ ] Redis cache 
+- [ ] Upload posts
+- [ ] Check token blacklist
+- [ ] Registration check token blacklist
+- [ ] Create lowdb token blacklist
