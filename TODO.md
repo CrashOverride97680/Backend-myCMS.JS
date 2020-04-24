@@ -8,7 +8,7 @@
 | 5. []    | Check token blacklist               |             | 24/04/2020 |                   |
 | 6. []    | Registration check token blacklist  |             | 24/04/2020 |                   |
 | 7. []    | Create lowdb token blacklist        | lowdb       | 24/04/2020 |                   |
-| 8. []    | Scheduler token local               | lowdb       | 24/04/2020 |                   |
+| 8. [x]   | Scheduler token local               | lowdb       | 24/04/2020 |                   |
 | 9. []    | Redis cache token                   | redis       | 24/04/2020 |                   |
 | 10.[]    | Create post                         |             | 24/04/2020 |                   |
 | 11.[]    | Modify logout local blacklist       |             | 24/04/2020 |                   |
