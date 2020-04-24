@@ -11,3 +11,5 @@
 | 8. []    | Scheduler token local               | lowdb       | 24/04/2020 |                   |
 | 9. []    | Redis cache token                   | redis       | 24/04/2020 |                   |
 | 10.[]    | Create post                         |             | 24/04/2020 |                   |
+| 11.[]    | Modify logout local blacklist       |             | 24/04/2020 |                   |
+| 12.[]    | Modify logout redis blacklist token | redis       | 24/04/2020 |                   |
