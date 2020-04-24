@@ -2,4 +2,5 @@
 /app/package-lock.json
 /app/.eslint.json
 package-lock.json
-/app/api/data/cacheTokens.json
+/app/api/data/cachePosts.json
+/app/api/autentication/blacklist-local/blacklistToken.json

@@ -1,8 +1,6 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
-const cacheLocal = process.env.NODE_ENV_CACHE_LOCAL ? require('../cache/local_cache/cache') : null;
-//const cacheRedis =;
 // IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
 // IMPORT SMTP ( IMPORTING SMTP)

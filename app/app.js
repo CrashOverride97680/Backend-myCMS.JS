@@ -5,6 +5,10 @@ const compression = require('compression');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const router = require('./api/router/router');
+const scheduler = require('./api/scheduling/scheduler');
+// RUN SCHEDULER
+if(process.env.NODE_ENV_LOCAL_BLACKLIST)
+	scheduler.loadSCheduler();
 // LOCAL CACHE LOWDB
 const { resetDB_LOCAL } = process.env.NODE_ENV_CACHE_LOCAL ? require('./api/cache/local_cache/cache') : null;
 if(process.env.NODE_DEV_ENV_LOCAL)
