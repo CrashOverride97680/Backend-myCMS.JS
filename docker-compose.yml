@@ -1,16 +1,15 @@
 version: "3"
 services: 
     webapi:
+        container_name: myCMS.js
         build: ./app
-        deploy:
-            replicas: 3
         restart: always
         working_dir: /src
         volumes: 
             - ./app:/src
         ports:
-            - "9000-9100:9000"
-        command: bash -c "npm install && npm run start"
+            - "9000:9000"
+        command: bash -c "npm install && npm run dev"
         networks:
             - cms_app_net
         depends_on:
@@ -22,8 +21,7 @@ services:
             - "redis"
 
     mongo:
-        deploy:
-            replicas: 3
+        container_name: mongoCMS
         image: mongo:bionic
         restart: always
         environment:
@@ -31,7 +29,7 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: secret
             MONGO_INITDB_DATABASE: cms
         ports:
-            - "27017-27100:27017"
+            - "27017:27017"
         volumes:
             - ./mongo-config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
             - data-volume-mongoCMS:/data/db
@@ -39,14 +37,14 @@ services:
             - cms_app_net
 
     redis:
-        deploy:
-            replicas: 3
+        container_name: redisCMS
         image: redis:alpine
         restart: always
         networks:
             - cms_app_net
 
 #    jenkins:
+#        container_name: jenkinsCMS
 #        image: jenkinsci/jenkins:2.150.1-slim
 #        restart: always
 #        volumes: 
@@ -60,6 +58,7 @@ services:
 #            - gitrepository
 
 #    proxyserver:
+#        container_name: proxyNGINX_CMS
 #        image: nginx:alpine
 #        restart: always
 #        ports:
@@ -70,6 +69,7 @@ services:
 #            - webapi
 
 #    gitrepository:
+#        container_name: gitapi
 #        image: 
 #        networks:
 #            - cms_app_net
