@@ -1,5 +1,4 @@
 // IMPORT MODULES NODEJS
-// IMPORT MODULES NODEJS
 const FileSync = require('lowdb/adapters/FileSync');
 const low = require('lowdb');    
 const adapter = new FileSync(__dirname + '/blacklistToken.json');

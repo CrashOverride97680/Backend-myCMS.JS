@@ -1,12 +1,12 @@
 // IMPORT MODULES NODEJS
 const FileSync = require('lowdb/adapters/FileSync');
 const low = require('lowdb');    
-const adapter = new FileSync(__dirname + '/cacheTokens.json');
+const adapter = new FileSync(__dirname + '/cachePosts.json');
 const db = low(adapter);
 //  EXPORTING NODE MODULE
 module.exports = {
     resetDB_LOCAL: () => {
-        db.defaults({ tokens: [] }).write();
+        db.defaults({ posts:[] }).write();
     },
     removeAll_LOCAL: name => {
         db
