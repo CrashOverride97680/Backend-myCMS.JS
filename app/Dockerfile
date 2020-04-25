@@ -1,4 +1,4 @@
-FROM node:stretch-slim
+FROM node:alpine
 RUN mkdir /src
 WORKDIR /src
 RUN npm install nodemon -g

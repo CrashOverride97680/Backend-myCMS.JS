@@ -9,11 +9,6 @@ const scheduler = require('./api/scheduling/scheduler');
 const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST 
 					? require('./api/autentication/blacklist-local/blacklist-local')
 					: null;
-// RUN SCHEDULER FOR LOCAL BLACKLIST AND REDIS
-if(locBlacklist){
-	locBlacklist.resetDB_LOCAL();
-	scheduler.loadSCheduler();
-}
 // LOG LIBRARY
 log4js.configure({
 	appenders: {
@@ -43,6 +38,12 @@ const langServer = './lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 //  DEBUG VARIABLES ENVIROMENT
 if (process.env.NODE_ENV_DEV || process.env.NODE_DEV_ENV_VAR) console.log(lang.LABEL_ENV_VAR, dotenv);
+// RUN SCHEDULER FOR LOCAL BLACKLIST AND REDIS
+if(locBlacklist){
+	locBlacklist.resetDB_LOCAL();
+	scheduler.loadSCheduler();
+	console.log(lang.LABEL_LOCAL_CACHE_BLACKLIST_ON);
+}
 // INIZIALIZE FUNCTION, CLASS, ELEMENT AND MODULES
 const app = express();
 // GENERAL FUNCTIONS

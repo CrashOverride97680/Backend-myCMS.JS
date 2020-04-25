@@ -6,31 +6,44 @@ const db = low(adapter);
 //  EXPORTING NODE MODULE
 module.exports = {
     resetDB_LOCAL: () => {
-        db.defaults({ 
-            tokens: [],
-        }).write();
+        db
+            .defaults({ 
+                tokens: [],
+            })
+            .write();
     },
     removeAll_LOCAL: name => {
         db
-        .get(name)
-        .remove()
-        .write();
+            .get(name)
+            .remove()
+            .write();
     },
     insert_LOCAL: ({ name, data }) => {
-        db.get(name)
-        .push(data)
-        .write();
+        db
+            .get(name)
+            .push(data)
+            .write();
     },
     size_LOCAL: name => {
-        const data = db.get(name).size().value();
+        const data = db
+                        .get(name)
+                        .size()
+                        .value();
         return data;
     },
-    findCache_LOCAL: (name, data) => {
-        db.get(name).find(data).value()
+    findCache_LOCAL: ({name, data}) => {
+        const token = db
+            .get(name)
+            .find(data)
+            .value();
+        if(token)
+            return true;
+        else
+            return false;       
     },  
     dbRead_LOCAL: data => {
         db
-        .get(data)
-        .value()
+            .get(data)
+            .value()
     },
 };

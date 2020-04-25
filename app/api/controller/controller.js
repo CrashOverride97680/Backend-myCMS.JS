@@ -263,13 +263,12 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// DA RIFARE 
+	// DA RIFARE CON REDIS
 	logout: (req, resp) => 
 	{
 		try 
 		{
 			const token = req.headers['authorization'];
-			console.log('BLK:', blkLocal);
 			if(blkLocal !== null)
 			{
 				jwt
@@ -277,18 +276,22 @@ module.exports =
 					{
 						const { _id, username } = decoded;
 						const tokenBlacklist = blkLocal
-													.findCache_LOCAL('tokens', 
-													{
-														token
+													.findCache_LOCAL({
+														name:'tokens', 
+														data:{
+															token
+														}
 													});
-						console.log('Token blacllist:', tokenBlacklist);
 						if(!tokenBlacklist)
 						{
 							blkLocal
-								.insert_LOCAL('tokens', {
-									_id,
-									username,
-									token
+								.insert_LOCAL({
+									name:'tokens',
+									data:{
+										_id,
+										username,
+										token				
+									}
 								});
 							resp
 								.status(200)
