@@ -6,13 +6,15 @@ const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const router = require('./api/router/router');
 const scheduler = require('./api/scheduling/scheduler');
-// RUN SCHEDULER
-if(process.env.NODE_ENV_LOCAL_BLACKLIST)
+const locBlacklist = 
+					(process.env.NODE_ENV_LOCAL_BLACKLIST) 
+					? require('./api/autentication/blacklist-local/blacklist-local')
+					: null;
+// RUN SCHEDULER FOR LOCAL BLACKLIST AND REDIS
+if(locBlacklist){
+	locBlacklist.resetDB_LOCAL();
 	scheduler.loadSCheduler();
-// LOCAL CACHE LOWDB
-const { resetDB_LOCAL } = process.env.NODE_ENV_CACHE_LOCAL ? require('./api/cache/local_cache/cache') : null;
-if(process.env.NODE_DEV_ENV_LOCAL)
-	resetDB_LOCAL();
+}
 // LOG LIBRARY
 log4js.configure({
 	appenders: {
