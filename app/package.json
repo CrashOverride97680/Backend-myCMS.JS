@@ -8,7 +8,7 @@
     "start": "node app.js",
     "version": "auto-changelog -p && git add CHANGELOG.md",
     "test": "mocha --exit",
-    "lint": "eslint \"**/*.js\" --fix --ignore-pattern node_modules/ --ignore-pattern api/cache/local_cache/cachePosts.json --ignore-pattern api/autentication/blacklist-local/blacklistToken.json"
+    "lint": "eslint \"**/*.js\" --fix --ignore-pattern node_modules/ --ignore-pattern ./api/cache/local_cache/cachePosts.json --ignore-pattern ./api/autentication/blacklist-local/blacklistToken.json"
   },
   "repository": {
     "type": "git",

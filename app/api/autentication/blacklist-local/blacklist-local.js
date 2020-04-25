@@ -6,7 +6,9 @@ const db = low(adapter);
 //  EXPORTING NODE MODULE
 module.exports = {
     resetDB_LOCAL: () => {
-        db.defaults({ tokens: [] }).write();
+        db.defaults({ 
+            tokens: [],
+        }).write();
     },
     removeAll_LOCAL: name => {
         db
@@ -27,6 +29,8 @@ module.exports = {
         db.get(name).find(data).value()
     },  
     dbRead_LOCAL: data => {
-        db.get(data).value()
+        db
+        .get(data)
+        .value()
     },
 };

@@ -6,8 +6,7 @@ const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const router = require('./api/router/router');
 const scheduler = require('./api/scheduling/scheduler');
-const locBlacklist = 
-					(process.env.NODE_ENV_LOCAL_BLACKLIST) 
+const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST 
 					? require('./api/autentication/blacklist-local/blacklist-local')
 					: null;
 // RUN SCHEDULER FOR LOCAL BLACKLIST AND REDIS

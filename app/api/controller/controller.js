@@ -1,6 +1,10 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
+// IMPORTING LOCAL CACHING BLACKLIST
+const blkLocal = process.env.NODE_ENV_LOCAL_BLACKLIST
+				? require('../autentication/blacklist-local/blacklist-local')
+				: null
 // IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
 // IMPORT SMTP ( IMPORTING SMTP)
@@ -265,20 +269,22 @@ module.exports =
 		try 
 		{
 			const token = req.headers['authorization'];
-			if(process.env.NODE_ENV_CACHE_LOCAL)
+			console.log('BLK:', blkLocal);
+			if(blkLocal !== null)
 			{
 				jwt
 					.verify(token, secret, (err, decoded) => 
 					{
 						const { _id, username } = decoded;
-						const tokenBlacklist = cacheLocal
-							.findCache_LOCAL('tokens', 
-							{
-								token
-							});
+						const tokenBlacklist = blkLocal
+													.findCache_LOCAL('tokens', 
+													{
+														token
+													});
+						console.log('Token blacllist:', tokenBlacklist);
 						if(!tokenBlacklist)
 						{
-							cacheLocal
+							blkLocal
 								.insert_LOCAL('tokens', {
 									_id,
 									username,
