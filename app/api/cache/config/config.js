@@ -1,55 +1,100 @@
 // IMPORT MODULES NODEJS
 const redis = require('redis');
+const langServer = '../../../lang/' + (process.env.LANG_SERVER || 'eng');
+const lang = require(langServer);
 const port = process.env.NODE_ENV_REDIS_PORT || 6379;
-const host = process.env.NODE_ENV_REDIS_HOST || '127.0.0.1';
 const url = process.env.NODE_ENV_REDIS_URL || 'redis://redisCMS';
 const password = process.env.NODE_ENV_REDIS_PASSWORD || null;
 // REDIS CONFIG
 module.exports = {
     testClient: () => {
-        if(port && host && url && password) {
+        if(port && url && password) {
             const client = redis
                             .createClient({
                                 port,
-                                host,
                                 url,
                                 password
                             });
+            client.on('connect', err => {
+                console.log(lang.LABEL_REDIS_CONNECTED_TEST);
+            });
+
+            client.on('end', err => {
+                console.log(lang.LABEL_END_REDIS_CONNECTION_TEST);
+            });
+
             return client;
         }
-        else if(port && host && url){
+        else if(port && url){
             const client = redis
                             .createClient({
                                 port,
-                                host,
                                 url
                             });
+            client.on('connect', err => {
+                console.log(lang.LABEL_REDIS_CONNECTED_TEST);
+            });
+
+            client.on('end', err => {
+                console.log(lang.LABEL_END_REDIS_CONNECTION_TEST);
+            });
+
             return client;
         }
         else return false;
     },
-    clientRedis: ({
+    clientRedisDB: ({
         db
     }) => {
-        if(port && host && url && password) {
+        if(port && url && password) {
             const client = redis
                             .createClient({
                                 port,
-                                host,
                                 url,
                                 password,
                                 db
                             });
+            client.on('connect', err => {
+                console.log(lang.LABEL_REDIS_CONNECTED);
+            });
+
+            client.on('end', err => {
+                console.log(lang.LABEL_END_REDIS_CONNECTION);
+            });
             return client;
         }
-        else if(port && host && url && db){
+        else if(port && url && db){
             const client = redis
                             .createClient({
                                 port,
-                                host,
                                 url,
                                 db
                             });
+            client.on('connect', err => {
+                console.log(lang.LABEL_REDIS_CONNECTED);
+            });
+
+            client.on('end', err => {
+                console.log(lang.LABEL_END_REDIS_CONNECTION);
+            });
+            return client;
+        }
+        else return false
+    },
+    clientRedis: () => {
+        if(port && url) {
+            const client = redis
+                            .createClient({
+                                port,
+                                url
+                            });
+            client.on('connect', err => {
+                console.log(lang.LABEL_REDIS_CONNECTED);
+            });
+
+            client.on('end', err => {
+                console.log(lang.LABEL_END_REDIS_CONNECTION);
+            });
             return client;
         }
         else return false

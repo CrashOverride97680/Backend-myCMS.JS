@@ -35,6 +35,17 @@ const testUserMail = process.env.NODE_ENV_DEV
 			username: 'testUsername'
 		}
 	: null;
+//  REDIS CACHING MODULE
+const redis = !process.env.NODE_ENV_LOCAL_BLACKLIST
+			? require('redis')
+			: null;
+const redisCache = !process.env.NODE_ENV_LOCAL_BLACKLIST 
+				? require('../cache/cache')
+				: null;
+redisCache.saveData({
+						key: 'token',
+						value: 'bhkfbrkhfbr4kvbc4kr4jbvkj4nkj4nvt4jkfn4kjnfjrknfken'
+					});
 //  EXPORTING MODULE
 module.exports = 
 {

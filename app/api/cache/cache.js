@@ -5,37 +5,32 @@ const testRedis = config.testClient();
 // IMPORTING LANG AND DEBUG
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
-if(!testRedis && !process.env.NODE_ENV_LOCAL_BLACKLIST){
+if(!testRedis && !process.env.NODE_ENV_LOCAL_BLACKLIST && process.env.NODE_ENV_DEV){
     console.log(lang.LABEL_REDIS_CONNECTION_ERROR);
     process.exit();
 }
-const blacklistToken = config.clientRedis({db : 'blacklistToken'});
+else if(!testRedis && !process.env.NODE_ENV_LOCAL_BLACKLIST)
+    process.exit();
 // REDIS CONFIG
 module.exports = {
-    clientRedis: ({
-        db
-    }) => {
-        if(port && host && url && password && db) {
-            const client = redis
-                            .createClient({
-                                port,
-                                host,
-                                url,
-                                password,
-                                db
-                            });
-            return client;
+// TOKEN BLACLIST FUNCTION
+    saveData: data => {
+        try {
+            const { key, value } = data;
+            const client = config.clientRedis();
+            client.set(key, value, (err) => {
+                if (err) {
+                    if (process.env.NODE_ENV_CHECK_CACHE)
+                        console.log(lang.LABEL_REDIS_ERROR_SAVE, err);
+                    return false;
+                }
+                else 
+                    return true;
+            });
         }
-        else if(port && host && url && db){
-            const client = redis
-                            .createClient({
-                                port,
-                                host,
-                                url,
-                                db
-                            });
-            return client;
+        catch(err) {
+            console.log(lang.LABEL_REDIS_CATCH_REDIS, err);
+            return false;
         }
-        else return false
     },
 };
