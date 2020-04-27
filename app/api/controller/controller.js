@@ -39,13 +39,9 @@ const testUserMail = process.env.NODE_ENV_DEV
 const redis = !process.env.NODE_ENV_LOCAL_BLACKLIST
 			? require('redis')
 			: null;
-const redisCache = !process.env.NODE_ENV_LOCAL_BLACKLIST 
-				? require('../cache/cache')
+const redisConfig = !process.env.NODE_ENV_LOCAL_BLACKLIST 
+				? require('../cache/config/config')
 				: null;
-redisCache.saveData({
-						key: 'token',
-						value: 'bhkfbrkhfbr4kvbc4kr4jbvkj4nkj4nvt4jkfn4kjnfjrknfken'
-					});
 //  EXPORTING MODULE
 module.exports = 
 {
@@ -274,7 +270,7 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// DA RIFARE CON REDIS
+	// FATTO
 	logout: (req, resp) => 
 	{
 		try 
@@ -312,6 +308,35 @@ module.exports =
 							resp
 								.status(403)
 								.json(lang.LABEL_403_HTTP);
+					});
+			}
+			else if (blkLocal === null) {
+				jwt
+					.verify(token, secret, (err, decoded) => 
+					{
+						const { _id, username } = decoded;
+						const client = redisConfig.clientRedis();
+						const tokenBlacklist = client
+														.get(token, (err, reply) => {
+															if(!reply){
+																const data = new Date();
+																const value = JSON
+																				.stringify({
+																					_id,
+																					username,
+																					time: data.toISOString()
+																				});
+																client.set(token, value, redis.print);
+																resp
+																	.status(200)
+																	.json(lang.LABEL_200_HTTP);
+															}
+															else
+																resp
+																	.status(403)
+																	.json(lang.LABEL_403_HTTP);
+														});
+											
 					});
 			}
 		} 
