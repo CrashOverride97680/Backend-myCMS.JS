@@ -526,7 +526,7 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// DA RIFARE
+	// FATTO
 	requireAdminUser: (req, resp, next) => 
 	{
 		try
