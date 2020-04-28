@@ -46,7 +46,7 @@ services:
             - cms_app_net
 
 #    varnish:
-#        image: varnish
+#        image: varnish:stable
 #        ports:
 #            - "80:80"
 #        depends_on:
@@ -54,7 +54,7 @@ services:
 #        links:
 #            - proxyserver
 #        volumes:
-#            - ./config/default.vcl:/etc/varnish/default.vcl
+#            - ./config/varnish/default.vcl:/etc/varnish/default.vcl
 #        restart: always
 
 #    jenkins:
@@ -76,15 +76,17 @@ services:
 #        image: nginx:alpine
 #        restart: always
 #        ports:
-#        - "8082:80"
+#        - "8080:80"
 #        networks:
 #            - cms_app_net
 #        depends_on:
 #            - webapi
+#        link:
+#            - webapi
 
 #    gitrepository:
 #        container_name: gitapi
-#        image: 
+#        image: gitlab/gitlab-ce
 #        networks:
 #            - cms_app_net
 volumes:
