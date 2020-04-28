@@ -566,8 +566,8 @@ module.exports =
 			}
 			else	
 				resp
-					.status(500)
-					.json(lang.LABEL_500_HTTP);
+					.status(403)
+					.json(lang.LABEL_403_HTTP);
 		}
 		catch(err)
 		{	
