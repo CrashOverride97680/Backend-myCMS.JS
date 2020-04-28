@@ -14,7 +14,7 @@ const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 // IMPORT ENV DATA OR DEBUG
 const secret = process.env.SECRET_KEY || 'secret_key';
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const testUser = process.env.NODE_ENV_DEV
 	? 	{
 			id: Math.floor(Math.random() * (999999999 - 99999999 + 1) + 99999999),

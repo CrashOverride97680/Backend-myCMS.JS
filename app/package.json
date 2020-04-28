@@ -27,7 +27,7 @@
   "homepage": "https://github.com/CrashOverride97680/myCMS.JS#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cache-manager": "^3.2.1",
     "chai": "^4.2.0",
