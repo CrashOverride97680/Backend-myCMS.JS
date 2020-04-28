@@ -310,32 +310,35 @@ module.exports =
 								.json(lang.LABEL_403_HTTP);
 					});
 			}
-			else if (blkLocal === null) {
+			else if (blkLocal === null) 
+			{
 				jwt
 					.verify(token, secret, (err, decoded) => 
 					{
 						const { _id, username } = decoded;
 						const client = redisConfig.clientRedis();
 						const tokenBlacklist = client
-														.get(token, (err, reply) => {
-															if(!reply){
-																const data = new Date();
-																const value = JSON
-																				.stringify({
-																					_id,
-																					username,
-																					time: data.toISOString()
-																				});
-																client.set(token, value, redis.print);
-																resp
-																	.status(200)
-																	.json(lang.LABEL_200_HTTP);
-															}
-															else
-																resp
-																	.status(403)
-																	.json(lang.LABEL_403_HTTP);
-														});
+													.get(token, (err, reply) =>
+													{
+														if(!reply){
+															const data = new Date();
+															const value = JSON
+																			.stringify(
+																			{
+																				_id,
+																				username,
+																				time: data.toISOString()
+																			});
+															client.set(token, value, redis.print);
+															resp
+																.status(200)
+																.json(lang.LABEL_200_HTTP);
+														}
+														else
+															resp
+																.status(403)
+																.json(lang.LABEL_403_HTTP);
+													});
 											
 					});
 			}
