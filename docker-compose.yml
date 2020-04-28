@@ -86,11 +86,16 @@ services:
         networks:
             - cms_app_net
 
-    gitrepository:
-        container_name: gitapi
-        image: gitlab/gitlab-ce
-        networks:
-            - cms_app_net
+#    gitrepository:
+#        container_name: gitapi
+#        image: gitlab/gitlab-ce
+#        ports:
+#            - "8082:80"
+#            - "22:22"
+#            - "443:443"
+#        networks:
+#            - cms_app_net
+
 volumes:
     data-volume-mongoCMS:
         driver: local
