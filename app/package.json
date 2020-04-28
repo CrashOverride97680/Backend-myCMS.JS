@@ -55,7 +55,8 @@
     "path": "^0.12.7",
     "redis": "^3.0.2",
     "slugify": "^1.4.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "varnish": "0.0.1"
   },
   "devDependencies": {
     "auto-changelog": "^2.0.0",
