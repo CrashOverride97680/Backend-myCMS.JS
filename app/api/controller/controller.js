@@ -353,7 +353,7 @@ module.exports =
 	},
 	// FATTO
 	requireSignin: () => expressJWT({ secret }),
-	// DA RIFARE
+	// FATTO
 	register: (req, resp) => 
 	{
 		try 
@@ -431,77 +431,89 @@ module.exports =
 			else 
 			{
 				const token = req.headers['authorization'];
-				jwt
-					.verify(token, secret, (err, decoded) => 
+				const client = redisConfig.clientRedis();
+				client
+					.get(token, (err, reply) =>
 					{
-						if(!err)
-						{
-							const { 
-								id, 
-								admin 
-							} = decoded;
-							if(admin)
-							{
-								const findUser = mongoose.model('user', 'users');
-								findUser
-									.findOne(id, (error, data) => 
-									{
-										if (error === null) 
-										{
-											if (data !== null) 
-											{
-												if (data.confirmed === false) 
-													resp
-														.status(202)
-														.json(lang.LABEL_RESEND_EMAIL);
-											} 
-											else 
-											{
-												bcrypt
-													.hash(user.password, 10, 
-													(err, hash) => 
-													{
-														if (!err) 
-														{
-															const createUser = mongoose.model('user', 'users');
-															let dateObj = new Date();
-															createUser.create(
-															{
-																admin: user.admin,
-																email: user.email,
-																password: hash,
-																username: user.username,
-																name: user.name,
-																surname: user.surname,
-																create: dateObj.toISOString()
-															},
-															(err, result) => 
-															{
-																if (err === null)
-																{
-																	mongoose.connection.close();
-																	resp
-																		.status(201)
-																		.json(lang.LABEL_201_HTTP);
-																} 
-															});
-														}
-													});
-											}
-										}
-									});
-							} 
-							else 
-								resp
-									.status(403)
-									.json(lang.LABEL_403_HTTP);
-						}	
-						else
-						{
-							console.log(lang.LABEL_ERROR_RETURN, err);
+						if(reply)
 							resp
 								.status(403)
 								.json(lang.LABEL_403_HTTP);
+						else
+						{
+							jwt
+								.verify(token, secret, (err, decoded) => 
+								{
+									if(!err)
+									{
+										const { 
+											id, 
+											admin 
+										} = decoded;
+										if(admin)
+										{
+											const findUser = mongoose.model('user', 'users');
+											findUser
+												.findOne(id, (error, data) => 
+												{
+													if (error === null) 
+													{
+														if (data !== null) 
+														{
+															if (data.confirmed === false) 
+																resp
+																	.status(202)
+																	.json(lang.LABEL_RESEND_EMAIL);
+														} 
+														else 
+														{
+															bcrypt
+																.hash(user.password, 10, 
+																(err, hash) => 
+																{
+																	if (!err) 
+																	{
+																		const createUser = mongoose.model('user', 'users');
+																		let dateObj = new Date();
+																		createUser.create(
+																		{
+																			admin: user.admin,
+																			email: user.email,
+																			password: hash,
+																			username: user.username,
+																			name: user.name,
+																			surname: user.surname,
+																			create: dateObj.toISOString()
+																		},
+																		(err, result) => 
+																		{
+																			if (err === null)
+																			{
+																				mongoose.connection.close();
+																				resp
+																					.status(201)
+																					.json(lang.LABEL_201_HTTP);
+																			} 
+																		});
+																	}
+																});
+														}
+													}
+												});
+										} 
+										else 
+											resp
+												.status(403)
+												.json(lang.LABEL_403_HTTP);
+									}	
+									else
+									{
+										console.log(lang.LABEL_ERROR_RETURN, err);
+										resp
+											.status(403)
+											.json(lang.LABEL_403_HTTP);
+									}
+								});
 						}
 					});
 			}
@@ -514,33 +526,48 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-	// FATTO
+	// DA RIFARE
 	requireAdminUser: (req, resp, next) => 
 	{
 		try
 		{
-			const { Authorization } = req.headers;
-			if (typeof auth !== 'undefined') 
+			const token = req.headers['authorization'];
+			if (typeof token !== 'undefined') 
 			{
-				jwt
-					.verify(auth, secret, (err, decode) => 
+				client
+					.get(token, (err, reply) =>
 					{
-						if (err) 
+						if(reply)
 							resp
 								.status(403)
 								.json(lang.LABEL_403_HTTP);
 						else 
 						{
-							if(decode.admin)
-								next();
-							else
-								resp
-									.status(403)
-									.json(lang.LABEL_403_HTTP);
+							jwt
+								.verify(auth, secret, (err, decode) => 
+								{
+									if (err) 
+										resp
+											.status(403)
+											.json(lang.LABEL_403_HTTP);
+									else 
+									{
+										if(decode.admin)
+											next();
+										else
+											resp
+												.status(403)
+												.json(lang.LABEL_403_HTTP);
 
+									}
+								});
 						}
 					});
 			}
+			else	
+				resp
+					.status(500)
+					.json(lang.LABEL_500_HTTP);
 		}
 		catch(err)
 		{	
