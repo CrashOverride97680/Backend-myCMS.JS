@@ -578,6 +578,49 @@ module.exports =
 		}
 	},
 	// FATTO
+	chechUserAuth: (req, resp) => 
+	{
+		try
+		{
+			const token = req.headers['authorization'];
+			if (typeof token !== 'undefined') 
+			{
+				client
+					.get(token, (err, reply) =>
+					{
+						if(reply)
+							resp
+								.status(403)
+								.json(lang.LABEL_403_HTTP);
+						else 
+						{
+							jwt
+								.verify(auth, secret, (err, decode) => 
+								{
+									if (err) 
+										resp
+											.status(403)
+											.json(lang.LABEL_403_HTTP);
+									else 
+										next();
+								});
+						}
+					});
+			}
+			else	
+				resp
+					.status(403)
+					.json(lang.LABEL_403_HTTP);
+		}
+		catch(err)
+		{	
+			console.log(lang.LABEL_ERROR_RETURN, err);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
+	},
+	// FATTO
 	uploadTest: (req, resp) =>
 	{
 		try
@@ -594,4 +637,145 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}	
 	},
+	// DA FARE
+	modifyUser: (req, resp) => 
+	{
+		try
+		{
+			const user = 
+			{
+				email: req.body.email,
+				password: req.body.password,
+				username: req.body.username,
+				name: req.body.name,
+				surname: req.body.surname,
+				token: req.headers['authorization'],
+			};
+
+			if (process.env.NODE_ENV_DEV) 
+				console.log('USER:', user);
+			jwt
+				.verify(token, secret, (err, decoded) => 
+				{
+					if(!err)
+					{
+						const { 
+							_id
+						} = decoded;
+						const findUser = mongoose.model('user', 'users');
+						findUser
+							.findOne({_id, confirmed:true}, (error, data) => 
+							{
+								if (error === null) 
+								{
+									if (data !== null) 
+									{
+										if (data.confirmed === false) 
+											resp
+												.status(202)
+												.json(lang.LABEL_RESEND_EMAIL);
+									} 
+									else 
+									{
+										bcrypt
+											.hash(user.password, 10, 
+											(err, hash) => 
+											{
+												if (!err) 
+												{
+													const updateUser = mongoose.model('user', 'users');
+													let dateObj = new Date();
+													updateUser.findOneAndUpdate(id, 
+													{
+														admin: user.admin,
+														email: user.email,
+														password: hash,
+														username: user.username,
+														name: user.name,
+														surname: user.surname
+													}, (error, data) => 
+													{
+														if (err === null)
+														{
+															mongoose.connection.close();
+															resp
+																.status(201)
+																.json(lang.LABEL_201_HTTP);
+														} 
+													});
+												}
+											});
+									}
+								}
+							});
+					}	
+					else
+					{
+						console.log(lang.LABEL_ERROR_RETURN, err);
+						resp
+							.status(403)
+							.json(lang.LABEL_403_HTTP);
+					}
+				});
+		} 
+		catch (e) 
+		{
+			console.log(lang.LABEL_ERROR_RETURN, e);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
+	},
+	// FATTO
+	deleteUser: (req, resp) => 
+	{
+		try
+		{
+			const user = 
+			{
+				token: req.headers['authorization'],
+			};
+
+			if (process.env.NODE_ENV_DEV) 
+				console.log('USER:', user);
+			jwt
+				.verify(user.token, secret, (err, decoded) => 
+				{
+					if(!err)
+					{
+						const { 
+							_id
+						} = decoded;
+						const removeUser = mongoose.model('user', 'users');
+						removeUser.findByIdAndRemove({_id, confirmed:true}, (err, decode) => 
+						{
+							if (error === null) 
+							{
+								if (data !== null) 
+								{
+									if (data.confirmed === false) 
+										resp
+											.status(200)
+											.json(lang.LABEL_200_HTTP);
+								} 
+							}
+						});	
+					}	
+					else
+					{
+						console.log(lang.LABEL_ERROR_RETURN, err);
+						resp
+							.status(403)
+							.json(lang.LABEL_403_HTTP);
+					}
+				});
+		} 
+		catch (e) 
+		{
+			console.log(lang.LABEL_ERROR_RETURN, e);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
+	}, 
 };
