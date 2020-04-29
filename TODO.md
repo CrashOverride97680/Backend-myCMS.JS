@@ -13,4 +13,5 @@
 | 10.[]    | Create post                         |             | 24/04/2020 |                   |
 | 11.[x]   | Modify logout local blacklist       |             | 24/04/2020 | 26/04/2020        |
 | 12.[x]   | Modify logout redis blacklist token | redis       | 24/04/2020 | 28/04/2020        |
-| 13.[]    | Modify user                         |             | 24/04/2020 |                   |
+| 13.[]    | Modify user                         |             | 29/04/2020 |                   |
+| 14.[]    | Remove user                         |             | 29/04/2020 |                   |
