@@ -673,7 +673,8 @@ module.exports =
 	{
 		try
 		{
-
+			const token = req.headers['authorization'];
+			
 		} 
 		catch (e) 
 		{
@@ -696,8 +697,6 @@ module.exports =
 				{
 					if(!err)
 					{
-						console.log("ERR:", err);
-						console.log("DECODED:", decoded);
 						const { 
 							_id
 						} = decoded;
