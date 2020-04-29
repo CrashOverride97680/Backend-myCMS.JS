@@ -15,6 +15,8 @@ router
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
 // -> DELETE
+router
+	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser)
 // -> TEST
 if (process.env.NOD_ENV_TEST)
 {
