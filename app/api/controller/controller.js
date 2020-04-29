@@ -126,7 +126,7 @@ module.exports =
 				server: lang.LABEL_JSON_NOT_FOUND 
 			});
 	},
-	// DA RIFARE
+	// FATTO
 	login: (req, resp) => 
 	{
 		try 
@@ -164,68 +164,86 @@ module.exports =
 									});
 							}
 						});
-				}
-				else
+				} 
+				else 
+					resp
+						.status(403)
+						.json(lang.LABEL_403_HTTP);
+			}
+			else
+			{
+				try 
 				{
-					try 
-					{
-						const mongoUser = mongoose.model('user', 'users');
-						const { email, password } = user;
-						mongoUser
-							.findOne({
-								email,
-								confirmed: true
-							}, (err, result) => {
-								if(err === null)
+					const mongoUser = mongoose.model('user', 'users');
+					const { email, password } = user;
+					mongoUser
+						.findOne({
+							email,
+							confirmed: true
+						}, (err, result) => {
+							if(process.env.NODE_ENV_DEV)
+								console.log(lang.LANG_DEBUG_RESULT, result);
+							if(err === null)
+							{
+								if(result !== null)
 								{
-									if(result !== null)
-									{
-										const data = result;
-										bcrypt
-											.compare(password, data.password, (err, result) =>
-											{
-												if(result)
-												{
-													const { _id, username, admin } = data;
-													jwt
-														.sign({ _id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
-														{
-															if (err) 
-															{
-																console.log(lang.LABEL_ERROR_RETURN, err);
-																resp
-																	.status(500)
-																	.json(lang.LABEL_500_HTTP);
-															}
-															else 
-															{
-																resp
-																	.json({
-																		auth: true,
-																		admin,
-																		token
-																	});
-															}
-														});
-												}
-											});
+									const data = result;
+									if(process.env.NODE_ENV_DEV){
+										console.log(lang.LANG_DEBUG_ERROR, err);
+										console.log(lang.LANG_DEBUG_DATA, data);
 									}
+									bcrypt
+										.compare(password, data.password, (err, result) =>
+										{
+											if(result)
+											{
+												const { _id, username, admin } = data;
+												jwt
+													.sign({ _id, username, admin }, secret, { expiresIn: '1d' }, (err, token) => 
+													{
+														if (err) 
+														{
+															console.log(lang.LABEL_ERROR_RETURN, err);
+															resp
+																.status(500)
+																.json(lang.LABEL_500_HTTP);
+														}
+														else 
+														{
+															resp
+																.json({
+																	auth: true,
+																	admin,
+																	token
+																});
+														}
+													});
+											}
+											else
+												resp
+													.status(403)
+													.json(lang.LABEL_403_HTTP);
+										});
 								}
-							});
-					}
-					catch(err)
-					{
-						console.log(lang.LABEL_ERROR_RETURN, err);
-						resp
-							.status(403)
-							.json(lang.LABEL_403_HTTP);
-					}
+								else
+									resp
+										.status(403)
+										.json(lang.LABEL_403_HTTP);
+							}
+							else
+								resp
+									.status(403)
+									.json(lang.LABEL_403_HTTP);
+						});
 				}
-			} 
-			else 
-				resp
-					.status(403)
-					.json(lang.LABEL_403_HTTP);
+				catch(err)
+				{
+					console.log(lang.LABEL_ERROR_RETURN, err);
+					resp
+						.status(403)
+						.json(lang.LABEL_403_HTTP);
+				}
+			}	
 		} 
 		catch (err) 
 		{
@@ -380,6 +398,10 @@ module.exports =
 					findUser
 						.findOne({email: user.email}, (error, data) => 
 						{
+							if(process.env.NODE_ENV_TEST){
+								console.log(lang.LANG_DEBUG_ERROR, error);
+								console.log(lang.LANG_DEBUG_DATA, data);
+							}
 							if (error === null) 
 							{
 								if (data !== null)
@@ -388,6 +410,10 @@ module.exports =
 										resp
 											.status(202)
 											.json(lang.LABEL_RESEND_EMAIL);
+									else
+										resp
+											.status(403)
+											.json(lang.LABEL_403_HTTP);
 								} 
 								else 
 								{
@@ -418,6 +444,10 @@ module.exports =
 										});
 								}
 							}
+							else
+								resp
+									.status(403)
+									.json(lang.LABEL_403_HTTP);
 						});
 				} 
 				catch (e) 
@@ -666,26 +696,26 @@ module.exports =
 				{
 					if(!err)
 					{
+						console.log("ERR:", err);
+						console.log("DECODED:", decoded);
 						const { 
 							_id
 						} = decoded;
 						const removeUser = mongoose.model('user', 'users');
 						removeUser
-							.findByIdAndRemove({
+							.findOneAndDelete({
 								_id, 
 								confirmed:true
 							}, (err, data) => 
 							{
-								if (err === null) 
-								{
-									if (data !== null) 
-									{
-										if (data.confirmed === false) 
-											resp
-												.status(200)
-												.json(lang.LABEL_200_HTTP);
-									} 
-								}
+								if(data !== null)
+									resp
+										.status(200)
+										.json(lang.LABEL_200_HTTP);
+								else
+									resp
+										.status(403)
+										.json(lang.LABEL_403_HTTP);
 							});	
 					}	
 					else

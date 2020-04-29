@@ -15,4 +15,5 @@
 | 12.[x]   | Modify logout redis blacklist token | redis       | 24/04/2020 | 28/04/2020        |
 | 13.[]    | Modify user                         |             | 29/04/2020 |                   |
 | 14.[x]   | Remove user                         |             | 29/04/2020 | 29/04/2020        |
-| 15.[]    | Login User ( CHECKING PROBLEM )     |             | 29/04/2020 |                   |
+| 15.[x]   | Login User ( CHECKING PROBLEM )     |             | 29/04/2020 |                   |
+| 16.[x]   | Register user ( CHECKING PROBLEM )  |             | 29/04/2020 | 29/04/2020        |
