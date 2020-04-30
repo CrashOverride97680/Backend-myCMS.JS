@@ -14,6 +14,17 @@ module.exports = {
 		check('name').notEmpty(),
 		check('surname').notEmpty()
 	],
+	adminCreateValidator: [
+		check('email').isEmail(),
+		check('username').notEmpty(),
+		check('name').notEmpty(),
+		check('surname').notEmpty(),
+		check('admin').notEmpty(),
+		check('authorization').notEmpty()
+	],
+	logout:[
+		check('authorizarion').notEmpty()
+	],
 	posts:[
 		check('page').notEmpty(),
 		check('lang').isLength({min: 1}),

@@ -1,10 +1,12 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
+// PASSWORD LIBRARY IMPORTING
+const generator = require('secure-random-password');
 // IMPORTING LOCAL CACHING BLACKLIST
 const blkLocal = process.env.NODE_ENV_LOCAL_BLACKLIST
 				? require('../autentication/blacklist-local/blacklist-local')
-				: null
+				: null;
 // IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
 // IMPORT SMTP ( IMPORTING SMTP)
@@ -372,8 +374,9 @@ module.exports =
 	// FATTO
 	requireSignin: () => expressJWT({ secret }),
 	// FATTO
-	register: (req, resp) => 
+	registerUser: (req, resp) => 
 	{
+
 		try 
 		{
 			const user = 
@@ -427,7 +430,7 @@ module.exports =
 												createUser.create(
 												{
 													email: user.email,
-													password: hash,
+													password: user.password,
 													username: user.username,
 													name: user.name,
 													surname: user.surname,
@@ -459,106 +462,9 @@ module.exports =
 				}
 			}
 			else 
-			{
-				const client = redisConfig.clientRedis();
-				client
-					.get(user.token, (err, reply) =>
-					{
-						if(reply)
-							resp
-								.status(403)
-								.json(lang.LABEL_403_HTTP);
-						else
-						{
-							jwt
-								.verify(user.token, secret, (err, decoded) => 
-								{
-									if(process.env.NODE_ENV_TEST){
-										console.log(lang.LANG_DEBUG_ERROR, err);
-										console.log(lang.LANG_DEBUG_DATA, decoded);
-									}
-									if(err === null)
-									{
-										const { 
-											id, 
-											admin 
-										} = decoded;
-										if(admin)
-										{
-											const findUser = mongoose.model('user', 'users');
-											findUser
-												.findOne({email: user.email }, (error, data) => 
-												{
-													if(process.env.NODE_ENV_TEST){
-														console.log(lang.LANG_DEBUG_ERROR, error);
-														console.log(lang.LANG_DEBUG_RESULT, data); 
-													}
-													if (error === null) 
-													{
-														if (data !== null) 
-														{
-															if (data.confirmed === false) 
-																resp
-																	.status(202)
-																	.json(lang.LABEL_RESEND_EMAIL);
-														} 
-														else 
-														{
-															bcrypt
-																.hash(user.password, 10, 
-																(err, hash) => 
-																{
-																	if (!err) 
-																	{
-																		const createUser = mongoose.model('user', 'users');
-																		let dateObj = new Date();
-																		createUser.create(
-																		{
-																			admin: user.admin,
-																			email: user.email,
-																			password: hash,
-																			username: user.username,
-																			name: user.name,
-																			surname: user.surname,
-																			admin: user.admin,
-																			create: dateObj.toISOString()
-																		},
-																		(err, result) => 
-																		{
-																			if (err === null)
-																			{
-																				mongoose.connection.close();
-																				resp
-																					.status(201)
-																					.json(lang.LABEL_201_HTTP);
-																			} 
-																		});
-																	}
-																});
-														}
-													}
-													else
-														resp
-															.status(500)
-															.json(lang.LABEL_500_HTTP);
-												});
-										} 
-										else 
-											resp
-												.status(403)
-												.json(lang.LABEL_403_HTTP);
-									}	
-									else
-									{
-										console.log(lang.LABEL_ERROR_RETURN, err);
-										resp
-											.status(403)
-											.json(lang.LABEL_403_HTTP);
-									}
-								});
-						}
-					});
-			}
+				resp
+					.status(403)
+					.json(lang.LABEL_403_HTTP);
 		} 
 		catch (e) 
 		{
@@ -567,6 +473,127 @@ module.exports =
 				.status(500)
 				.json(lang.LABEL_500_HTTP);
 		}
+	},
+	// FATTO
+	registerAdmin: (req, resp) => {
+		const user = 
+		{
+			email: req.body.email,
+			username: req.body.username,
+			name: req.body.name,
+			surname: req.body.surname,
+			token: req.headers['authorization'],
+			admin: req.body.admin
+		};
+
+		const client = redisConfig.clientRedis();
+		client
+			.get(user.token, (err, reply) =>
+			{
+				if(reply)
+					resp
+						.status(403)
+						.json(lang.LABEL_403_HTTP);
+				else
+				{
+					jwt
+						.verify(user.token, secret, (err, decoded) => 
+						{
+							if(process.env.NODE_ENV_TEST)
+							{
+								console.log(lang.LANG_DEBUG_ERROR, err);
+								console.log(lang.LANG_DEBUG_DATA, decoded);
+							}
+							if(err === null)
+							{
+								const { 
+									id, 
+									admin 
+								} = decoded;
+								if(admin)
+								{
+									const findUser = mongoose.model('user', 'users');
+									findUser
+										.findOne({email: user.email }, (error, data) => 
+										{
+											if(process.env.NODE_ENV_TEST)
+											{
+												console.log(lang.LANG_DEBUG_ERROR, error);
+												console.log(lang.LANG_DEBUG_RESULT, data); 
+											}
+											if (error === null) 
+											{
+												if (data !== null) 
+												{
+													if (data.confirmed === false) 
+														resp
+															.status(202)
+															.json(lang.LABEL_RESEND_EMAIL);
+												} 
+												else 
+												{
+													const passwords = generator.randomPassword({
+														length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
+														characters:[generator.lower, generator.upper, generator.digits],
+													});
+													if(process.env.NODE_ENV_TEST)
+													{
+														user.password = passwords;
+														console.log(lang.LANG_DEBUG_DATA, user);
+													}
+													bcrypt
+														.hash(passwords, 10, 
+														(err, hash) => 
+														{
+															if (!err) 
+															{
+																const createUser = mongoose.model('user', 'users');
+																let dateObj = new Date();
+																createUser.create(
+																{
+																	admin: user.admin,
+																	email: user.email,
+																	password: hash,
+																	username: user.username,
+																	name: user.name,
+																	surname: user.surname,
+																	admin: user.admin,
+																	create: dateObj.toISOString()
+																},
+																(err, result) => 
+																{
+																	if (err === null)
+																	{
+																		resp
+																			.status(201)
+																			.json(lang.LABEL_201_HTTP);
+																	} 
+																});
+															}
+														});
+												}
+											}
+											else
+												resp
+													.status(500)
+													.json(lang.LABEL_500_HTTP);
+										});
+								} 
+								else 
+									resp
+										.status(403)
+										.json(lang.LABEL_403_HTTP);
+							}	
+							else
+							{
+								console.log(lang.LABEL_ERROR_RETURN, err);
+								resp
+									.status(403)
+									.json(lang.LABEL_403_HTTP);
+							}
+						});
+				}
+			});
 	},
 	// FATTO
 	requireAdminUser: (req, resp, next) => 
