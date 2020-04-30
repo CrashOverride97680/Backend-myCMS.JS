@@ -10,8 +10,7 @@ const upload = require('../upload/upload');
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
-	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.registerUser)
-	.post('/admincreate', auth.adminCreateValidator, isValid.runValidation, controller.registerAdmin)
+	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
