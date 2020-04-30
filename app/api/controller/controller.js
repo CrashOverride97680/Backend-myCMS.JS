@@ -384,7 +384,7 @@ module.exports =
 				name: req.body.name,
 				surname: req.body.surname,
 				token: req.headers['authorization'],
-				admin: req.admin
+				admin: req.body.admin
 			};
 
 			if (process.env.NODE_ENV_DEV) 
@@ -460,10 +460,9 @@ module.exports =
 			}
 			else 
 			{
-				const token = req.headers['authorization'];
 				const client = redisConfig.clientRedis();
 				client
-					.get(token, (err, reply) =>
+					.get(user.token, (err, reply) =>
 					{
 						if(reply)
 							resp
@@ -472,9 +471,13 @@ module.exports =
 						else
 						{
 							jwt
-								.verify(token, secret, (err, decoded) => 
+								.verify(user.token, secret, (err, decoded) => 
 								{
-									if(!err)
+									if(process.env.NODE_ENV_TEST){
+										console.log(lang.LANG_DEBUG_ERROR, err);
+										console.log(lang.LANG_DEBUG_DATA, decoded);
+									}
+									if(err === null)
 									{
 										const { 
 											id, 
@@ -484,8 +487,12 @@ module.exports =
 										{
 											const findUser = mongoose.model('user', 'users');
 											findUser
-												.findOne(id, (error, data) => 
+												.findOne({email: user.email }, (error, data) => 
 												{
+													if(process.env.NODE_ENV_TEST){
+														console.log(lang.LANG_DEBUG_ERROR, error);
+														console.log(lang.LANG_DEBUG_RESULT, data); 
+													}
 													if (error === null) 
 													{
 														if (data !== null) 
@@ -513,6 +520,7 @@ module.exports =
 																			username: user.username,
 																			name: user.name,
 																			surname: user.surname,
+																			admin: user.admin,
 																			create: dateObj.toISOString()
 																		},
 																		(err, result) => 
@@ -529,6 +537,10 @@ module.exports =
 																});
 														}
 													}
+													else
+														resp
+															.status(500)
+															.json(lang.LABEL_500_HTTP);
 												});
 										} 
 										else 
