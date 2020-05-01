@@ -596,7 +596,7 @@ module.exports =
 		}
 	},
 	// FATTO
-	requireAdminUser: (req, resp, next) => 
+	checkAdminUser: (req, resp, next) => 
 	{
 		try
 		{

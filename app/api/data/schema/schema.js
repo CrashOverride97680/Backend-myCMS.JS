@@ -91,7 +91,8 @@ module.exports = {
                 [
                     new Schema({
                         url: String,
-                        alt: String
+                        alt: String,
+                        textBoxImg: String
                     })
                 ]
             })
@@ -100,7 +101,8 @@ module.exports = {
         [
             new Schema({
                 url: String,
-                alt: String
+                alt: String,
+                textBoxImg: String
             })
         ],
         visible: 
@@ -136,6 +138,44 @@ module.exports = {
         {
             type: String,
             required: true
+        }
+    }),
+    info: new Schema({
+        name: 
+        {
+            type: String,
+            required: true
+        },
+        logo: new Schema({
+            stringImg: 
+            {
+                type: String,
+                required: true
+            },
+            alt: 
+            { 
+                type:String,
+                required: true
+            }
+        }),
+        address: 
+        {
+            type:String,
+            required: true
+        },
+        tel1: String,
+        tel2: String,
+        phone1: String,
+        phone2: String,
+        email:String,
+        pec: String,
+        lat: String,
+        long: String,
+        visible:
+        {
+            type: Boolean,
+            required: true,
+            default:false
         }
     }),
 };
