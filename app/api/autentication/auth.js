@@ -22,6 +22,13 @@ module.exports = {
 		check('admin').notEmpty(),
 		check('authorization').notEmpty()
 	],
+	getUser:[
+		check('authorization').notEmpty()
+	],
+	resetPassword:[
+		check('authorization').notEmpty(),
+		check('password').isLength({ min: minPassword })
+	],
 	logout:[
 		check('authorizarion').notEmpty()
 	],
