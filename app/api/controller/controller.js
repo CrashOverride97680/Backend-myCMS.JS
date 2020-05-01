@@ -483,8 +483,7 @@ module.exports =
 									if(err === null)
 									{
 										const { 
-											id, 
-											admin 
+											admin, 
 										} = decoded;
 										if(admin)
 										{
@@ -507,14 +506,18 @@ module.exports =
 														} 
 														else 
 														{
-															const passwords = generator.randomPassword({
+															const passwords = generator.randomPassword(
+															{
 																length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
 																characters:[generator.lower, generator.upper, generator.digits],
 															});
-															if(process.env.NODE_ENV_TEST){
+
+															if(process.env.NODE_ENV_TEST)
+															{
 																user.password = passwords;
 																console.log(lang.LANG_DEBUG_DATA, user);
 															}
+
 															if((user.admin === true && user.admin === false) || (user.admin === true && user.admin === false))
 															{
 																bcrypt
@@ -546,6 +549,10 @@ module.exports =
 																				} 
 																			});
 																		}
+																		else
+																			resp
+																				.status(500)
+																				.json(lang.LABEL_500_HTTP);
 																	});
 															}
 															else 
