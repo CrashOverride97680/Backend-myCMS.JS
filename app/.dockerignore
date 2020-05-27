@@ -1,4 +1,0 @@
-node_modules/
-Dockerfile
-/api/cache/local_cache/cachePosts.json
-/api/autentication/blacklist-local/blacklistToken.json
