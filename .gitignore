@@ -1,6 +1,0 @@
-/app/node_modules
-/app/package-lock.json
-/app/.eslint.json
-package-lock.json
-/app/api/data/cachePosts.json
-/app/api/autentication/blacklist-local/blacklistToken.json

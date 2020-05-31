@@ -1,0 +1,10 @@
+Fonts used in this design;
+
+Font: Montserrat, 
+Author: Julieta Ulanovsky, 
+Url: http://www.fontsquirrel.com/fonts/montserrat; 
+
+Font: Pacifico, 
+Author: Vernon Adams, 
+Url: http://www.fontsquirrel.com/fonts/pacifico; 
+
