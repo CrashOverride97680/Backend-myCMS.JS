@@ -182,37 +182,31 @@ module.exports = {
         siteurl: 
         {
             type: String,
-            default: "myCMS.js",
             required: true
         },
         home: 
         {
             type: String,
-            default: "myCMS.js",
             required: true
         },
         site_name: 
         {
             type: String,
-            default: "myCMS.js",
             required: true
         },
         site_description: 
         {
             type: String,
-            default: "myCMS.js",
             required: true
         },
         users_can_register:
         {
             type: Boolean,
-            default: false,
             required: true
         },
         admin_email: 
         {
             type: String,
-            default: "myCMS@mail.com",
             required: true
         },
         start_of_week: 
@@ -220,30 +214,25 @@ module.exports = {
             type: Number,
             min: 0,
             max: 6,
-            default: 1
         },
         use_balance_tags: 
         {
             type: Boolean,
-            default: false,
             required: true
         },
         use_smiles: 
         {
            type: Boolean,
-           default: true,
            required: true 
         },
         require_name_email: 
         {
             type: Boolean,
-            default: true,
             required: true
         },
         comments_notify: 
         {
             type: Boolean,
-            default: true,
             required: true
         },
         posts_for_rss:
@@ -254,56 +243,47 @@ module.exports = {
         rss_use_excerpt: 
         {
             type: Boolean,
-            default: false,
             required: true
         },
         mail_server_url:
         {
             type: String,
-            default: "mail.example.com",
             required: true
         },
         mailserver_login:
         {
             type: String,
-            default: "login@example.com",
             required: true
         },
         mailserver_pass: 
         {
             type: String,
-            default: "login@example.com",
             required: true
         },
         mailserver_pass: 
         {
             type: String,
-            default: "password",
             required: true   
         },
         mailserver_port:
         {
             type: Number,
-            default: 110,
             required: true
         },
         default_category: 
         {
             type: Boolean,
-            default: true,
             required: true
         },
         default_comment_status:
         {
             type: String,
             required: true,
-            default: "open"
         },
         default_ping_status: 
         {
             type: String,
             required: true,
-            default: "open"
         },
         default_pingback_flag: 
         {
@@ -320,44 +300,37 @@ module.exports = {
         date_format:
         {
             type: String,
-            default: "m/d/y",
             required: true
         },
         time_format:
         {
             type: String,
-            default: "h:i",
             required: true
         },
         links_updated_date_format: 
         {
             type: String,
-            default: "m/d/y h:i",
             required: true
         },
         comment_moderation:
         {
             type: Boolean,
-            default: false,
             required: true
         },
         moderation_notify:
         {
             type: Boolean,
-            default: true,
             required: true
         },
         hack_file: 
         {
             type: Boolean,
-            required: true,
-            default: false
+            required: true
         },
         site_charset: 
         {
             type: String,
             required: true,
-            default: "UTF-8"
         },
         moderation_keys: String,
         active_plugins:
@@ -367,63 +340,50 @@ module.exports = {
                 name: String,
             })
         ],
-        category_base: 
-        {
-            type: String,
-            default: ""
-        },
+        category_base: String,
         ping_sites: 
         {
             type: String,
             required: true,
-            default: "http://rpc.pingomatic.com/"
         },
         comment_max_links: 
         {
             type: Number,
-            default: 2,
             required: true
         },
         gmt_offset: 
         {
             type: Boolean,
-            default: false,
             required: true
         },
         default_email_category: 
         {
             type: Boolean,
             required: true,
-            default: true
         },
         recently_edited: 
         {
             type: String,
-            required: true,
-            default: ""
+            required: true
         },
         template: 
         {
             type: String,
-            default: "default_theme",
             required: true
         },
         stylesheet: 
         {
             type: String,
-            default: "default_theme",
             required: true
         },
         comment_whitelist: 
         {
             type: Boolean,
-            default: true,
             required: true
         },
         blacklist_keys: 
         {
             type: String,
-            default: "",
             required: true
         },
         comment_registration: 
@@ -435,7 +395,6 @@ module.exports = {
         html_type: 
         {
             type: String,
-            default: "text/html",
             required: true
         },
         use_trackback: 
@@ -447,44 +406,37 @@ module.exports = {
         default_role: 
         {
             type: String,
-            default: "subscribe",
             required: true
         },
         db_version: 
         {
             type: Number,
-            default: 47018,
             required: true
         },
         uploads_use_yearmonth_folders:
         {
             type: Boolean,
-            default: true,
             required: true
         },
         upload_path:
         {
             type: String,
-            default: "",
             required: true
         },
         site_public: 
         {
             type: Boolean,
             required: true,
-            default: true
         },
         default_link_category: 
         {
             type: Number,
             required: true,
-            default: 2
         },
         show_on_front: 
         {
             type: String,
             required: true,
-            default: "posts"
         },
         tag_base: String,
         show_avatars: 
@@ -502,13 +454,11 @@ module.exports = {
         {
             type: Number,
             required: true,
-            default: 150
         },
         thumbnail_size_h: 
         {
             type: Number,
             required: true,
-            default: 150
         },
         thumbnail_crop: 
         {
@@ -519,36 +469,30 @@ module.exports = {
         {
             type: Number,
             required: true,
-            default: 300
         },
         medium_size_h: 
         {
             type: Number,
             required: true,
-            default: 300
         },
         avatar_default: 
         {
             type: String,
             required: true,
-            default: "theme_avatar_default"
         },
         large_size_w: 
         {
             type: Number,
             required: true,
-            default: 1024,
         },
         large_size_h: 
         {
             type: Number,
             required: true,
-            default: 1024
         },
         image_default_link_type: 
         {
             type: String,
-            default: "none",
             required: true
         },
         image_default_size: 
@@ -565,31 +509,26 @@ module.exports = {
         {
             type: Boolean,
             required: true,
-            default: false
         },
         close_comments_days_old: 
         {
             type: Number,
             required: true,
-            default: 14
         },
         thread_comments:
         {
             type: Boolean,
             required: true,
-            default: true
         },
         thread_comments_depth: 
         {
             type: Number,
-            required: true,
-            default: 5
+            required: true
         },
         page_comments: 
         {
             type: Boolean,
-            required: true,
-            default: false
+            required: true
         },
         comments_per_page: 
         {
@@ -600,14 +539,12 @@ module.exports = {
         default_comment_page: 
         {
             type: String,
-            required: true,
-            default: "newest"
+            required: true
         },
         comment_order:
         {
             type: String,
-            required: true,
-            default: "asc"
+            required: true
         },
         widget_categories: 
         [
@@ -640,32 +577,98 @@ module.exports = {
         timezone_string: 
         {
             type: String,
-            required: true,
-            default: "Europe/Rome"
+            required: true
         },
         page_for_posts: 
         {
             type: Boolean,
-            required: true,
-            default: false
+            required: true
         },
         page_on_front: 
         {
             type: Boolean,
-            required: true,
-            default: false
+            required: true
         },
         default_post_format: 
         {
             type: Boolean,
-            required: true,
-            default: false
+            required: true
         },
         link_manager_enabled: 
         {
             type: Boolean,
+            required: true
+        },
+        finished_splitting_shared_terms: 
+        {
+            type: Boolean,
+            required: true
+        },
+        site_icon: 
+        {
+            type: Boolean,
+            required: true
+        },
+        medium_large_size_w: 
+        {
+            type: Number,
             required: true,
-            default: false
-        }
+            min: 0
+        },
+        medium_large_size_w: 
+        {
+            type: Number,
+            required: true,
+            min: 0
+        },
+        page_for_privacy_policy:
+        {
+            type: Number,
+            required: true
+        },
+        show_comments_cookies_opt_in: 
+        {
+            type: Boolean,
+            required: true
+        },
+        admin_email_lifespan: 
+        {
+            type: Number,
+            min: 0,
+            required: true
+        },
+        initial_db_version: 
+        {
+            type: Number,
+            min: 0,
+            required: true
+        },
+        fresh_site: 
+        {
+            type: Boolean,
+            required: true
+        },
+        CMSLANG: 
+        {
+            type: String,
+            required: true
+        },
+        cron: 
+        [
+            new Schema(
+            {
+                name: String,
+                time: Number,
+                abilities: Boolean
+            })
+        ],
+        recovery_keys: 
+        [
+            new Schema(
+            {
+                name: String,
+                key: String
+            })
+        ],
     });
 };
