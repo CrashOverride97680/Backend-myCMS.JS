@@ -28,8 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/bootstrap/bootstrap.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -93,8 +92,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/bootstrap/bootstrap.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           }
