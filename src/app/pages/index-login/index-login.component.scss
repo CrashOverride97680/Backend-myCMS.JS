@@ -1,0 +1,40 @@
+.login-text
+{
+  background: rgb(80,181,213);
+  background: -moz-linear-gradient(90deg, rgba(80,181,213,1) 0%, rgba(63,81,181,1) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(80,181,213,1) 0%, rgba(63,81,181,1) 100%);
+  background: linear-gradient(90deg, rgba(80,181,213,1) 0%, rgba(63,81,181,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#50b5d5",endColorstr="#3f51b5",GradientType=1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  -ms-background-clip: text;
+  -ms-text-fill-color: transparent;
+  -o-background-clip: text;
+  -o-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 5px;
+  font-size: 3em;
+  margin-left: -3px;
+}
+
+form
+{
+  width: 87%;
+
+  input
+  {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #707070;
+    outline: 0;
+    padding: 0;
+  }
+}
+
+.container-fluid
+{
+  max-width: 100%;
+  overflow: hidden;
+}
