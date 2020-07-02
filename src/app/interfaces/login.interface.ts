@@ -1,6 +1,14 @@
-export interface loginInterface 
+// INTERFACE LOGIN
+export interface loginForm
 {
-    email: string,
-    password: string,
-    session: boolean
-};
+  email: String;
+  password: String;
+  session: Boolean;
+}
+// SERVICE LOGIN
+export interface accessLogin
+{
+  auth: Boolean;
+  admin: Boolean;
+  token: String;
+}
