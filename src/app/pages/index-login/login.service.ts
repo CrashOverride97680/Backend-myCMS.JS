@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class LoginService {
+// CALL ASYNC
 
   async sendDataLogin(mail:String, pass: String) {
     return await this.http.post()
