@@ -1,9 +1,10 @@
 // INTERFACE LOGIN
 export interface loginForm
 {
-  email: String;
-  password: String;
-  session: Boolean;
+    email: String;
+    password: String;
+    session: Boolean;
+    debug: Boolean;
 }
 
 // SERVICE LOGIN

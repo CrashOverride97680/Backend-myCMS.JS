@@ -11,6 +11,7 @@ export class IndexLoginComponent implements OnInit {
   public loginData: loginForm =
   {
     email: "",
+    password: "",
     session: false,
     debug: true
   }
