@@ -8,7 +8,16 @@ export class LoginService {
 // CALL ASYNC
   constructor(private http: HttpClient) { }
 
-  async sendDataLogin(mail:String, pass: String) {
-    return await this.http.post(environment.loginEntrypoint)
+  sendDataLogin(mail:String, pass: String)
+  {
+    return this.http.post(environment.loginEntrypoint,
+    {
+      mail,
+      pass
+    }
+    .subscribe(
+      data => console.log("DATA", data),
+      error => console.log("ERROR", error)
+    );
   }
 }
