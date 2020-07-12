@@ -58,14 +58,16 @@ const testUser = {
           cy
             .get('input[placeholder=Email]')
             .should('be.visible')
-            .type(testUser.username);
+            .type(testUser.username)
+            .blur();
         })
 
         it('Password autocomplete', () => {
           cy
             .get('input[placeholder=Password]')
             .should('be.visible')
-            .type(testUser.password);
+            .type(testUser.password)
+            .blur();
         })
     })
 
