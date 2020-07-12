@@ -12,6 +12,11 @@ const testUser = {
           .viewport('macbook-15');
       })
 
+      it('Serving cypress', () => {
+        cy
+          .server()
+      })
+
       it('Page respond', () => {
         cy
           .visit('/');
