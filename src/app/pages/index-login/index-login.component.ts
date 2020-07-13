@@ -1,29 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 // IMPORT INTERFACES
-import { loginForm } from '../interfaces/login.interface';
+import { accessLoginInterface } from '../interfaces/login.interface';
+// IMPORT SERVICES
+import { LoginService } from './login.service';
 @Component({
   selector: 'app-index-login',
   templateUrl: './index-login.component.html',
   styleUrls: ['./index-login.component.scss']
 })
-export class IndexLoginComponent implements OnInit {
+export class IndexLoginComponent implements OnInit 
+{
+  public email: String;
+  public password: String;
+  public session: Boolean;
 
-  public loginData: loginForm =
+  constructor(
+    private http: LoginService
+  ) 
   {
-    email: "",
-    password: "",
-    session: false,
-    debug: true
+    this.email = '';
+    this.password = '';
+    this.session = false;
   }
 
-  public sessionSave(value:boolean){
-    this.loginData.session = value;
+  onSubmit(): void {
+    this.http.sendDataLogin(this.email, this.password);
   }
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
+  
 }

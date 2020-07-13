@@ -4,7 +4,10 @@ import { IndexLoginComponent } from './pages/index-login/index-login.component';
 
 const routes: Routes =
 [
-  { path: '', component: IndexLoginComponent }
+  { 
+    path: '', 
+    component: IndexLoginComponent 
+  }
 ];
 
 @NgModule({

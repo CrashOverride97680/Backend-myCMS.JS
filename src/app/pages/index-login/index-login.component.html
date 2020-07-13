@@ -7,20 +7,20 @@
       <img src="assets/images/blog-with-whitespaces.png" width="500" height="500" style="width: 60%; height: auto; max-width: 761px" />
     </div>
     <div class="col-4 d-flex align-items-center justify-content-center">
-      <form>
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
         <h1 class="text-uppercase login-text">Login</h1>
         <div class="form-group">
-          <input type="email" id="email" placeholder="Email" name="email" required>
+          <input type="email" id="email" placeholder="Email" name="email" [(ngModel)]="email" title="Insert email CMS" required>
         </div>
         <div class="form-group">
-          <input type="password" id="password" placeholder="Password" required>
+          <input type="password" id="password" placeholder="Password" name="password" title ="Insert password cms" [(ngModel)]="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
         </div>
         <div class="form-group">
-          <input #sessionSavedCheckbox class="form-check-input" type="checkbox" id="sessionSavedCheckbox" [checked]="loginData.session" (change)="sessionSave(sessionSavedCheckbox.checked)">
+          <input #sessionSavedCheckbox class="form-check-input" name="session" type="checkbox" title="Save session CMS" id="sessionSavedCheckbox" [(ngModel)]="session">
           <label class="form-check-label" for="sessionSaved">Save session</label>
         </div>
         <div class="form-group">
-          <button type="button" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
