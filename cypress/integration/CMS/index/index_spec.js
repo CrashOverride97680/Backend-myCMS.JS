@@ -24,6 +24,13 @@ const testUser = {
 
     })
 
+    describe('Clear localStorage', () => {
+      it('Clear execution', () => {
+        cy
+          .clearLocalStorage().should('be.empty');
+      })
+    })
+
     describe('Check elements if exist', () => {
 
       it('Element input email', () => {
@@ -52,7 +59,7 @@ const testUser = {
 
       it('Element button submit', () => {
         cy
-          .get('button[type=button]')
+          .get('button[type=submit]')
           .contains('Submit')
           .should('be.visible');
       })
@@ -79,10 +86,11 @@ const testUser = {
     describe('Submit form', () => {
       it('Click button', () => {
         cy
-          .get('button[type=button]')
+          .get('button[type=submit]')
           .contains('Submit')
           .should('be.visible')
           .click();
       })
     })
+
   })
