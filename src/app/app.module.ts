@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexLoginComponent } from './pages/index-login/index-login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 @NgModule({
   declarations: [
     AppComponent,
-    IndexLoginComponent
+    IndexLoginComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { accessLoginInterface } from '../interfaces/login.interface';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +15,9 @@ export class LoginService {
   ) { }
 
   sendDataLogin(
-    mail:String, 
-    pass: String, 
-    session: Boolean = false
+    mail:string,
+    pass: string,
+    session: boolean = false
   )
   {
     const url = `${environment.loginEntrypoint}/login`;
@@ -26,8 +28,8 @@ export class LoginService {
         password: pass
       }).subscribe(
       {
-        next(data) {
-          console.log('DATA:', data);
+        next(data: accessLoginInterface) {
+          localStorage.setItem('auth', JSON.stringify(data));
         },
         error(msg) {
           console.log('Error message:', msg);

@@ -3,20 +3,22 @@ import { Component, OnInit } from '@angular/core';
 import { accessLoginInterface } from '../interfaces/login.interface';
 // IMPORT SERVICES
 import { LoginService } from './login.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-index-login',
   templateUrl: './index-login.component.html',
   styleUrls: ['./index-login.component.scss']
 })
-export class IndexLoginComponent implements OnInit 
+export class IndexLoginComponent implements OnInit
 {
-  public email: String;
-  public password: String;
-  public session: Boolean;
+  public email: string;
+  public password: string;
+  public session: boolean;
 
   constructor(
-    private http: LoginService
-  ) 
+    private http: LoginService,
+    private route: Router
+  )
   {
     this.email = '';
     this.password = '';
@@ -25,8 +27,11 @@ export class IndexLoginComponent implements OnInit
 
   onSubmit(): void {
     this.http.sendDataLogin(this.email, this.password);
+    this
+      .route
+      .navigate(['/', 'admin-panel']);
   }
 
   ngOnInit(): void { }
-  
+
 }
