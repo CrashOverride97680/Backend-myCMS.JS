@@ -670,5 +670,5 @@ module.exports = {
                 key: String
             })
         ],
-    });
+    })
 };
