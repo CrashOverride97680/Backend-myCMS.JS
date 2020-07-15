@@ -26,3 +26,12 @@
     </div>
   </div>
 </div>
+<ngb-toast
+  *ngIf="checkData"
+  header="Incorrect Data"
+  [autohide]="false"
+  (hide)="close()"
+  [class]="toast.classElement"
+>
+  Username or password are incorret.
+</ngb-toast>

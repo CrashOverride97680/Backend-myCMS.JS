@@ -1,9 +1,15 @@
 /// <reference types="Cypress" />
 // VARIABLES FOR TESTING
-const testUser = {
-  username: 'test@testmail.com',
-  password: 'testPassword'
+const testUserSuccess = {
+  username: 'mannafabrizio83@gmail.com',
+  password: 'FmDj97680'
 };
+
+const testErrorUser = {
+  username: 'loremipsum@dolorsitamet.com',
+  password: 'secretloremipsum'
+};
+
 // TESTS
   describe('CMS -> /', () => {
     describe('Set viewport and route for test', () => {
@@ -65,25 +71,75 @@ const testUser = {
       })
     })
 
-    describe('Test for autocomplete', () => {
-        it('Username autocomplete', () => {
-          cy
-            .get('input[placeholder=Email]')
-            .should('be.visible')
-            .type(testUser.username)
-            .blur();
-        })
+    describe('Test for autocomplete Error --> Auth', () => {
+      it('Username autocomplete', () => {
+        cy
+          .get('input[placeholder=Email]')
+          .should('be.visible')
+          .type(testErrorUser.username)
+          .blur();
+      })
 
-        it('Password autocomplete', () => {
-          cy
-            .get('input[placeholder=Password]')
-            .should('be.visible')
-            .type(testUser.password)
-            .blur();
-        })
+      it('Password autocomplete', () => {
+        cy
+          .get('input[placeholder=Password]')
+          .should('be.visible')
+          .type(testErrorUser.password)
+          .blur();
+      })
+
+      it('Click button', () => {
+        cy
+          .get('button[type=submit]')
+          .contains('Submit')
+          .should('be.visible')
+          .click();
+      })
+
+      it('Check if toast visible', () => {
+        cy
+          .get('.toast')
+          .should('be.visible');
+      })
+
+      it('Close button', () => {
+        cy
+          .get('button.close')
+          .click();
+      })
+  })
+
+  describe('Empty input for another validation', () => {
+    it('Clean input email', () => {
+      cy
+        .get('input[placeholder=Email]')
+        .clear();
     })
 
-    describe('Submit form', () => {
+    it('Clean input password', () => {
+      cy
+        .get('input[placeholder=Password]')
+        .clear();
+    })
+  })
+
+  describe('Test for autocomplete Success --> Auth', () => {
+      it('Username autocomplete', () => {
+        cy
+          .get('input[placeholder=Email]')
+          .should('be.visible')
+          .type(testUserSuccess.username)
+          .blur();
+      })
+
+      it('Password autocomplete', () => {
+        cy
+          .get('input[placeholder=Password]')
+          .should('be.visible')
+          .type(testUserSuccess.password)
+          .blur();
+      })
+      
       it('Click button', () => {
         cy
           .get('button[type=submit]')
@@ -92,5 +148,4 @@ const testUser = {
           .click();
       })
     })
-
   })

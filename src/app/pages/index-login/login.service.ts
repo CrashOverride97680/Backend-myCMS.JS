@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService
+{
 // CALL ASYNC
   constructor(
     private http: HttpClient
@@ -21,20 +22,23 @@ export class LoginService {
   )
   {
     const url = `${environment.loginEntrypoint}/login`;
-    this
-      .http
-      .post(url , {
+    return new Promise ((resolve, reject) =>
+    {
+      this.http.post(url ,
+      {
         email: mail,
         password: pass
       }).subscribe(
       {
         next(data: accessLoginInterface) {
           localStorage.setItem('auth', JSON.stringify(data));
+          resolve(true);
         },
         error(msg) {
           console.log('Error message:', msg);
+          reject(false);
         }
-
       });
+    });
   }
 }

@@ -14,6 +14,10 @@ export class IndexLoginComponent implements OnInit
   public email: string;
   public password: string;
   public session: boolean;
+  public checkData: boolean;
+  public toast: any = {
+    classElement: 'bg-danger text-light toast'
+  };
 
   constructor(
     private http: LoginService,
@@ -23,13 +27,33 @@ export class IndexLoginComponent implements OnInit
     this.email = '';
     this.password = '';
     this.session = false;
+    this.checkData = false;
+  }
+
+  close() {
+    this.checkData = true;
+    setTimeout(() => this.checkData = false, 1000);
   }
 
   onSubmit(): void {
-    this.http.sendDataLogin(this.email, this.password);
     this
-      .route
-      .navigate(['/', 'admin-panel']);
+      .http
+      .sendDataLogin(this.email, this.password)
+      .then(success =>
+      {
+        if(success)
+        {
+          this
+            .route
+            .navigate(['/', 'admin-panel']);
+        }
+      })
+      .catch(success =>
+      {
+        if(!success) {
+          this.checkData = true;
+        }
+      });
   }
 
   ngOnInit(): void { }
