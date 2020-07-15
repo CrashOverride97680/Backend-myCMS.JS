@@ -56,6 +56,8 @@ export class IndexLoginComponent implements OnInit
       });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    localStorage.clear();
+  }
 
 }

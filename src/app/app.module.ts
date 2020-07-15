@@ -7,11 +7,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexLoginComponent } from './pages/index-login/index-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
     IndexLoginComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
