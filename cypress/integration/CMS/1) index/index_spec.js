@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 // VARIABLES FOR TESTING
 const testUserSuccess = {
-  username: 'test@gmail.com',
+  username: 'testgmail.com',
   password: 'test'
 };
 
