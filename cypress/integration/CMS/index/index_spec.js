@@ -1,8 +1,8 @@
 /// <reference types="Cypress" />
 // VARIABLES FOR TESTING
 const testUserSuccess = {
-  username: 'mannafabrizio83@gmail.com',
-  password: 'FmDj97680'
+  username: 'test@gmail.com',
+  password: 'test'
 };
 
 const testErrorUser = {
