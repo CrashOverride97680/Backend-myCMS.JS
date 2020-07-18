@@ -430,8 +430,8 @@ module.exports =
 												createUser.create(
 												{
 													email: user.email,
-													password: user.password,
-													username: hash,
+													password: hash,
+													username: user.username,
 													name: user.name,
 													surname: user.surname,
 													create: dateObj.toISOString()
