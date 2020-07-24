@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  loginEntrypoint: 'http://www.developer-manna.tk/api'
+  loginEntrypoint: 'write entrypoint'
 };
 
 /*
