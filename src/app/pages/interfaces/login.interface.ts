@@ -2,7 +2,7 @@
 // SERVICE LOGIN
 export interface accessLoginInterface
 {
-  auth: Boolean;
-  admin: Boolean;
-  token: String;
+  auth: boolean;
+  admin: boolean;
+  token: string;
 }

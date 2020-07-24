@@ -1,8 +1,8 @@
 /// <reference types="Cypress" />
 // VARIABLES FOR TESTING
 const testUserSuccess = {
-  username: 'testgmail.com',
-  password: 'test'
+  username: 'mannafabrizio83@gmail.com',
+  password: 'FmDj97680'
 };
 
 const testErrorUser = {
@@ -139,7 +139,7 @@ const testErrorUser = {
           .type(testUserSuccess.password)
           .blur();
       })
-      
+
       it('Click button', () => {
         cy
           .get('button[type=submit]')

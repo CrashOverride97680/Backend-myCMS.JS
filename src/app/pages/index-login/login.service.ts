@@ -31,7 +31,9 @@ export class LoginService
       }).subscribe(
       {
         next(data: accessLoginInterface) {
-          localStorage.setItem('auth', JSON.stringify(data));
+
+          const token: string = data.token;
+          localStorage.setItem('token', token);
           resolve(true);
         },
         error(msg) {
