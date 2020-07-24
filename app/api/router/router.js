@@ -3,22 +3,22 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controller/controller');
 const auth = require('../autentication/auth');
-//const isValid = require('../autentication');
+const isValid = require('../autentication');
 const upload = require('../upload/upload');
 // ROUTES APP
 // -> GET
 // -> POST
 router
-	.post('/login', auth.userLoginValidator, controller.login)
-	.post('/register', auth.userCreateValidator, controller.register)
-	.post('/logout', auth.logout, controller.logout)
+	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
+	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
+	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
 // -> DELETE
 router
 	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser)
 // -> TEST
-if (process.env.NOD_ENV_TEST)
+if (process.env.NODE_ENV_TEST)
 {
 	router
 		.get('/test', controller.test)

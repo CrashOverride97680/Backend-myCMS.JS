@@ -99,6 +99,7 @@ module.exports =
 	checkTokenTest: (req, resp) => 
 	{
 		const token = req.headers['authorization'];
+		console.log("AUTHORIZATION:", token);
 		jwt
 			.verify(token, secret, (err, decoded) => 
 			{
