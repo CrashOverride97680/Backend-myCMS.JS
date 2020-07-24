@@ -30,7 +30,7 @@ module.exports = {
 		check('password').isLength({ min: minPassword })
 	],
 	logout:[
-		check('authorizarion').notEmpty()
+		check('authorization').notEmpty()
 	],
 	posts:[
 		check('page').notEmpty(),
