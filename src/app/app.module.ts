@@ -8,12 +8,18 @@ import { IndexLoginComponent } from './pages/index-login/index-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { LeftbarComponent } from './static components/leftbar/leftbar.component';
+import { TopbarComponent } from './static components/topbar/topbar.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
     IndexLoginComponent,
     AdminPanelComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    LeftbarComponent,
+    TopbarComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

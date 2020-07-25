@@ -1,14 +1,10 @@
 /// <reference types="Cypress" />
+// IMPORTING DATA USER
+import { user } from '../data';
 // VARIABLES FOR TESTING
-const testUserSuccess = {
-  username: 'mannafabrizio83@gmail.com',
-  password: 'FmDj97680'
-};
+const testUserSuccess = user.success;
 
-const testErrorUser = {
-  username: 'loremipsum@dolorsitamet.com',
-  password: 'secretloremipsum'
-};
+const testErrorUser = user.error;
 
 // TESTS
   describe('CMS -> /', () => {
@@ -48,18 +44,6 @@ const testErrorUser = {
       it('Element input password', () => {
         cy
           .get('input[placeholder=Password]')
-          .should('be.visible');
-      })
-
-      it('Element checkbox session', () => {
-        cy
-          .get('input#sessionSavedCheckbox[type=checkbox]')
-          .should('be.visible')
-          .uncheck();
-
-        cy
-          .get('label[for=sessionSaved]')
-          .contains('Save session')
           .should('be.visible');
       })
 
