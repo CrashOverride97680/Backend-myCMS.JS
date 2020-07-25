@@ -16,10 +16,6 @@
           <input type="password" id="password" placeholder="Password" name="password" title ="Insert password cms" [(ngModel)]="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
         </div>
         <div class="form-group">
-          <input #sessionSavedCheckbox class="form-check-input" name="session" type="checkbox" title="Save session CMS" id="sessionSavedCheckbox" [(ngModel)]="session">
-          <label class="form-check-label" for="sessionSaved">Save session</label>
-        </div>
-        <div class="form-group">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>

@@ -13,7 +13,6 @@ export class IndexLoginComponent implements OnInit
 {
   public email: string;
   public password: string;
-  public session: boolean;
   public checkData: boolean;
   public toast: any = {
     classElement: 'bg-danger text-light toast'
@@ -26,7 +25,6 @@ export class IndexLoginComponent implements OnInit
   {
     this.email = '';
     this.password = '';
-    this.session = false;
     this.checkData = false;
   }
 
