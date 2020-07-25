@@ -57,7 +57,13 @@ export class IndexLoginComponent implements OnInit
   }
 
   ngOnInit(): void {
-    localStorage.clear();
+    const token: string = localStorage.getItem('token');
+    if(!token)
+      localStorage.clear();
+    else
+      this
+        .route
+        .navigate(['/', 'admin-panel']);
   }
 
 }

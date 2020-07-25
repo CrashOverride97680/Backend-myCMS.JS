@@ -20,6 +20,7 @@ export class GuardService implements CanActivate {
         return true;
     }
     catch (e) {
+      localStorage.clear();
       this.router.navigate(['/']);
     }
   }
