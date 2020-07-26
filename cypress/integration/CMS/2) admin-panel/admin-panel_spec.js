@@ -54,5 +54,11 @@ const testUserSuccess = u.success;
           .should('be.visible')
           .click();
       })
+
+      it('Check if login is execute', () => {
+        const token = localStorage.getItem('token');
+        if(!token)
+          return false;
+      })
     })
   })
