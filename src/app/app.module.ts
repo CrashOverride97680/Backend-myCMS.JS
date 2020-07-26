@@ -11,6 +11,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { LeftbarComponent } from './static components/leftbar/leftbar.component';
 import { TopbarComponent } from './static components/topbar/topbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { NavComponent } from './static components/nav/nav.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     NotFoundComponent,
     LeftbarComponent,
     TopbarComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

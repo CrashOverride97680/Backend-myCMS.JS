@@ -1,6 +1,8 @@
 .leftbar {
   background-color: #6888E4;
-  height: 100vh;
+  min-height: 100vh;
   position: fixed;
   left: 0;
+  width: 14rem !important;
+  top: 0
 }
