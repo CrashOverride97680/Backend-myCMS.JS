@@ -4,5 +4,32 @@
   position: fixed;
   left: 0;
   width: 14rem !important;
-  top: 0
+  top: 0;
+  .logoHome {
+    display: block;
+    width: 14rem;
+    width: 100%;
+    padding: 1rem;
+  }
+  a {
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    display: block;
+    width: 14rem;
+    width: 100%;
+    font-weight: 700;
+    padding: 1rem;
+  }
+  ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-group {
+    strong {
+      text-transform: uppercase;
+      margin-left: 1rem;
+    }
+  }
 }
