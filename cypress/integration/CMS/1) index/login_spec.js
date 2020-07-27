@@ -55,10 +55,13 @@ const testUserSuccess = user.success;
           .click();
       })
 
-      it('Check if login is execute', () => {
-        const token = localStorage.getItem('token');
-        if(!token)
-          return false;
+      it('Check if login is execute', (done) => {
+        setTimeout(function() {
+          cy
+            .get('.toast')
+            .should('not.be.visible')
+            .then($options => done());
+        }, 2000);
       })
     })
   })

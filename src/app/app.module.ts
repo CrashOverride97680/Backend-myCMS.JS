@@ -12,6 +12,20 @@ import { LeftbarComponent } from './static components/leftbar/leftbar.component'
 import { TopbarComponent } from './static components/topbar/topbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavComponent } from './static components/nav/nav.component';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import {
+  faRocket,
+  faClipboard,
+  faToolbox,
+  faChartLine,
+  faPlus,
+  faAdjust,
+  faTachometerAlt,
+  faChevronLeft
+} from '@fortawesome/free-solid-svg-icons';
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,9 +43,32 @@ import { NavComponent } from './static components/nav/nav.component';
     NgbModule,
     FormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+  constructor(
+    library: FaIconLibrary
+  ) {
+    library
+      .addIcons(faRocket);
+    library
+      .addIcons(faClipboard);
+    library
+      .addIcons(faToolbox);
+    library
+      .addIcons(faChartLine);
+    library
+      .addIcons(faPlus);
+    library
+      .addIcons(faAdjust);
+    library
+      .addIcons(faTachometerAlt);
+    library
+      .addIcons(faChevronLeft);
+  }
+}
