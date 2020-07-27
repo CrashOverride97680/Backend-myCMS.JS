@@ -1,7 +1,7 @@
 const user = {
   success: {
-    username: 'mannafabrizio83@gmail.ccmm',
-    password: 'FmDj97680'
+    username: 'write your username test',
+    password: 'write your password test'
   },
   error: {
     username: 'loremipsum@dolorsitamet.com',
