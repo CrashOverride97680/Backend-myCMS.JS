@@ -12,10 +12,24 @@
     <strong>Cms</strong>
     <ul class="cms-nav nav-list">
       <li class="nav-item icon">
-        <a href="#" title="Job Board"><fa-icon icon="clipboard"></fa-icon>Job Board</a>
+        <a href="#" title="Job Board" (click)="invertCollpaseJobBoard($event)"><fa-icon icon="clipboard"></fa-icon>Job Board</a>
+        <div id="jobCollapse" [ngbCollapse]="!isCollapseJobBoard">
+          <div class="card">
+            <div class="card-body">
+              You can collapse this card by clicking Toggle
+            </div>
+          </div>
+        </div>
       </li>
       <li class="nav-item">
-        <a href="#" title="Utilities"><fa-icon icon="toolbox"></fa-icon>Utilities</a>
+        <a href="#" title="Utilities" (click)="invertCollapseUtilities($event)"><fa-icon icon="toolbox"></fa-icon>Utilities</a>
+        <div id="collapseUtilities" [ngbCollapse]="!isCollpseUtilities">
+          <div class="card">
+            <div class="card-body">
+              You can collapse this card by clicking Toggle
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -24,10 +38,24 @@
     <strong>Addons</strong>
     <ul class="addons-nav nav-list">
       <li class="nav-item">
-        <a href="#" title="Chart"><fa-icon icon="chart-line"></fa-icon>Chart</a>
+        <a href="#" title="Chart" (click)="invertCollapseChart($event)"><fa-icon icon="chart-line"></fa-icon>Chart</a>
+        <div id="collapseChart" [ngbCollapse]="!isCollapseChart">
+          <div class="card">
+            <div class="card-body">
+              You can collapse this card by clicking Toggle
+            </div>
+          </div>
+        </div>
       </li>
       <li class="nav-item">
-        <a href="#" title="Add"><fa-icon icon="plus"></fa-icon>Add</a>
+        <a href="#" title="Add" (click)="invertCollapseAdd($event)"><fa-icon icon="plus"></fa-icon>Add</a>
+        <div id="collapseUtilities" [ngbCollapse]="!isCollapseAdd">
+          <div class="card">
+            <div class="card-body">
+              You can collapse this card by clicking Toggle
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
