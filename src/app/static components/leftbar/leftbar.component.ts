@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LeftbarStatesService as LeftbarState } from '../../services/states components/leftbar-states.service';
 
 @Component({
   selector: 'app-leftbar',
@@ -57,7 +58,9 @@ export class LeftbarComponent implements OnInit {
   @Input() dataActiveCloseCollapse: boolean = false;
 
 // CONSTRUCTOR
-  constructor() { }
+  constructor(
+    private state: LeftbarState,
+  ) { }
 
 // INIT COMPONENT
   ngOnInit(): void {
