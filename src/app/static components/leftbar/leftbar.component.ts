@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-leftbar',
   templateUrl: './leftbar.component.html',
   styleUrls: ['./leftbar.component.scss']
 })
+
 export class LeftbarComponent implements OnInit {
+
 // VARIABLE OBJECT
   public isCollapseJobBoard: boolean = false;
   public isCollpseUtilities: boolean = false;
   public isCollapseChart: boolean = false;
   public isCollapseAdd: boolean = false;
+
 // FUNCTION OBJECT
   public invertCollpaseJobBoard($event): void {
     $event.preventDefault();
@@ -43,9 +46,20 @@ export class LeftbarComponent implements OnInit {
     this.isCollpseUtilities = false;
     this.isCollapseChart = false;
   }
+
+// INPUT VARIABLES
+  @Input() dataActiveDashboard: boolean = false;
+  @Input() dataActiveJobBoard: boolean = false;
+  @Input() dataActiveUtilities: boolean = false;
+  @Input() dataActiveChart: boolean = false;
+  @Input() dataActiveAdd: boolean = false;
+  @Input() dataActiveDarkMode: boolean = false;
+  @Input() dataActiveCloseCollapse: boolean = false;
+
 // CONSTRUCTOR
   constructor() { }
 
+// INIT COMPONENT
   ngOnInit(): void {
   }
 
