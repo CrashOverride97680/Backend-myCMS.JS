@@ -5,14 +5,14 @@
   </div>
   <hr class="leftbar-divider" style="margin-bottom: 0 !important;">
   <div class="dashlink iconMarg">
-    <a href="/admin-panel" title="Go to Dashboard"><fa-icon icon="tachometer-alt"></fa-icon>Dashboard</a>
+    <a href="/admin-panel" title="Go to Dashboard" [attr.data-active]="dataDashboard"><fa-icon icon="tachometer-alt"></fa-icon>Dashboard</a>
   </div>
   <hr class="leftbar-divider">
   <div class="nav-group">
     <strong>Cms</strong>
     <ul class="cms-nav nav-list">
       <li class="nav-item icon">
-        <a href="#" title="Job Board" (click)="invertCollpaseJobBoard($event)"><fa-icon icon="clipboard"></fa-icon>Job Board</a>
+        <a href="#" title="Job Board" (click)="invertCollpaseJobBoard($event)" [attr.data-active]="dataJobsBoard"><fa-icon icon="clipboard"></fa-icon>Job Board <fa-icon icon="chevron-right" class="iconRight" [rotate]="rotateJobBoard"></fa-icon></a>
         <div id="jobCollapse" [ngbCollapse]="!isCollapseJobBoard">
           <div class="card">
             <div class="card-body">
@@ -22,7 +22,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a href="#" title="Utilities" (click)="invertCollapseUtilities($event)"><fa-icon icon="toolbox"></fa-icon>Utilities</a>
+        <a href="#" title="Utilities" (click)="invertCollapseUtilities($event)" [attr.data-active]="dataUtilities"><fa-icon icon="toolbox"></fa-icon>Utilities <fa-icon icon="chevron-right" class="iconRight" [rotate]="rotateToolbox"></fa-icon></a>
         <div id="collapseUtilities" [ngbCollapse]="!isCollpseUtilities">
           <div class="card">
             <div class="card-body">
@@ -38,7 +38,7 @@
     <strong>Addons</strong>
     <ul class="addons-nav nav-list">
       <li class="nav-item">
-        <a href="#" title="Chart" (click)="invertCollapseChart($event)"><fa-icon icon="chart-line"></fa-icon>Chart</a>
+        <a href="#" title="Chart" (click)="invertCollapseChart($event)" [attr.data-active]="dataChart"><fa-icon icon="chart-line"></fa-icon>Chart <fa-icon icon="chevron-right" class="iconRight" [rotate]="rotateChart"></fa-icon></a>
         <div id="collapseChart" [ngbCollapse]="!isCollapseChart">
           <div class="card">
             <div class="card-body">
@@ -48,7 +48,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a href="#" title="Add" (click)="invertCollapseAdd($event)"><fa-icon icon="plus"></fa-icon>Add</a>
+        <a href="#" title="Add" (click)="invertCollapseAdd($event)" [attr.data-active]="dataAdd"><fa-icon icon="plus"></fa-icon>Add <fa-icon icon="chevron-right" class="iconRight" [rotate]="rotateAdd"></fa-icon></a>
         <div id="collapseUtilities" [ngbCollapse]="!isCollapseAdd">
           <div class="card">
             <div class="card-body">

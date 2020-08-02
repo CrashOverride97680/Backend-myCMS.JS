@@ -87,11 +87,14 @@
     transition: .5s all ease;
   }
   [data-active=true] {
-    a {
-      color: #ffffff;
-    }
+    color: #ffffff;
     fa-icon {
       color: #ffffff;
     }
+  }
+  .iconRight {
+    float: right;
+    margin: 0 !important;
+    text-align: right !important;
   }
 }

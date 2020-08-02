@@ -14,6 +14,15 @@ export class LeftbarComponent implements OnInit {
   public isCollpseUtilities: boolean = false;
   public isCollapseChart: boolean = false;
   public isCollapseAdd: boolean = false;
+  public rotateJobBoard: number = 0;
+  public rotateToolbox: number = 0;
+  public rotateChart: number = 0;
+  public rotateAdd: number = 0;
+  public dataDashboard: boolean = false;
+  public dataJobsBoard: boolean = false;
+  public dataUtilities: boolean = false;
+  public dataChart: boolean = false;
+  public dataAdd: boolean = false;
 
 // FUNCTION OBJECT
   public invertCollpaseJobBoard($event): void {
@@ -22,6 +31,10 @@ export class LeftbarComponent implements OnInit {
     this.isCollpseUtilities = false;
     this.isCollapseChart = false;
     this.isCollapseAdd = false;
+    this.rotateJobBoard = this.isCollapseJobBoard ? 90 : 0;
+    this.rotateToolbox = 0;
+    this.rotateChart = 0;
+    this.rotateAdd = 0;
   }
 
   public invertCollapseUtilities($event): void {
@@ -30,6 +43,10 @@ export class LeftbarComponent implements OnInit {
     this.isCollapseJobBoard = false;
     this.isCollapseChart = false;
     this.isCollapseAdd = false;
+    this.rotateToolbox = this.isCollpseUtilities ? 90 : 0;
+    this.rotateJobBoard = 0;
+    this.rotateChart = 0;
+    this.rotateAdd = 0;
   }
 
   public invertCollapseChart($event): void {
@@ -38,6 +55,10 @@ export class LeftbarComponent implements OnInit {
     this.isCollapseJobBoard = false;
     this.isCollpseUtilities = false;
     this.isCollapseAdd = false;
+    this.rotateJobBoard = 0;
+    this.rotateToolbox = 0;
+    this.rotateChart = this.isCollapseChart ? 90 : 0;
+    this.rotateAdd = 0;
   }
 
   public invertCollapseAdd($event): void {
@@ -46,6 +67,10 @@ export class LeftbarComponent implements OnInit {
     this.isCollapseJobBoard = false;
     this.isCollpseUtilities = false;
     this.isCollapseChart = false;
+    this.rotateJobBoard = 0;
+    this.rotateToolbox = 0;
+    this.rotateChart = 0;
+    this.rotateAdd = this.isCollapseAdd ? 90 : 0;
   }
 
 // INPUT VARIABLES
