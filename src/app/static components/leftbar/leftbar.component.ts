@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { LeftbarStatesService as LeftbarState } from '../../services/states components/leftbar-states.service';
-
 @Component({
   selector: 'app-leftbar',
   templateUrl: './leftbar.component.html',
@@ -8,7 +6,6 @@ import { LeftbarStatesService as LeftbarState } from '../../services/states comp
 })
 
 export class LeftbarComponent implements OnInit {
-
 // VARIABLE OBJECT
   public isCollapseJobBoard: boolean = false;
   public isCollpseUtilities: boolean = false;
@@ -23,10 +20,10 @@ export class LeftbarComponent implements OnInit {
   public dataUtilities: boolean = false;
   public dataChart: boolean = false;
   public dataAdd: boolean = false;
-
 // FUNCTION OBJECT
   public invertCollpaseJobBoard($event): void {
     $event.preventDefault();
+//  LOCAL VARIABLE
     this.isCollapseJobBoard = !this.isCollapseJobBoard;
     this.isCollpseUtilities = false;
     this.isCollapseChart = false;
@@ -35,8 +32,13 @@ export class LeftbarComponent implements OnInit {
     this.rotateToolbox = 0;
     this.rotateChart = 0;
     this.rotateAdd = 0;
-  }
+    this.dataJobsBoard = !this.dataJobsBoard;
+    this.dataDashboard = false;
+    this.dataUtilities = false;
+    this.dataChart = false;
+    this.dataAdd = false;
 
+  }
   public invertCollapseUtilities($event): void {
     $event.preventDefault();
     this.isCollpseUtilities = !this.isCollpseUtilities;
@@ -47,6 +49,11 @@ export class LeftbarComponent implements OnInit {
     this.rotateJobBoard = 0;
     this.rotateChart = 0;
     this.rotateAdd = 0;
+    this.dataUtilities = !this.dataUtilities;
+    this.dataJobsBoard = false;
+    this.dataDashboard = false;
+    this.dataChart = false;
+    this.dataAdd = false;
   }
 
   public invertCollapseChart($event): void {
@@ -59,6 +66,11 @@ export class LeftbarComponent implements OnInit {
     this.rotateToolbox = 0;
     this.rotateChart = this.isCollapseChart ? 90 : 0;
     this.rotateAdd = 0;
+    this.dataChart = !this.dataChart;
+    this.dataJobsBoard = false;
+    this.dataDashboard = false;
+    this.dataUtilities = false;
+    this.dataAdd = false;
   }
 
   public invertCollapseAdd($event): void {
@@ -71,6 +83,11 @@ export class LeftbarComponent implements OnInit {
     this.rotateToolbox = 0;
     this.rotateChart = 0;
     this.rotateAdd = this.isCollapseAdd ? 90 : 0;
+    this.dataAdd = !this.dataAdd;
+    this.dataJobsBoard = false;
+    this.dataDashboard = false;
+    this.dataUtilities = false;
+    this.dataChart = false;
   }
 
 // INPUT VARIABLES
@@ -83,9 +100,7 @@ export class LeftbarComponent implements OnInit {
   @Input() dataActiveCloseCollapse: boolean = false;
 
 // CONSTRUCTOR
-  constructor(
-    private state: LeftbarState,
-  ) { }
+  constructor() { }
 
 // INIT COMPONENT
   ngOnInit(): void {

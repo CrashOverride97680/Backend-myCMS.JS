@@ -22,7 +22,11 @@ import {
   faAdjust,
   faTachometerAlt,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faThumbtack,
+  faPhotoVideo,
+  faPager,
+  faCommentAlt,
 } from '@fortawesome/free-solid-svg-icons';
 @NgModule({
   declarations: [
@@ -70,5 +74,13 @@ export class AppModule {
       .addIcons(faChevronLeft);
     library
       .addIcons(faChevronRight);
+    library
+      .addIcons(faThumbtack);
+    library
+      .addIcons(faPhotoVideo);
+    library
+      .addIcons(faPager);
+    library
+      .addIcons(faCommentAlt);
   }
 }

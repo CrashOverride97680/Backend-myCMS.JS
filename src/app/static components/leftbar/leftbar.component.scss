@@ -8,6 +8,23 @@
   .active {
     color: #ffffff;
   }
+  .linkCollapse {
+    font-size: 1.125rem;
+    color: rgba(104, 136, 228, .5);
+    border-radius: .35rem;
+    fa-icon {
+      color: rgba(104, 136, 228, .3) !important;
+    }
+    &:hover {
+      color: rgba(104, 136, 228, 1) !important;
+      background-color: rgba(133, 135, 150, .2);
+      fa-icon {
+        color: rgba(104, 136, 228, 1) !important;
+      }
+    }
+    margin: 5px 0;
+    padding: .5rem 0 .5rem .75rem;
+  }
   .card {
     margin: 1rem;
   }

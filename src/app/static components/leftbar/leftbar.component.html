@@ -16,7 +16,10 @@
         <div id="jobCollapse" [ngbCollapse]="!isCollapseJobBoard">
           <div class="card">
             <div class="card-body">
-              You can collapse this card by clicking Toggle
+              <a href="/posts" title="Create, modify or update posts" class="linkCollapse">Posts</a>
+              <a href="/media" title="Manage media for pages" class="linkCollapse">Media</a>
+              <a href="/pages" title="Create, modify or update pages" class="linkCollapse">Pages</a>
+              <a href="/comments" title="Read comments and manage in pages" class="linkCollapse">Comments</a>
             </div>
           </div>
         </div>
@@ -26,7 +29,11 @@
         <div id="collapseUtilities" [ngbCollapse]="!isCollpseUtilities">
           <div class="card">
             <div class="card-body">
-              You can collapse this card by clicking Toggle
+              <a href="/themes" title="Manage template" class="linkCollapse">Themes</a>
+              <a href="/widgets" title="Manage widget" class="linkCollapse">Widgets</a>
+              <a href="/menus" title="Manage menus" class="linkCollapse">Menus</a>
+              <a href="/header" title="Manage headers" class="linkCollapse">Header</a>
+              <a href="/users" title="Manage users" class="linkCollapse">Users</a>
             </div>
           </div>
         </div>
@@ -42,7 +49,9 @@
         <div id="collapseChart" [ngbCollapse]="!isCollapseChart">
           <div class="card">
             <div class="card-body">
-              You can collapse this card by clicking Toggle
+              <a href="/chart-all" title="General chart" class="linkCollapse">All</a>
+              <a href="/chart-earning" title="Earning chart" class="linkCollapse">Earning</a>
+              <a href="/chart-social" title="Social chart" class="linkCollapse">Social</a>
             </div>
           </div>
         </div>
@@ -52,24 +61,12 @@
         <div id="collapseUtilities" [ngbCollapse]="!isCollapseAdd">
           <div class="card">
             <div class="card-body">
-              You can collapse this card by clicking Toggle
+              <a href="/add-plugins" title="Manage plugins" class="linkCollapse">Plugins</a>
+              <a href="/add-widgets" title="Manage widget" class="linkCollapse">Widgets</a>
             </div>
           </div>
         </div>
       </li>
     </ul>
   </div>
-  <hr class="leftbar-divider">
-  <div class="nav-group">
-    <strong>View</strong>
-    <ul class="view-nav nav-list">
-      <li class="nav-item">
-        <a href="#" title="Dark mode"><fa-icon icon="adjust"></fa-icon>Dark mode</a>
-      </li>
-      <li class="nav-item">
-        <a href="#" title="Close collapse"><fa-icon icon="chevron-left"></fa-icon>Close collapse</a>
-      </li>
-    </ul>
-  </div>
-  <hr class="leftbar-divider">
 </nav>
