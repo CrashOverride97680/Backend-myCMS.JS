@@ -41,8 +41,8 @@ import { WidgetsComponent } from './pages/widgets/widgets.component';
 import { MenusComponent } from './pages/menus/menus.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { UsersComponent } from './pages/users/users.component';
-import { AddPluginsComponent } from './add-plugins/add-plugins.component';
-import { AddWidgetsComponent } from './add-widgets/add-widgets.component';
+import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
+import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 @NgModule({
   declarations: [
     AppComponent,
