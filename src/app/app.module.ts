@@ -28,6 +28,21 @@ import {
   faPager,
   faCommentAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { PostsComponent } from './pages/posts/posts.component';
+import { MediaComponent } from './pages/media/media.component';
+import { PagesComponent } from './pages/pages/pages.component';
+import { SeoSemComponent } from './pages/seo-sem/seo-sem.component';
+import { CommentsComponent } from './pages/comments/comments.component';
+import { ChartAllComponent } from './pages/chart-all/chart-all.component';
+import { ChartEarningComponent } from './pages/chart-earning/chart-earning.component';
+import { ChartSocialComponent } from './pages/chart-social/chart-social.component';
+import { ThemesComponent } from './pages/themes/themes.component';
+import { WidgetsComponent } from './pages/widgets/widgets.component';
+import { MenusComponent } from './pages/menus/menus.component';
+import { HeaderComponent } from './pages/header/header.component';
+import { UsersComponent } from './pages/users/users.component';
+import { AddPluginsComponent } from './add-plugins/add-plugins.component';
+import { AddWidgetsComponent } from './add-widgets/add-widgets.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +52,22 @@ import {
     LeftbarComponent,
     TopbarComponent,
     DashboardComponent,
-    NavComponent
+    NavComponent,
+    PostsComponent,
+    MediaComponent,
+    PagesComponent,
+    SeoSemComponent,
+    CommentsComponent,
+    ChartAllComponent,
+    ChartEarningComponent,
+    ChartSocialComponent,
+    ThemesComponent,
+    WidgetsComponent,
+    MenusComponent,
+    HeaderComponent,
+    UsersComponent,
+    AddPluginsComponent,
+    AddWidgetsComponent
   ],
   imports: [
     BrowserModule,
