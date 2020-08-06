@@ -17,7 +17,7 @@ import { MenusComponent } from './pages/menus/menus.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { UsersComponent } from './pages/users/users.component';
 import { GuardService } from '../app/services/auth/guard/guard.service';
-import { AddPluginsComponent } from './pages/add-plugins';
+import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 const routes: Routes =
 [
