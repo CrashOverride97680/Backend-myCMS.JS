@@ -17,6 +17,8 @@ import { MenusComponent } from './pages/menus/menus.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { UsersComponent } from './pages/users/users.component';
 import { GuardService } from '../app/services/auth/guard/guard.service';
+import { AddPluginsComponent } from './pages/add-plugins';
+import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 const routes: Routes =
 [
   { path: '', component: IndexLoginComponent },
@@ -36,6 +38,8 @@ const routes: Routes =
   { path: 'chart-all', component: ChartAllComponent, canActivate: [GuardService]},
   { path: 'chart-earning', component: ChartEarningComponent, canActivate: [GuardService]},
   { path: 'chart-social', component: ChartSocialComponent, canActivate: [GuardService]},
+  { path: 'add-plugins', component: AddPluginsComponent, canActivate: [GuardService]},
+  { path: 'add-widgets', component: AddWidgetsComponent, canActivate: [GuardService]},
   { path: '**', component: NotFoundComponent }
 ];
 @NgModule({
