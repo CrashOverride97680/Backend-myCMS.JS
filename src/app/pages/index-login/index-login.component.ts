@@ -43,7 +43,7 @@ export class IndexLoginComponent implements OnInit
         {
           this
             .route
-            .navigate(['/', 'admin-panel']);
+            .navigate(['/', 'dashboard']);
         }
       })
       .catch(success =>
@@ -61,7 +61,7 @@ export class IndexLoginComponent implements OnInit
     else
       this
         .route
-        .navigate(['/', 'admin-panel']);
+        .navigate(['/', 'dashboard']);
   }
 
 }

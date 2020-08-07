@@ -2,3 +2,13 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+.screen-correct {
+  width: calc(100% - 14rem);
+  position: absolute;
+  left: 14rem;
+  min-height: 100vh;
+}
+
+.text-gray-800 {
+  color: #5a5c69!important;
+}

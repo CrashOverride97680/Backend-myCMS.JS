@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexLoginComponent } from './pages/index-login/index-login.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { LeftbarComponent } from './static components/leftbar/leftbar.component';
 import { TopbarComponent } from './static components/topbar/topbar.component';
@@ -27,6 +26,7 @@ import {
   faPhotoVideo,
   faPager,
   faCommentAlt,
+  faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -47,7 +47,6 @@ import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
   declarations: [
     AppComponent,
     IndexLoginComponent,
-    AdminPanelComponent,
     NotFoundComponent,
     LeftbarComponent,
     TopbarComponent,
@@ -112,5 +111,7 @@ export class AppModule {
       .addIcons(faPager);
     library
       .addIcons(faCommentAlt);
+    library
+      .addIcons(faSignOutAlt);
   }
 }

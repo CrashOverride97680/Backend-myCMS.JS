@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-leftbar',
   templateUrl: './leftbar.component.html',
@@ -20,6 +21,7 @@ export class LeftbarComponent implements OnInit {
   public dataUtilities: boolean = false;
   public dataChart: boolean = false;
   public dataAdd: boolean = false;
+  public dataLogout: boolean = false;
 // FUNCTION OBJECT
   public invertCollpaseJobBoard($event): void {
     $event.preventDefault();
@@ -90,6 +92,11 @@ export class LeftbarComponent implements OnInit {
     this.dataChart = false;
   }
 
+  public logoutUser($event): void {
+    $event.preventDefault();
+    localStorage.removeItem('token');
+    this.router.navigate(['/']);
+  }
 // INPUT VARIABLES
   @Input() dataActiveDashboard: boolean = false;
   @Input() dataActiveJobBoard: boolean = false;
@@ -100,7 +107,9 @@ export class LeftbarComponent implements OnInit {
   @Input() dataActiveCloseCollapse: boolean = false;
 
 // CONSTRUCTOR
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
 // INIT COMPONENT
   ngOnInit(): void {

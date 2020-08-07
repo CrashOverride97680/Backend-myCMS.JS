@@ -1,1 +1,39 @@
-<p>dashboard works!</p>
+<div class="screen-correct jumbotron m-0">
+  <div class="container">
+    <h1 class="h3 mb-4 font-weight-normal text-gray-800">Dashboard</h1>
+    <div class="row">
+      <div class="col mr-2">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title h6 text-primary font-weight-lighter text-uppercase">Posts</h2>
+            <p class="card-text h5 mb-0 font-weight-bold text-gray-800">{{ postsData }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col mr-2">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title h6 text-success font-weight-lighter text-uppercase">Mail subscribe</h2>
+            <p class="card-text h5 mb-0 font-weight-bold text-gray-800">{{ mailsubData }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col mr-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title h6 text-info font-weight-lighter text-uppercase">Chat users</h5>
+            <p class="card-text h5 mb-0 font-weight-bold text-gray-800">{{ chatData }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col mr-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title h6 text-warning font-weight-lighter text-uppercase">Payments ( mounthly )</h5>
+            <p class="card-text h5 mb-0 font-weight-bold text-gray-800">$ {{ paymentsData }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
