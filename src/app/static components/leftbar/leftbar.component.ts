@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api/api.service';
 @Component({
   selector: 'app-leftbar',
   templateUrl: './leftbar.component.html',
@@ -94,8 +95,15 @@ export class LeftbarComponent implements OnInit {
 
   public logoutUser($event): void {
     $event.preventDefault();
-    localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    this
+      .http
+      .logout(localStorage.getItem('token'))
+      .then(success => {
+        if(success) {
+          localStorage.removeItem('token');
+          this.router.navigate(['/']);
+        }
+      });
   }
 // INPUT VARIABLES
   @Input() dataActiveDashboard: boolean = false;
@@ -108,7 +116,8 @@ export class LeftbarComponent implements OnInit {
 
 // CONSTRUCTOR
   constructor(
-    private router: Router
+    private router: Router,
+    private http: ApiService
   ) { }
 
 // INIT COMPONENT

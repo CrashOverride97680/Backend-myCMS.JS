@@ -4,7 +4,7 @@ import { user as u } from '../data';
 // VARIABLES FOR TESTING
 const testUserSuccess = u.success;
 // TESTS
-  describe('CMS -> admin-panel', () => {
+  describe('CMS -> dashboard', () => {
     describe('Set viewport and route for test', () => {
       it('Setting viewport', () => {
         cy
@@ -59,6 +59,34 @@ const testUserSuccess = u.success;
         const token = localStorage.getItem('token');
         if(!token)
           return false;
+      })
+
+
+    })
+
+    describe('Testing dashboard', () => {
+
+    })
+
+    describe('Logout', () => {
+      it('Check element exist', () => {
+        cy
+          .get('a')
+          .contains('Logout')
+          .should('be.visible');
+      })
+
+      it('Click logout', () => {
+        cy
+          .get('a')
+          .contains('Logout')
+          .click();
+      })
+
+      it('Check if token exist', (done) => {
+        const token = localStorage.getItem('token');
+        if(token === null)
+          done();
       })
     })
   })

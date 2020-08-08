@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // IMPORT INTERFACES
 import { accessLoginInterface } from '../interfaces/login.interface';
 // IMPORT SERVICES
-import { LoginService } from './login.service';
+import { ApiService } from '../../services/api/api.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-index-login',
@@ -19,7 +19,7 @@ export class IndexLoginComponent implements OnInit
   };
 
   constructor(
-    private http: LoginService,
+    private http: ApiService,
     private route: Router
   )
   {
@@ -36,7 +36,7 @@ export class IndexLoginComponent implements OnInit
   onSubmit(): void {
     this
       .http
-      .sendDataLogin(this.email, this.password)
+      .login(this.email, this.password)
       .then(success =>
       {
         if(success)
