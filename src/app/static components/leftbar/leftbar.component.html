@@ -59,7 +59,7 @@
       </li>
       <li class="nav-item">
         <a href="#" title="Add" (click)="invertCollapseAdd($event)" [attr.data-active]="dataAdd"><fa-icon icon="plus"></fa-icon>Add <fa-icon icon="chevron-right" class="iconRight" [rotate]="rotateAdd"></fa-icon></a>
-        <div id="collapseUtilities" [ngbCollapse]="!isCollapseAdd">
+        <div id="collapseAdd" [ngbCollapse]="!isCollapseAdd">
           <div class="card">
             <div class="card-body">
               <a href="/add-plugins" title="Manage plugins" class="linkCollapse">Plugins</a>

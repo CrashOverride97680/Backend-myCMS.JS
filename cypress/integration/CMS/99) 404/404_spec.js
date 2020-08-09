@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
   // TESTS
   describe('CMS -> 404', () => {
+
     describe('Set viewport and route for test', () => {
       it('Setting viewport', () => {
         cy
@@ -11,12 +12,21 @@
         cy
           .server()
       })
+    })
 
+    describe('Clear localStorage', () => {
+      it('Clear execution', () => {
+        cy
+          .clearLocalStorage()
+          .should('be.empty');
+      })
+    })
+
+    describe('Goto 404 page', () => {
       it('Page respond', () => {
         cy
           .visit('/404');
       })
-
     })
 
     describe('Check all element', () => {

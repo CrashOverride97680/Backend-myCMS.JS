@@ -96,11 +96,18 @@ const testUserSuccess = u.success;
         })
       })
 
-      describe('Check if group nav CMS with link exist and is visible', () => {
+      describe('Check if group nav CMS with link and dropdown exist and is visible', () => {
         it('CMS group nav', () => {
           cy
             .get('.nav-group strong')
             .contains('Cms')
+            .should('be.visible');
+        })
+
+        it('Addons group nav', () => {
+          cy
+            .get('.nav-group strong')
+            .contains('Addons')
             .should('be.visible');
         })
 
@@ -123,6 +130,295 @@ const testUserSuccess = u.success;
               cy
                 .get('.nav-item a[title="Job Board"] fa-icon[icon=chevron-right]')
                 .should('be.visible');
+            })
+          })
+
+          describe('Check if dropdown work', () => {
+            it('Check element if is closed', () => {
+              cy
+                .get('#jobCollapse')
+                .should('not.be.visible');
+            })
+
+            it('Check if click work', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Job Board')
+                .click();
+            })
+
+            describe('Check if links exist', () => {
+              it('Check if link posts exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Posts');
+              })
+
+              it('Check if link media exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Media');
+              })
+
+              it('Check if link posts exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Pages');
+              })
+
+              it('Check if link seo / sem exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Seo / sem');
+              })
+
+              it('Check if link comments exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Comments');
+              })
+            })
+
+            describe('Check if close', () => {
+              it('Close collapse', () => {
+                cy
+                  .get('.nav-item a')
+                  .contains('Job Board')
+                  .click();
+              })
+
+              it('Check element if is effective closed', () => {
+                cy
+                  .get('#jobCollapse')
+                  .should('not.be.visible');
+              })
+            })
+
+          })
+        })
+
+        describe('Utilities', () => {
+          describe('Check if button exist and is visible', () => {
+            it('Check if icon exist', () => {
+              cy
+                .get('.nav-item a fa-icon[icon=toolbox]')
+                .should('be.visible');
+            })
+
+            it('Check if link exist', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Utilities')
+                .should('be.visible');
+            })
+
+            it('Check if arrow exist', () => {
+              cy
+                .get('.nav-item a[title="Utilities"] fa-icon[icon=chevron-right]')
+                .should('be.visible');
+            })
+          })
+
+          describe('Check if dropdown work', () => {
+            it('Check element if is closed', () => {
+              cy
+                .get('#collapseUtilities')
+                .should('not.be.visible');
+            })
+
+            it('Check if click work', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Utilities')
+                .click();
+            })
+
+            describe('Check if links exist', () => {
+              it('Check if link themes exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Themes');
+              })
+
+              it('Check if link widgets exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Widgets');
+              })
+
+              it('Check if link menus exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Menus');
+              })
+
+              it('Check if link Header exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Header');
+              })
+
+              it('Check if link Users exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Users');
+              })
+            })
+
+            describe('Check if close', () => {
+              it('Close collapse', () => {
+                cy
+                  .get('.nav-item a')
+                  .contains('Utilities')
+                  .click();
+              })
+
+              it('Check element if is effective closed', () => {
+                cy
+                  .get('#collapseUtilities')
+                  .should('not.be.visible');
+              })
+            })
+          })
+        })
+
+        describe('Chart', () => {
+          describe('Check if button exist and is visible', () => {
+            it('Check if icon exist', () => {
+              cy
+                .get('.nav-item a fa-icon[icon=chart-line]')
+                .should('be.visible');
+            })
+
+            it('Check if link exist', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Chart')
+                .should('be.visible');
+            })
+
+            it('Check if arrow exist', () => {
+              cy
+                .get('.nav-item a[title="Chart"] fa-icon[icon=chevron-right]')
+                .should('be.visible');
+            })
+          })
+
+          describe('Check if dropdown work', () => {
+            it('Check element if is closed', () => {
+              cy
+                .get('#collapseChart')
+                .should('not.be.visible');
+            })
+
+            it('Check if click work', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Chart')
+                .click();
+            })
+
+            describe('Check if links exist', () => {
+              it('Check if link themes exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('All');
+              })
+
+              it('Check if link widgets exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Earning');
+              })
+
+              it('Check if link menus exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Social');
+              })
+
+            })
+
+            describe('Check if close', () => {
+              it('Close collapse', () => {
+                cy
+                  .get('.nav-item a')
+                  .contains('Chart')
+                  .click();
+              })
+
+              it('Check element if is effective closed', () => {
+                cy
+                  .get('#collapseChart')
+                  .should('not.be.visible');
+              })
+            })
+          })
+        })
+
+        describe('Add', () => {
+          describe('Check if button exist and is visible', () => {
+            it('Check if icon exist', () => {
+              cy
+                .get('.nav-item a fa-icon[icon=plus]')
+                .should('be.visible');
+            })
+
+            it('Check if link exist', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Add')
+                .should('be.visible');
+            })
+
+            it('Check if arrow exist', () => {
+              cy
+                .get('.nav-item a[title="Add"] fa-icon[icon=chevron-right]')
+                .should('be.visible');
+            })
+          })
+
+          describe('Check if dropdown work', () => {
+            it('Check element if is closed', () => {
+              cy
+                .get('#collapseAdd')
+                .should('not.be.visible');
+            })
+
+            it('Check if click work', () => {
+              cy
+                .get('.nav-item a')
+                .contains('Add')
+                .click();
+            })
+
+            describe('Check if links exist', () => {
+              it('Check if link plugins exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Plugins');
+              })
+
+              it('Check if link widgets exist', () => {
+                cy
+                  .get('.nav-item a.linkCollapse')
+                  .contains('Widgets');
+              })
+            })
+
+            describe('Check if close', () => {
+              it('Close collapse', () => {
+                cy
+                  .get('.nav-item a')
+                  .contains('Add')
+                  .click();
+              })
+
+              it('Check element if is effective closed', () => {
+                cy
+                  .get('#collapseAdd')
+                  .should('not.be.visible');
+              })
             })
           })
         })
