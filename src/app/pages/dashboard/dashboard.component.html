@@ -21,7 +21,7 @@
       <div class="col mr-2">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title h6 text-info font-weight-lighter text-uppercase">Chat users</h5>
+            <h2 class="card-title h6 text-info font-weight-lighter text-uppercase">Chat users</h2>
             <p class="card-text h5 mb-0 font-weight-bold text-gray-800">{{ chatData }}</p>
           </div>
         </div>
@@ -29,8 +29,130 @@
       <div class="col mr-2">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title h6 text-warning font-weight-lighter text-uppercase">Payments ( mounthly )</h5>
+            <h2 class="card-title h6 text-warning font-weight-lighter text-uppercase">Payments ( mounthly )</h2>
             <p class="card-text h5 mb-0 font-weight-bold text-gray-800">$ {{ paymentsData }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-5">
+      <div class="col-12">
+        <div class="card">
+          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Latest posts written ( mounthly )</h2>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" class="text-uppercase">Title</th>
+                <th scope="col" class="text-uppercase">Type</th>
+                <th scope="col" class="text-uppercase">gg/mm/aaaa</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let post of posts; index as i">
+                <th scope="row">
+                  {{ i + 1 }}
+                </th>
+                <td>
+                  {{ post.title }}
+                </td>
+                <td>
+                  {{ post.type }}
+                </td>
+                <td>
+                  {{ post.date }}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-5" *ngIf="(earningExist === true && socialExist === true)">
+
+      <div class="col-7">
+        <div class="card">
+          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Earnings performance ( annual )</h2>
+          <div class="card-body">
+            <div class="chartjs-container">
+              <canvas baseChart
+                      [datasets]="lineChartData"
+                      [labels]="lineChartLabels"
+                      [options]="lineChartOptions"
+                      [colors]="lineChartColors"
+                      [legend]="lineChartLegend"
+                      [chartType]="lineChartType"
+                      [plugins]="lineChartPlugins"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <div class="card">
+          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Social performance ( mounthly )</h2>
+          <div class="card-body">
+            <div style="display: block" class="chart-pie pt-5 pb-5">
+              <canvas baseChart
+                      [data]="doughnutChartData"
+                      [labels]="doughnutChartLabels"
+                      [chartType]="doughnutChartType"
+                      [options]="doughnutChartOptions">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-5"
+         *ngIf="(earningExist === true && socialExist === false)"
+    >
+
+      <div class="col-12">
+        <div class="card">
+          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Earnings performance ( annual )</h2>
+          <div class="card-body">
+            <div class="chartjs-container">
+              <canvas baseChart
+                      [datasets]="lineChartData"
+                      [labels]="lineChartLabels"
+                      [options]="lineChartOptions"
+                      [colors]="lineChartColors"
+                      [legend]="lineChartLegend"
+                      [chartType]="lineChartType"
+                      [plugins]="lineChartPlugins"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-5"
+         *ngIf="(earningExist === false && socialExist === true)"
+    >
+      <div class="col-12">
+        <div class="card">
+          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Social performance ( mounthly )</h2>
+          <div class="card-body">
+            <div style="display: block" class="chart-pie pt-5 pb-5">
+              <canvas baseChart
+                      [data]="doughnutChartData"
+                      [labels]="doughnutChartLabels"
+                      [chartType]="doughnutChartType"
+                      [options]="doughnutChartOptions">
+              </canvas>
+            </div>
           </div>
         </div>
       </div>
