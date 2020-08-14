@@ -7,6 +7,10 @@ const isValid = require('../autentication');
 const upload = require('../upload/upload');
 // ROUTES APP
 // -> GET
+router
+  .get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
+  .get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
+  .get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)

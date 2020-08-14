@@ -46,73 +46,61 @@ module.exports = {
         modified: { type: Date, default: Date.now, required: true },
     }),
     posts: new Schema({
-        template:
-        {
-            type: String,
-            default: 'default'
-        },
-        page:
-        {
-            type: String,
-            required: true
-        },
-        lang:
-        {
-            type: Number,
-            required: true
-        },
-        typePage:
-        {
-            type: Number,
-            required: true
-        },
-        backgroundImage: String,
-        h1: 
-        {
-            type: String,
-            required: true
-        },
-        mainContent:
-        {
-            type: String,
-            required: true
-        },
-        breadcrumbs:
-        {
-            type: String,
-            required: true
-        },
-        bodyPosts:
-        [
-            new Schema({
-                h2: String,
-                content: String,
-                images:
-                [
-                    new Schema({
-                        url: String,
-                        alt: String,
-                        textBoxImg: String
-                    })
-                ]
-            })
-        ],
-        gallery:
-        [
-            new Schema({
-                url: String,
-                alt: String,
-                textBoxImg: String
-            })
-        ],
-        visible: 
-        {
-            type: Boolean,
-            required: true
-        }
+      lang: {
+        type: String,
+        required: true
+      },
+      type: {
+        type: String,
+        required: true
+      },
+      title: {
+        type: String,
+        required: true
+      },
+      header: {
+        type: String,
+        required: true
+      },
+      content: {
+        type: String,
+        required: true
+      },
+      create: { type: Date },
+      updated: { type: Date, default: Date.now, required: true },
+      modified: { type: Date, default: Date.now, required: true }
+    }),
+    gallery: new Schema({
+      imgName: {
+        type: String,
+        required: true
+      },
+      imgPath: {
+        type: String,
+        required: true
+      },
+      create: { type: Date },
+      updated: { type: Date, default: Date.now, required: true },
+      modified: { type: Date, default: Date.now, required: true }
+    }),
+    mailsubscribe: new Schema({
+      email:
+      {
+        type: String,
+        required: true
+      },
+      confirmed:
+      {
+        type: String,
+        required: true,
+        default: false
+      },
+      create: { type: Date },
+      updated: { type: Date, default: Date.now, required: true },
+      modified: { type: Date, default: Date.now, required: true }
     }),
     lang: new Schema({
-        nameLang: 
+        nameLang:
         {
             type: String,
             required: true
@@ -134,31 +122,31 @@ module.exports = {
             type: String,
             required: true
         },
-        name: 
+        name:
         {
             type: String,
             required: true
         }
     }),
     info: new Schema({
-        name: 
+        name:
         {
             type: String,
             required: true
         },
         logo: new Schema({
-            stringImg: 
+            stringImg:
             {
                 type: String,
                 required: true
             },
-            alt: 
-            { 
+            alt:
+            {
                 type:String,
                 required: true
             }
         }),
-        address: 
+        address:
         {
             type:String,
             required: true
@@ -179,22 +167,22 @@ module.exports = {
         }
     }),
     options: new Schema({
-        siteurl: 
+        siteurl:
         {
             type: String,
             required: true
         },
-        home: 
+        home:
         {
             type: String,
             required: true
         },
-        site_name: 
+        site_name:
         {
             type: String,
             required: true
         },
-        site_description: 
+        site_description:
         {
             type: String,
             required: true
@@ -204,33 +192,33 @@ module.exports = {
             type: Boolean,
             required: true
         },
-        admin_email: 
+        admin_email:
         {
             type: String,
             required: true
         },
-        start_of_week: 
+        start_of_week:
         {
             type: Number,
             min: 0,
             max: 6,
         },
-        use_balance_tags: 
+        use_balance_tags:
         {
             type: Boolean,
             required: true
         },
-        use_smiles: 
+        use_smiles:
         {
            type: Boolean,
-           required: true 
+           required: true
         },
-        require_name_email: 
+        require_name_email:
         {
             type: Boolean,
             required: true
         },
-        comments_notify: 
+        comments_notify:
         {
             type: Boolean,
             required: true
@@ -240,7 +228,7 @@ module.exports = {
             type: Number,
             required: true
         },
-        rss_use_excerpt: 
+        rss_use_excerpt:
         {
             type: Boolean,
             required: true
@@ -255,22 +243,22 @@ module.exports = {
             type: String,
             required: true
         },
-        mailserver_pass: 
+        mailserver_pass:
         {
             type: String,
             required: true
         },
-        mailserver_pass: 
+        mailserver_pass:
         {
             type: String,
-            required: true   
+            required: true
         },
         mailserver_port:
         {
             type: Number,
             required: true
         },
-        default_category: 
+        default_category:
         {
             type: Boolean,
             required: true
@@ -280,12 +268,12 @@ module.exports = {
             type: String,
             required: true,
         },
-        default_ping_status: 
+        default_ping_status:
         {
             type: String,
             required: true,
         },
-        default_pingback_flag: 
+        default_pingback_flag:
         {
             type: Boolean,
             required: true,
@@ -307,7 +295,7 @@ module.exports = {
             type: String,
             required: true
         },
-        links_updated_date_format: 
+        links_updated_date_format:
         {
             type: String,
             required: true
@@ -322,12 +310,12 @@ module.exports = {
             type: Boolean,
             required: true
         },
-        hack_file: 
+        hack_file:
         {
             type: Boolean,
             required: true
         },
-        site_charset: 
+        site_charset:
         {
             type: String,
             required: true,
@@ -341,74 +329,74 @@ module.exports = {
             })
         ],
         category_base: String,
-        ping_sites: 
+        ping_sites:
         {
             type: String,
             required: true,
         },
-        comment_max_links: 
+        comment_max_links:
         {
             type: Number,
             required: true
         },
-        gmt_offset: 
+        gmt_offset:
         {
             type: Boolean,
             required: true
         },
-        default_email_category: 
-        {
-            type: Boolean,
-            required: true,
-        },
-        recently_edited: 
-        {
-            type: String,
-            required: true
-        },
-        template: 
-        {
-            type: String,
-            required: true
-        },
-        stylesheet: 
-        {
-            type: String,
-            required: true
-        },
-        comment_whitelist: 
-        {
-            type: Boolean,
-            required: true
-        },
-        blacklist_keys: 
-        {
-            type: String,
-            required: true
-        },
-        comment_registration: 
+        default_email_category:
         {
             type: Boolean,
             required: true,
-            default: false
         },
-        html_type: 
+        recently_edited:
         {
             type: String,
             required: true
         },
-        use_trackback: 
+        template:
+        {
+            type: String,
+            required: true
+        },
+        stylesheet:
+        {
+            type: String,
+            required: true
+        },
+        comment_whitelist:
+        {
+            type: Boolean,
+            required: true
+        },
+        blacklist_keys:
+        {
+            type: String,
+            required: true
+        },
+        comment_registration:
         {
             type: Boolean,
             required: true,
             default: false
         },
-        default_role: 
+        html_type:
         {
             type: String,
             required: true
         },
-        db_version: 
+        use_trackback:
+        {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        default_role:
+        {
+            type: String,
+            required: true
+        },
+        db_version:
         {
             type: Number,
             required: true
@@ -423,94 +411,94 @@ module.exports = {
             type: String,
             required: true
         },
-        site_public: 
+        site_public:
         {
             type: Boolean,
             required: true,
         },
-        default_link_category: 
+        default_link_category:
         {
             type: Number,
             required: true,
         },
-        show_on_front: 
+        show_on_front:
         {
             type: String,
             required: true,
         },
         tag_base: String,
-        show_avatars: 
+        show_avatars:
         {
             type: Boolean,
             required: true
         },
-        avatar_rating: 
+        avatar_rating:
         {
             type: String,
             required: true
         },
         upload_url_path: String,
-        thumbnail_size_w: 
+        thumbnail_size_w:
         {
             type: Number,
             required: true,
         },
-        thumbnail_size_h: 
+        thumbnail_size_h:
         {
             type: Number,
             required: true,
         },
-        thumbnail_crop: 
+        thumbnail_crop:
         {
             type: Boolean,
             required: true
         },
-        medium_size_w: 
+        medium_size_w:
         {
             type: Number,
             required: true,
         },
-        medium_size_h: 
+        medium_size_h:
         {
             type: Number,
             required: true,
         },
-        avatar_default: 
+        avatar_default:
         {
             type: String,
             required: true,
         },
-        large_size_w: 
+        large_size_w:
         {
             type: Number,
             required: true,
         },
-        large_size_h: 
+        large_size_h:
         {
             type: Number,
             required: true,
         },
-        image_default_link_type: 
+        image_default_link_type:
         {
             type: String,
             required: true
         },
-        image_default_size: 
+        image_default_size:
         {
             type: Number,
             required: true
         },
-        image_default_align: 
+        image_default_align:
         {
             type: Number,
             required: true
         },
-        close_comments_for_old_posts: 
+        close_comments_for_old_posts:
         {
             type: Boolean,
             required: true,
         },
-        close_comments_days_old: 
+        close_comments_days_old:
         {
             type: Number,
             required: true,
@@ -520,23 +508,23 @@ module.exports = {
             type: Boolean,
             required: true,
         },
-        thread_comments_depth: 
+        thread_comments_depth:
         {
             type: Number,
             required: true
         },
-        page_comments: 
+        page_comments:
         {
             type: Boolean,
             required: true
         },
-        comments_per_page: 
+        comments_per_page:
         {
             type: Number,
             min: 50,
             max: 200
         },
-        default_comment_page: 
+        default_comment_page:
         {
             type: String,
             required: true
@@ -546,27 +534,27 @@ module.exports = {
             type: String,
             required: true
         },
-        widget_categories: 
+        widget_categories:
         [
             new Schema({
                 title: String
             })
         ],
-        widget_text: 
+        widget_text:
         [
             new Schema(
             {
                 content: String
             })
         ],
-        widget_rss: 
+        widget_rss:
         [
             new Schema(
             {
                 content: String
             })
         ],
-        uninstall_plugins: 
+        uninstall_plugins:
         [
             new Schema(
             {
@@ -574,48 +562,48 @@ module.exports = {
                 content: String
             })
         ],
-        timezone_string: 
+        timezone_string:
         {
             type: String,
             required: true
         },
-        page_for_posts: 
+        page_for_posts:
         {
             type: Boolean,
             required: true
         },
-        page_on_front: 
+        page_on_front:
         {
             type: Boolean,
             required: true
         },
-        default_post_format: 
+        default_post_format:
         {
             type: Boolean,
             required: true
         },
-        link_manager_enabled: 
+        link_manager_enabled:
         {
             type: Boolean,
             required: true
         },
-        finished_splitting_shared_terms: 
+        finished_splitting_shared_terms:
         {
             type: Boolean,
             required: true
         },
-        site_icon: 
+        site_icon:
         {
             type: Boolean,
             required: true
         },
-        medium_large_size_w: 
+        medium_large_size_w:
         {
             type: Number,
             required: true,
             min: 0
         },
-        medium_large_size_w: 
+        medium_large_size_w:
         {
             type: Number,
             required: true,
@@ -626,34 +614,34 @@ module.exports = {
             type: Number,
             required: true
         },
-        show_comments_cookies_opt_in: 
+        show_comments_cookies_opt_in:
         {
             type: Boolean,
             required: true
         },
-        admin_email_lifespan: 
+        admin_email_lifespan:
         {
             type: Number,
             min: 0,
             required: true
         },
-        initial_db_version: 
+        initial_db_version:
         {
             type: Number,
             min: 0,
             required: true
         },
-        fresh_site: 
+        fresh_site:
         {
             type: Boolean,
             required: true
         },
-        CMSLANG: 
+        CMSLANG:
         {
             type: String,
             required: true
         },
-        cron: 
+        cron:
         [
             new Schema(
             {
@@ -662,7 +650,7 @@ module.exports = {
                 abilities: Boolean
             })
         ],
-        recovery_keys: 
+        recovery_keys:
         [
             new Schema(
             {
@@ -670,5 +658,19 @@ module.exports = {
                 key: String
             })
         ],
-    })
+    }),
+    chat: new Schema({
+      pathPage: {
+        type: String,
+        required: true
+      },
+      langPage: {
+        type: String,
+        required: true
+      },
+      comment: {
+        type: String,
+        required: true
+      }
+    }),
 };

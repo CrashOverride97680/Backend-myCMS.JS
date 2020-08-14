@@ -3,9 +3,9 @@ const { check } = require('express-validator');
 const minPassword = process.env.PASS_LONG || 6;
 // EXPORTING MODULE
 module.exports = {
-	userLoginValidator: [ 
-		check('email').isEmail(), 
-		check('password').isLength({ min: minPassword }) 
+	userLoginValidator: [
+		check('email').isEmail(),
+		check('password').isLength({ min: minPassword })
 	],
 	userCreateValidator: [
 		check('email').isEmail(),
@@ -44,4 +44,13 @@ module.exports = {
 		check('gallery').notEmpty(),
 		check('visible').isBoolean()
 	],
+  numberPosts: [
+    check('authorization').notEmpty()
+  ],
+  numberMailSub: [
+    check('authorization').notEmpty()
+  ],
+  getChatsUsersNumbers: [
+    check('authorization').notEmpty()
+  ]
 };
