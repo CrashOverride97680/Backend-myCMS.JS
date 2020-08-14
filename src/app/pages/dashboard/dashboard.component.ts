@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label, MultiDataSet } from 'ng2-charts';
-// INTERFACE
-interface postsInterface {
-  title: string;
-  type: string;
-  date: string;
-}
+import { postsInterface } from "../interfaces/login.interface";
+import {ApiService} from "../../services/api/api.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,12 +10,17 @@ interface postsInterface {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  public postsData: number = 160;
-  public mailsubData: number = 800;
-  public chatData: string = "12.500";
+  public postsData: number | string = '--';
+  public mailsubData: number | string = '--';
+  public chatData: number | string = '--';
   public paymentsData: string = "10.500";
   public socialExist: boolean = true;
-  public earningExist: boolean = false;
+  public earningExist: boolean = true;
+  public postsCards: boolean = true;
+  public mailsubCards: boolean = true;
+  public chatCards: boolean = true;
+  public paymentsCards: boolean = true;
+
   // Array of different segments in chart
   lineChartData: ChartDataSets[] = [
     { data: [ 0, 10000, 5000, 20000, 10000, 15000, 30000, 17500, 35000, 40000 ], label: 'Earnings' }
@@ -85,7 +86,19 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private api: ApiService
+  ) {
+    const token = localStorage.getItem('token');
+    console.log("TOKEN:", token);
+    Promise
+      .all([this.api.getNumPosts(token), this.api.getNumMailSub(token), this.api.getNumChat(token)])
+      .then(value => {
+        this.postsData = value[0];
+        this.mailsubData = value[1];
+        this.chatData = value[2];
+      });
+  }
 
   ngOnInit(): void {
   }

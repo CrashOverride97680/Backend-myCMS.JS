@@ -48,7 +48,7 @@ export class ApiService
     token: string
   )
   {
-    const url = `${environment.loginEntrypoint}/login`;
+    const url = `${environment.loginEntrypoint}/logout`;
     return new Promise ((resolve, reject) =>
     {
       this
@@ -62,4 +62,84 @@ export class ApiService
     });
   }
 
+// GET NUMBER POSTS
+  getNumPosts(
+    token: string
+  )
+  {
+    const url = `${environment.loginEntrypoint}/getPostsNumbers`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url, {
+          headers: {
+            authorization: token
+          }
+        }).subscribe(
+        {
+          next(data: { count: number }) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
+
+// GET NUMBER SUBSCRIBE
+  getNumMailSub(
+    token: string
+  )
+  {
+    const url = `${environment.loginEntrypoint}/getMailSubNumbers`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url, {
+          headers: {
+            authorization: token
+          }
+        }).subscribe(
+        {
+          next(data: { count: number }) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
+
+// GET NUMBER MESSAGE USERS
+  getNumChat(
+    token: string
+  )
+  {
+    const url = `${environment.loginEntrypoint}/getChatsNumbers`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url, {
+          headers: {
+            authorization: token
+          }
+        }).subscribe(
+        {
+          next(data: { count: number }) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
 }

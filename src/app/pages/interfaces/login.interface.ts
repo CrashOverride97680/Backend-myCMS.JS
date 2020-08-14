@@ -6,3 +6,9 @@ export interface accessLoginInterface
   admin: boolean;
   token: string;
 }
+
+export interface postsInterface {
+  title: string;
+  type: string;
+  date: string;
+}
