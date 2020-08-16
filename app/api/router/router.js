@@ -13,7 +13,9 @@ router
   .get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers)
   .get('/getEarningNumber', auth.getEarningNumber, isValid.runValidation, controller.getEarningNumber)
   .get('/getAllPosts', auth.getPostsData, isValid.runValidation, controller.getAllPosts)
-  .get('/getPosts/:max', auth.getPostsData, isValid.runValidation, controller.getPostsWithFilter);
+  .get('/getPosts/:max', auth.getPostsData, isValid.runValidation, controller.getPostsWithFilter)
+  .get('/getVisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getVisiblePostNumber)
+  .get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)

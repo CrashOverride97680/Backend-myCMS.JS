@@ -1661,6 +1661,7 @@ module.exports =
                         posts
                           .find({})
                           .limit(max)
+                          .sort({dateUser: 'desc'})
                           .exec((err, posts) =>
                           {
                             if (!err)
@@ -1715,6 +1716,7 @@ module.exports =
                             posts
                               .find({})
                               .limit(max)
+                              .sort({dateUser: 'desc'})
                               .exec((err, posts) =>
                               {
                                 if (!err)
@@ -1845,6 +1847,244 @@ module.exports =
                                 resp
                                   .status(200)
                                   .json(posts);
+                            });
+                        } else
+                          resp
+                            .status(403)
+                            .json(lang.LABEL_403_HTTP);
+                      } else {
+                        console.log(lang.LABEL_ERROR_RETURN, err);
+                        resp
+                          .status(403)
+                          .json(lang.LABEL_403_HTTP);
+                      }
+                    });
+                } else
+                  resp
+                    .status(403)
+                    .json(lang.LABEL_403_HTTP);
+              });
+
+          });
+      }
+    }
+    catch (err) {
+      console.log(lang.LABEL_ERROR_RETURN, err);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+  // FATTO
+  getVisiblePostNumber: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      if(blkLocal !== null)
+      {
+        jwt
+          .verify(token, secret, (err, decoded) =>
+          {
+            const { _id, username } = decoded;
+            const tokenBlacklist = blkLocal
+              .findCache_LOCAL({
+                name:'tokens',
+                data:{
+                  token
+                }
+              });
+            if(!tokenBlacklist)
+            {
+              jwt
+                .verify(token, secret, (err, decoded) =>
+                {
+                  if(process.env.NODE_ENV_TEST)
+                  {
+                    console.log(lang.LANG_DEBUG_ERROR, err);
+                    console.log(lang.LANG_DEBUG_DATA, decoded);
+                  }
+
+                  if(err === null)
+                  {
+                    const {
+                      admin
+                    } = decoded;
+                    if(admin)
+                    {
+                      const posts = mongoose.model('earning', 'earning');
+                      posts
+                        .count({visible: true}, (err, count) => {
+                          if(!err)
+                            resp
+                              .status(200)
+                              .json({count});
+                        });
+                    }
+                    else
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
+                  }
+                  else
+                  {
+                    console.log(lang.LABEL_ERROR_RETURN, err);
+                    resp
+                      .status(403)
+                      .json(lang.LABEL_403_HTTP);
+                  }
+                });
+            }
+            else
+              resp
+                .status(403)
+                .json(lang.LABEL_403_HTTP);
+          });
+      }
+      else if (blkLocal === null) {
+        jwt
+          .verify(token, secret, (err, decoded) => {
+            const {_id, username} = decoded;
+            const client = redisConfig.clientRedis();
+            const tokenBlacklist = client
+              .get(token, (err, reply) => {
+                if (!reply) {
+                  jwt
+                    .verify(token, secret, (err, decoded) => {
+                      if (process.env.NODE_ENV_TEST) {
+                        console.log(lang.LANG_DEBUG_ERROR, err);
+                        console.log(lang.LANG_DEBUG_DATA, decoded);
+                      }
+
+                      if (err === null) {
+                        const {
+                          admin
+                        } = decoded;
+                        if (admin) {
+                          const posts = mongoose.model('earning', 'earning');
+                          posts
+                            .count({visible: true}, (err, count) => {
+                              if(!err)
+                                resp
+                                  .status(200)
+                                  .json({count});
+                            });
+                        } else
+                          resp
+                            .status(403)
+                            .json(lang.LABEL_403_HTTP);
+                      } else {
+                        console.log(lang.LABEL_ERROR_RETURN, err);
+                        resp
+                          .status(403)
+                          .json(lang.LABEL_403_HTTP);
+                      }
+                    });
+                } else
+                  resp
+                    .status(403)
+                    .json(lang.LABEL_403_HTTP);
+              });
+
+          });
+      }
+    }
+    catch (err) {
+      console.log(lang.LABEL_ERROR_RETURN, err);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+  // FATTO
+  getUnvisiblePostNumber: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      if(blkLocal !== null)
+      {
+        jwt
+          .verify(token, secret, (err, decoded) =>
+          {
+            const { _id, username } = decoded;
+            const tokenBlacklist = blkLocal
+              .findCache_LOCAL({
+                name:'tokens',
+                data:{
+                  token
+                }
+              });
+            if(!tokenBlacklist)
+            {
+              jwt
+                .verify(token, secret, (err, decoded) =>
+                {
+                  if(process.env.NODE_ENV_TEST)
+                  {
+                    console.log(lang.LANG_DEBUG_ERROR, err);
+                    console.log(lang.LANG_DEBUG_DATA, decoded);
+                  }
+
+                  if(err === null)
+                  {
+                    const {
+                      admin
+                    } = decoded;
+                    if(admin)
+                    {
+                      const posts = mongoose.model('earning', 'earning');
+                      posts
+                        .count({visible: false}, (err, count) => {
+                          if(!err)
+                            resp
+                              .status(200)
+                              .json({count});
+                        });
+                    }
+                    else
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
+                  }
+                  else
+                  {
+                    console.log(lang.LABEL_ERROR_RETURN, err);
+                    resp
+                      .status(403)
+                      .json(lang.LABEL_403_HTTP);
+                  }
+                });
+            }
+            else
+              resp
+                .status(403)
+                .json(lang.LABEL_403_HTTP);
+          });
+      }
+      else if (blkLocal === null) {
+        jwt
+          .verify(token, secret, (err, decoded) => {
+            const {_id, username} = decoded;
+            const client = redisConfig.clientRedis();
+            const tokenBlacklist = client
+              .get(token, (err, reply) => {
+                if (!reply) {
+                  jwt
+                    .verify(token, secret, (err, decoded) => {
+                      if (process.env.NODE_ENV_TEST) {
+                        console.log(lang.LANG_DEBUG_ERROR, err);
+                        console.log(lang.LANG_DEBUG_DATA, decoded);
+                      }
+
+                      if (err === null) {
+                        const {
+                          admin
+                        } = decoded;
+                        if (admin) {
+                          const posts = mongoose.model('earning', 'earning');
+                          posts
+                            .count({visible: false}, (err, count) => {
+                              if(!err)
+                                resp
+                                  .status(200)
+                                  .json({count});
                             });
                         } else
                           resp
