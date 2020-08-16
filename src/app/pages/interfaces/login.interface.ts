@@ -7,8 +7,3 @@ export interface accessLoginInterface
   token: string;
 }
 
-export interface postsInterface {
-  title: string;
-  type: string;
-  date: string;
-}

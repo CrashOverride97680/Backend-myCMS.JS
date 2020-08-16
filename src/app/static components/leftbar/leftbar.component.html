@@ -5,7 +5,7 @@
   </div>
   <hr class="leftbar-divider" style="margin-bottom: 0 !important;">
   <div class="dashlink iconMarg">
-    <a href="/dashboard" title="Go to Dashboard" [attr.data-active]="dataDashboard"><fa-icon icon="tachometer-alt"></fa-icon>Dashboard</a>
+    <a routerLink="/dashboard" (click)="closeAll()" title="Go to Dashboard" [attr.data-active]="dataDashboard"><fa-icon icon="tachometer-alt"></fa-icon>Dashboard</a>
   </div>
   <hr class="leftbar-divider">
   <div class="nav-group">
@@ -16,11 +16,11 @@
         <div id="jobCollapse" [ngbCollapse]="!isCollapseJobBoard">
           <div class="card">
             <div class="card-body">
-              <a href="/posts" title="Create, modify or update posts" class="linkCollapse">Posts</a>
-              <a href="/media" title="Manage media for pages" class="linkCollapse">Media</a>
-              <a href="/pages" title="Create, modify or update pages" class="linkCollapse">Pages</a>
-              <a href="/seo-sem" title="Manage Seo and Sem" class="linkCollapse">Seo / sem</a>
-              <a href="/comments" title="Read comments and manage in pages" class="linkCollapse">Comments</a>
+              <a routerLink="/posts" (click)="closeAll()" title="Create, modify or update posts" class="linkCollapse">Posts</a>
+              <a routerLink="/media" (click)="closeAll()" title="Manage media for pages" class="linkCollapse">Media</a>
+              <a routerLink="/pages" (click)="closeAll()" title="Create, modify or update pages" class="linkCollapse">Pages</a>
+              <a routerLink="/seo-sem" (click)="closeAll()" title="Manage Seo and Sem" class="linkCollapse">Seo / sem</a>
+              <a routerLink="/comments" (click)="closeAll()" title="Read comments and manage in pages" class="linkCollapse">Comments</a>
             </div>
           </div>
         </div>
@@ -30,11 +30,11 @@
         <div id="collapseUtilities" [ngbCollapse]="!isCollpseUtilities">
           <div class="card">
             <div class="card-body">
-              <a href="/themes" title="Manage template" class="linkCollapse">Themes</a>
-              <a href="/widgets" title="Manage widget" class="linkCollapse">Widgets</a>
-              <a href="/menus" title="Manage menus" class="linkCollapse">Menus</a>
-              <a href="/header" title="Manage headers" class="linkCollapse">Header</a>
-              <a href="/users" title="Manage users" class="linkCollapse">Users</a>
+              <a routerLink="/themes" (click)="closeAll()" title="Manage template" class="linkCollapse">Themes</a>
+              <a routerLink="/widgets" (click)="closeAll()" title="Manage widget" class="linkCollapse">Widgets</a>
+              <a routerLink="/menus" (click)="closeAll()" title="Manage menus" class="linkCollapse">Menus</a>
+              <a routerLink="/header" (click)="closeAll()" title="Manage headers" class="linkCollapse">Header</a>
+              <a routerLink="/users" (click)="closeAll()" title="Manage users" class="linkCollapse">Users</a>
             </div>
           </div>
         </div>
@@ -50,9 +50,9 @@
         <div id="collapseChart" [ngbCollapse]="!isCollapseChart">
           <div class="card">
             <div class="card-body">
-              <a href="/chart-all" title="General chart" class="linkCollapse">All</a>
-              <a href="/chart-earning" title="Earning chart" class="linkCollapse">Earning</a>
-              <a href="/chart-social" title="Social chart" class="linkCollapse">Social</a>
+              <a routerLink="/chart-all" (click)="closeAll()" title="General chart" class="linkCollapse">All</a>
+              <a routerLink="/chart-earning" (click)="closeAll()" title="Earning chart" class="linkCollapse">Earning</a>
+              <a routerLink="/chart-social" (click)="closeAll()" title="Social chart" class="linkCollapse">Social</a>
             </div>
           </div>
         </div>
@@ -62,8 +62,8 @@
         <div id="collapseAdd" [ngbCollapse]="!isCollapseAdd">
           <div class="card">
             <div class="card-body">
-              <a href="/add-plugins" title="Manage plugins" class="linkCollapse">Plugins</a>
-              <a href="/add-widgets" title="Manage widget" class="linkCollapse">Widgets</a>
+              <a routerLink="/add-plugins" (click)="closeAll()" title="Manage plugins" class="linkCollapse">Plugins</a>
+              <a routerLink="/add-widgets" (click)="closeAll()" title="Manage widget" class="linkCollapse">Widgets</a>
             </div>
           </div>
         </div>

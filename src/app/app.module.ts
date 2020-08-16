@@ -27,7 +27,9 @@ import {
   faPhotoVideo,
   faPager,
   faCommentAlt,
-  faSignOutAlt
+  faSignOutAlt,
+  faCheckCircle,
+  faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -115,5 +117,9 @@ export class AppModule {
       .addIcons(faCommentAlt);
     library
       .addIcons(faSignOutAlt);
+    library
+      .addIcons(faCheckCircle);
+    library
+      .addIcons(faTimesCircle);
   }
 }

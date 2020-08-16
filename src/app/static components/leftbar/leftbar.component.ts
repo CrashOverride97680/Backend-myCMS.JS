@@ -105,6 +105,17 @@ export class LeftbarComponent implements OnInit {
         }
       });
   }
+
+  public closeAll(): void {
+    this.isCollapseAdd = false;
+    this.isCollapseJobBoard = false;
+    this.isCollpseUtilities = false;
+    this.isCollapseChart = false;
+    this.rotateJobBoard = 0;
+    this.rotateToolbox = 0;
+    this.rotateChart = 0;
+    this.rotateAdd = 0;
+  }
 // INPUT VARIABLES
   @Input() dataActiveDashboard: boolean = false;
   @Input() dataActiveJobBoard: boolean = false;

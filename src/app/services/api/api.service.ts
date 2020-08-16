@@ -142,4 +142,114 @@ export class ApiService
         });
     });
   }
+
+// GET NUMBER PAYMENTS DATA
+  getNumPay(
+    token: string
+  )
+  {
+    const url = `${environment.loginEntrypoint}/getEarningNumber`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url,
+          {
+          headers: {
+            authorization: token
+          }
+        }).subscribe(
+        {
+          next(data: { count: number }) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
+
+// GET DATA POSTS FOR DASHBOARD
+  getPostsByMaxNumber(
+    token: string,
+    max: number
+  ) {
+    const url = `${environment.loginEntrypoint}/getPosts/${max}`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url,
+          {
+            headers: {
+              authorization: token
+            }
+          }).subscribe(
+        {
+          next(data) {
+            resolve(data);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
+
+// GET NUMBER VISIBLE POSTS
+  getVisiblePostNumber(
+    token: string,
+  ) {
+    const url = `${environment.loginEntrypoint}/getVisiblePostNumber`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url,
+          {
+            headers: {
+              authorization: token
+            }
+          }).subscribe(
+        {
+          next(data: { count: number}) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
+
+// GET NUMBER UNVISIBLE POSTS
+  getUnvisiblePostNumber(
+    token: string,
+  ) {
+    const url = `${environment.loginEntrypoint}/getUnvisiblePostNumber`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url,
+          {
+            headers: {
+              authorization: token
+            }
+          }).subscribe(
+        {
+          next(data: { count: number}) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
 }
