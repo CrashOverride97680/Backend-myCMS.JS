@@ -10,7 +10,10 @@ const upload = require('../upload/upload');
 router
   .get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
   .get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
-  .get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers);
+  .get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers)
+  .get('/getEarningNumber', auth.getEarningNumber, isValid.runValidation, controller.getEarningNumber)
+  .get('/getAllPosts', auth.getPostsData, isValid.runValidation, controller.getAllPosts)
+  .get('/getPosts/:max', auth.getPostsData, isValid.runValidation, controller.getPostsWithFilter);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)

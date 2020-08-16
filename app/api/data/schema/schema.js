@@ -679,4 +679,24 @@ module.exports = {
         required: true
       }
     }),
+    earning: new Schema({
+      day:
+      {
+        type: Date,
+        default: Date.now,
+        required: true
+      },
+      payments: {
+        type: Number,
+        required: true
+      },
+      mounth: {
+        type: String,
+        required: true
+      },
+      year: {
+        type: String,
+        required: true
+      }
+    }),
 };

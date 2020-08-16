@@ -49,5 +49,12 @@ module.exports = {
   ],
   getChatsUsersNumbers: [
     check('authorization').notEmpty()
-  ]
+  ],
+  getEarningNumber: [
+    check('authorization').notEmpty()
+  ],
+  getPostsData: [
+    check('authorization').notEmpty()
+  ],
+
 };

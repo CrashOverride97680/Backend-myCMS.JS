@@ -5,11 +5,13 @@
       users,
       posts,
       mailsubscribe,
-      chat
+      chat,
+      earning
     } = APIMongo;
 // EXPORTING MODULE MONGO
     mongoose.model('user', users);
     mongoose.model('posts', posts);
     mongoose.model('mailsubscribe', mailsubscribe);
     mongoose.model('chat', chat);
+    mongoose.model('earning', earning);
 
