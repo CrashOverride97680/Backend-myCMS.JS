@@ -6,7 +6,8 @@ const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const router = require('./api/router/router');
 const scheduler = require('./api/scheduling/scheduler');
-const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST 
+const cors = require('cors');
+const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST
 					? require('./api/autentication/blacklist-local/blacklist-local')
 					: null;
 // LOG LIBRARY
@@ -46,6 +47,9 @@ if(locBlacklist){
 }
 // INIZIALIZE FUNCTION, CLASS, ELEMENT AND MODULES
 const app = express();
+// CORS FOR EXTERNAL DOMAIN OR DEV *
+if ( process.env.NODE_ENV_DEV )
+  app.use(cors());
 // GENERAL FUNCTIONS
 const shouldCompress = (req, res) => {
 	if (req.headers['x-no-compression']) return false;
@@ -64,7 +68,7 @@ app.use(bodyParser.json());
 app.use(limiter);
 //  ROUTER ENTRYPOINT
 app.use('/api', router);
-/*  
+/*
     app
     .use(express.static(path.join(__dirname, 'public')));
 */
@@ -73,8 +77,8 @@ const port = process.env.port || process.env.PORT || 9000;
 app.set('PORT', port);
 // INIZIALIZE SERVER
 // app.listen(app.get('PORT'), 'localhost');
-app.listen(app.get('PORT'), 
-	() => 
+app.listen(app.get('PORT'),
+	() =>
 		console.log(lang.LABEL_SERVER, app.get('PORT'))
 );
 // console.log(lang.LABEL_SERVER, app.get('PORT'));
