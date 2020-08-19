@@ -13,6 +13,8 @@ import { TopbarComponent } from './static components/topbar/topbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavComponent } from './static components/nav/nav.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {
   faRocket,
   faClipboard,
@@ -29,7 +31,8 @@ import {
   faCommentAlt,
   faSignOutAlt,
   faCheckCircle,
-  faTimesCircle
+  faTimesCircle,
+  faPlusSquare
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -46,6 +49,8 @@ import { HeaderComponent } from './pages/header/header.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
+import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
+import { CreatePostsComponent } from './pages/create-posts/create-posts.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +74,9 @@ import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
     HeaderComponent,
     UsersComponent,
     AddPluginsComponent,
-    AddWidgetsComponent
+    AddWidgetsComponent,
+    ModifyPostsComponent,
+    CreatePostsComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +86,9 @@ import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
-    ChartsModule
+    ChartsModule,
+    Ng2SmartTableModule,
+    CKEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -121,5 +130,7 @@ export class AppModule {
       .addIcons(faCheckCircle);
     library
       .addIcons(faTimesCircle);
+    library
+      .addIcons(faPlusSquare);
   }
 }

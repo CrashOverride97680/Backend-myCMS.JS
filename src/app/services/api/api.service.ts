@@ -252,4 +252,31 @@ export class ApiService
         });
     });
   }
+
+// GET POSTS FOR TABLE
+  getAllPostsTable(
+    token: string,
+  ) {
+    const url = `${environment.loginEntrypoint}/getAllPostsTable`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url,
+          {
+            headers: {
+              authorization: token
+            }
+          }).subscribe(
+        {
+          next(data: any) {
+            resolve(data);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
 }
