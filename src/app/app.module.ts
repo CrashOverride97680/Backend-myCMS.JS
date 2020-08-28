@@ -13,8 +13,8 @@ import { TopbarComponent } from './static components/topbar/topbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavComponent } from './static components/nav/nav.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import {
   faRocket,
   faClipboard,
@@ -88,7 +88,7 @@ import { CreatePostsComponent } from './pages/create-posts/create-posts.componen
     FontAwesomeModule,
     ChartsModule,
     Ng2SmartTableModule,
-    CKEditorModule
+    AngularEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

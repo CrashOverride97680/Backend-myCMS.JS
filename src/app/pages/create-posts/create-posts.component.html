@@ -1,15 +1,38 @@
 <div class="screen-correct jumbotron m-0">
   <div class="container">
     <h1 class="h3 mb-4 font-weight-normal text-gray-800 text-capitalize">Create post</h1>
-    <div class="row pt-5">
-      <div class="col-12">
-        <div class="card">
-          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Post content</h2>
-          <div class="card-body">
-            <ckeditor [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <div>
+        <div class="form-group row">
+          <div class="col-6">
+            <input type="text" id="lang" placeholder="Lang website..." name="lang" [(ngModel)]="lang" title="Insert lang CMS" required>
+          </div>
+          <div class="col-6">
+            <input type="text" id="type" placeholder="Type website..." name="type" [(ngModel)]="type" title="Insert type CMS" required>
           </div>
         </div>
       </div>
-    </div>
+
+      <div class="pt-3">
+        <div class="form-group row">
+          <div class="col-6">
+            <input type="text" id="title" placeholder="Title website..." name="title" [(ngModel)]="title" title="Insert title CMS" required>
+          </div>
+          <div class="col-6">
+            <input type="text" id="header" placeholder="Header website..." name="header" [(ngModel)]="header" title="Insert header CMS" required>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-5">
+        <div class="col-12">
+          <div class="card">
+            <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Post content</h2>
+            <div class="card-body">
+              <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
