@@ -8,6 +8,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class CreatePostsComponent implements OnInit {
 // SET VARIABLE INTERFACE
   public htmlContent: string;
+  public header: string;
+  public title: string;
   public editorConfig: AngularEditorConfig =
   {
     editable: true,
