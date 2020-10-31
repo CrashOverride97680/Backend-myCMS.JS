@@ -257,6 +257,7 @@ module.exports =
 		try
 		{
 		  const token = req.headers['authorization'];
+		  console.log("TOKEN:", token);
 		  if(blkLocal !== null)
 		  {
 			jwt
