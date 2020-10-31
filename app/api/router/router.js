@@ -21,6 +21,7 @@ router
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
 	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
+	.post('/registerAdmin', auth.adminCreateUser, isValid.runValidation, controller.registerAdmin)
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT

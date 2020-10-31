@@ -14,6 +14,14 @@ module.exports = {
 		check('name').notEmpty(),
 		check('surname').notEmpty()
 	],
+	adminCreateUser: [
+		check('email').isEmail(),
+		check('username').notEmpty(),
+		check('name').notEmpty(),
+		check('surname').notEmpty(),
+		check('admin').notEmpty(),
+		check('authorization').notEmpty()
+	],
 	adminCreateValidator: [
 		check('email').isEmail(),
 		check('username').notEmpty(),
@@ -41,20 +49,19 @@ module.exports = {
     check('content').notEmpty(),
     check('visible').isBoolean()
 	],
-  numberPosts: [
+  	numberPosts: [
     check('authorization').notEmpty()
   ],
-  numberMailSub: [
+  	numberMailSub: [
     check('authorization').notEmpty()
   ],
-  getChatsUsersNumbers: [
-    check('authorization').notEmpty()
-  ],
-  getEarningNumber: [
-    check('authorization').notEmpty()
-  ],
-  getPostsData: [
-    check('authorization').notEmpty()
-  ],
-
+  	getChatsUsersNumbers: [
+    	check('authorization').notEmpty()
+  	],
+  	getEarningNumber: [
+    	check('authorization').notEmpty()
+  	],
+  	getPostsData: [
+    	check('authorization').notEmpty()
+  	],
 };

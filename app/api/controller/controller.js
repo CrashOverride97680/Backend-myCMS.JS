@@ -532,8 +532,7 @@ module.exports =
 // FATTO
 	register: (req, resp) => {
 
-		try
-		{
+		try {
 			const user =
 			{
 				email: req.body.email,
@@ -631,7 +630,6 @@ module.exports =
 	registerAdmin: (req, resp) => {
 		const user = {
 			email: req.body.email,
-			password: req.body.password,
 			username: req.body.username,
 			name: req.body.name,
 			surname: req.body.surname,
@@ -712,7 +710,7 @@ module.exports =
 																			username: user.username,
 																			name: user.name,
 																			surname: user.surname,
-																			admin: user.admin,
+																			admin: true,
 																			create: dateObj.toISOString()
 																		},
 																		(err, result) => {
