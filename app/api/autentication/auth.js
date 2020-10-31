@@ -3,9 +3,9 @@ const { check } = require('express-validator');
 const minPassword = process.env.PASS_LONG || 6;
 // EXPORTING MODULE
 module.exports = {
-	userLoginValidator: [ 
-		check('email').isEmail(), 
-		check('password').isLength({ min: minPassword }) 
+	userLoginValidator: [
+		check('email').isEmail(),
+		check('password').isLength({ min: minPassword })
 	],
 	userCreateValidator: [
 		check('email').isEmail(),
@@ -30,18 +30,31 @@ module.exports = {
 		check('password').isLength({ min: minPassword })
 	],
 	logout:[
-		check('authorizarion').notEmpty()
+		check('authorization').notEmpty()
 	],
 	posts:[
-		check('page').notEmpty(),
-		check('lang').isLength({min: 1}),
-		check('typePage').isLength({min: 1}),
-		check('backgroundImage').notEmpty(),
-		check('h1').notEmpty(),
-		check('mainContent').notEmpty(),
-		check('breadcrumbs').notEmpty(),
-		check('bodyPosts').notEmpty(),
-		check('gallery').notEmpty(),
-		check('visible').isBoolean()
+    check('authorization').notEmpty(),
+	  check('lang').notEmpty(),
+		check('type').notEmpty(),
+    check('title').notEmpty(),
+    check('header').notEmpty(),
+    check('content').notEmpty(),
+    check('visible').isBoolean()
 	],
+  numberPosts: [
+    check('authorization').notEmpty()
+  ],
+  numberMailSub: [
+    check('authorization').notEmpty()
+  ],
+  getChatsUsersNumbers: [
+    check('authorization').notEmpty()
+  ],
+  getEarningNumber: [
+    check('authorization').notEmpty()
+  ],
+  getPostsData: [
+    check('authorization').notEmpty()
+  ],
+
 };

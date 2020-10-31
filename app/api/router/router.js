@@ -7,6 +7,16 @@ const isValid = require('../autentication');
 const upload = require('../upload/upload');
 // ROUTES APP
 // -> GET
+router
+  .get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
+  .get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
+  .get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers)
+  .get('/getEarningNumber', auth.getEarningNumber, isValid.runValidation, controller.getEarningNumber)
+  .get('/getAllPosts', auth.getPostsData, isValid.runValidation, controller.getAllPosts)
+  .get('/getPosts/:max', auth.getPostsData, isValid.runValidation, controller.getPostsWithFilter)
+  .get('/getVisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getVisiblePostNumber)
+  .get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
+  .get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
@@ -18,7 +28,7 @@ router
 router
 	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser)
 // -> TEST
-if (process.env.NOD_ENV_TEST)
+if (process.env.NODE_ENV_TEST)
 {
 	router
 		.get('/test', controller.test)
