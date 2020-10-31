@@ -664,7 +664,7 @@ module.exports =
 														}
 														else
 														{
-															const passwords = generator.randomPassword(
+															const genPasswords = generator.randomPassword(
 															{
 																length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
 																characters:[generator.lower, generator.upper, generator.digits],
@@ -677,7 +677,7 @@ module.exports =
 															}
 
 															bcrypt
-																.hash(passwords, 10, (err, hash) => {
+																.hash(genPasswords, 10, (err, hash) => {
 																	if (!err)
 																	{
 																		const createUser = mongoose.model('user', 'users');
