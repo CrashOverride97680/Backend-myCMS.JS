@@ -676,48 +676,36 @@ module.exports =
 																console.log(lang.LANG_DEBUG_DATA, user);
 															}
 
-															if(admin)
-															{
-																bcrypt
-																	.hash(passwords, 10,
-																	(err, hash) =>
+															bcrypt
+																.hash(passwords, 10, (err, hash) => {
+																	if (!err)
 																	{
-																		if (!err)
-																		{
-																			const createUser = mongoose.model('user', 'users');
-																			let dateObj = new Date();
-																			createUser.create(
+																		const createUser = mongoose.model('user', 'users');
+																		let dateObj = new Date();
+																		createUser.create({
+																			admin: user.admin,
+																			email: user.email,
+																			password: hash,
+																			username: user.username,
+																			name: user.name,
+																			surname: user.surname,
+																			admin: user.admin,
+																			create: dateObj.toISOString()
+																		},
+																		(err, result) => {
+																			if (err === null)
 																			{
-																				admin: user.admin,
-																				email: user.email,
-																				password: hash,
-																				username: user.username,
-																				name: user.name,
-																				surname: user.surname,
-																				admin: user.admin,
-																				create: dateObj.toISOString()
-																			},
-																			(err, result) =>
-																			{
-																				if (err === null)
-																				{
-																					resp
-																						.status(201)
-																						.json(lang.LABEL_201_HTTP);
-																				}
-																			});
-																		}
-																		else
-																			resp
-																				.status(500)
-																				.json(lang.LABEL_500_HTTP);
-																	});
-															}
-															else {
-																resp
-																	.status(500)
-																	.json(lang.LABEL_500_HTTP);
-															}
+																				resp
+																					.status(201)
+																					.json(lang.LABEL_201_HTTP);
+																			}
+																		});
+																	}
+																	else
+																		resp
+																			.status(500)
+																			.json(lang.LABEL_500_HTTP);
+																});
 														}
 													}
 													else
