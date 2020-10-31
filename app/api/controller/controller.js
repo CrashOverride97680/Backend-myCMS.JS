@@ -540,9 +540,7 @@ module.exports =
 				password: req.body.password,
 				username: req.body.username,
 				name: req.body.name,
-				surname: req.body.surname,
-				token: req.headers['authorization'],
-				admin: req.body.admin
+				surname: req.body.surname
 			};
 
 			if (process.env.NODE_ENV_DEV)
@@ -617,7 +615,31 @@ module.exports =
 				}
 			}
 			else
-			{
+				resp
+					.status(403)
+					.json(lang.LABEL_403_HTTP);
+		}
+		catch (e)
+		{
+			console.log(lang.LABEL_ERROR_RETURN, e);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
+	},
+// FATTO
+	registerAdmin: (req, resp) => {
+		const user = {
+			email: req.body.email,
+			password: req.body.password,
+			username: req.body.username,
+			name: req.body.name,
+			surname: req.body.surname,
+			token: req.headers['authorization'],
+			admin: req.body.admin
+		};
+
+			try {
 				const client = redisConfig.clientRedis();
 				client
 					.get(user.token, (err, reply) =>
@@ -664,8 +686,7 @@ module.exports =
 														}
 														else
 														{
-															const passwords = generator.randomPassword(
-															{
+															const passwords = generator.randomPassword({
 																length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
 																characters:[generator.lower, generator.upper, generator.digits],
 															});
@@ -708,38 +729,36 @@ module.exports =
 																			.status(500)
 																			.json(lang.LABEL_500_HTTP);
 																});
-														}
 													}
-													else
-														resp
-															.status(500)
-															.json(lang.LABEL_500_HTTP);
-												});
-										}
-										else
-											resp
-												.status(403)
-												.json(lang.LABEL_403_HTTP);
+												}
+												else
+													resp
+														.status(500)
+														.json(lang.LABEL_500_HTTP);
+											});
 									}
 									else
-									{
-										console.log(lang.LABEL_ERROR_RETURN, err);
 										resp
 											.status(403)
 											.json(lang.LABEL_403_HTTP);
-									}
-								});
-						}
-					});
+								}
+								else
+								{
+									console.log(lang.LABEL_ERROR_RETURN, err);
+									resp
+										.status(403)
+										.json(lang.LABEL_403_HTTP);
+								}
+							});
+					}
+				});
+		}
+			catch (e) {
+				console.log(lang.LABEL_ERROR_RETURN, e);
+				resp
+					.status(500)
+					.json(lang.LABEL_500_HTTP);
 			}
-		}
-		catch (e)
-		{
-			console.log(lang.LABEL_ERROR_RETURN, e);
-			resp
-				.status(500)
-				.json(lang.LABEL_500_HTTP);
-		}
 	},
 // FATTO
 	checkAdminUser: (req, resp, next) => {
