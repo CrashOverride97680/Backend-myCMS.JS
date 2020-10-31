@@ -14,19 +14,11 @@ module.exports = {
 		check('name').notEmpty(),
 		check('surname').notEmpty()
 	],
-	adminCreateUser: [
-		check('email').isEmail(),
-		check('username').notEmpty(),
-		check('name').notEmpty(),
-		check('surname').notEmpty(),
-		check('authorization').notEmpty()
-	],
 	adminCreateValidator: [
 		check('email').isEmail(),
 		check('username').notEmpty(),
 		check('name').notEmpty(),
 		check('surname').notEmpty(),
-		check('admin').notEmpty(),
 		check('authorization').notEmpty()
 	],
 	getUser:[
