@@ -19,7 +19,6 @@ module.exports = {
 		check('username').notEmpty(),
 		check('name').notEmpty(),
 		check('surname').notEmpty(),
-		check('admin').notEmpty(),
 		check('authorization').notEmpty()
 	],
 	adminCreateValidator: [

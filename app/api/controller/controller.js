@@ -633,8 +633,7 @@ module.exports =
 			username: req.body.username,
 			name: req.body.name,
 			surname: req.body.surname,
-			token: req.headers['authorization'],
-			admin: req.body.admin
+			token: req.headers['authorization']
 		};
 
 			try {
