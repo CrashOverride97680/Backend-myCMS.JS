@@ -676,7 +676,7 @@ module.exports =
 																console.log(lang.LANG_DEBUG_DATA, user);
 															}
 
-															if((user.admin === true && user.admin === false) || (user.admin === true && user.admin === false))
+															if(admin)
 															{
 																bcrypt
 																	.hash(passwords, 10,
@@ -714,7 +714,6 @@ module.exports =
 																	});
 															}
 															else {
-																console.log("TEST SONO QUI");
 																resp
 																	.status(500)
 																	.json(lang.LABEL_500_HTTP);
