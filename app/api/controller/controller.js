@@ -641,7 +641,9 @@ module.exports =
 				client
 					.get(user.token, (err, reply) =>
 					{
-						if(reply)
+						console.log("ERROR:", err);
+						console.log("REPLY:", reply);
+						if(err)
 							resp
 								.status(403)
 								.json(lang.LABEL_403_HTTP);
