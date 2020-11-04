@@ -257,7 +257,6 @@ module.exports =
 		try
 		{
 		  const token = req.headers['authorization'];
-		  console.log("TOKEN:", token);
 		  if(blkLocal !== null)
 		  {
 			jwt
@@ -452,7 +451,7 @@ module.exports =
 	logout: (req, resp) => {
 		try
 		{
-			const token = req.headers['authorization'];
+			const token = req.headers['authorization'];-
 			if(blkLocal !== null)
 			{
 				jwt
@@ -627,7 +626,7 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-// FATTO
+// DA FARE
 	registerAdmin: (req, resp) => {
 		const user = {
 			email: req.body.email,
