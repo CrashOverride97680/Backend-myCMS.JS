@@ -23,13 +23,15 @@ const redisConfig = !process.env.NODE_ENV_LOCAL_BLACKLIST
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 
 module.exports = {
+
+//  CHECK IF TOKEN IS VALID RETURN PROMISE
     isValidToken: ({
         token,
         localBlacklist,
         redisBlacklist
     }) => {
-        return new Promise(( resolve, reject ) => {
-            if(!token) reject(langServer.LABEL_500_HTTP);
+        return new Promise((resolve, reject) => {
+            if(!token) reject(langServer.LABEL_500_HTTP);     // CHECK IF TOKEN IS PASSED
             else {
                 if ( localBlacklist ) {
                     const blkToken = blkLocal.findCache_LOCAL({ name: 'tokens', data: token });
@@ -37,12 +39,28 @@ module.exports = {
                         reject(langServer.LABEL_403_HTTP);
                     else
                         resolve();
-                }
+                }                   // CHECK INTO LOCAL BLACKLIST
                 else if( redisBlacklist ) {
-
-                }
-                else reject(langServer.LABEL_500_HTTP);
+                    const client = redisConfig.clientRedis();
+                    const tokenBlacklist = client
+                        .get(token, ( error, reply ) => {
+                           if(!reply)
+                               resolve();
+                           else
+                               reject(langServer.LABEL_403_HTTP);
+                        });
+                }               // CHECK INTO REDIS BLACKLIST
+                else reject(langServer.LABEL_500_HTTP);       // ERROR IF NOT IN LOCAL OR REDIS BLACKLIST
             }
         });
-    }
+    },
+
+//  CHECK IF USER IS LOGGED IN RETURN PROMISE
+    isLoggedUser: ({
+        token
+    }) => {
+        return new Promise((resolve, reject) => {
+
+        });
+    },
 };
