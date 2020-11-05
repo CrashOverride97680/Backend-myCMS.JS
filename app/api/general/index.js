@@ -60,7 +60,11 @@ module.exports = {
         token
     }) => {
         return new Promise((resolve, reject) => {
-
+            if(!token)
+                reject(langServer.LABEL_500_HTTP);
+            else {
+                
+            }
         });
     },
 };
