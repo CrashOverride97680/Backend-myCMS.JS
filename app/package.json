@@ -4,6 +4,7 @@
   "description": "Cms written with Nodejs",
   "main": "app.js",
   "scripts": {
+    "dev-legacy": "nodemon --legacy-watch app.js --watch . --watch .env --ignore api/cache/local_cache/cachePosts.json --ignore api/autentication/blacklist-local/blacklistToken.json --ignore-pattern api/autentication/whitelist-local/whitelistToken.json",
     "dev": "nodemon app.js --watch . --watch .env --ignore api/cache/local_cache/cachePosts.json --ignore api/autentication/blacklist-local/blacklistToken.json --ignore-pattern api/autentication/whitelist-local/whitelistToken.json",
     "start": "node app.js",
     "version": "auto-changelog -p && git add CHANGELOG.md",
