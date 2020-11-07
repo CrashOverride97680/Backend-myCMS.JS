@@ -451,7 +451,7 @@ module.exports =
 	logout: (req, resp) => {
 		try
 		{
-			const token = req.headers['authorization'];-
+			const token = req.headers['authorization'];
 			if(blkLocal !== null)
 			{
 				jwt
