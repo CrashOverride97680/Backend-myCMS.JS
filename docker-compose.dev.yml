@@ -1,3 +1,9 @@
+#
+#
+#       CONFIGURATRION FOR DOCKER DEVELOPMENMT ENVIRONMENT LINUX
+#
+#
+
 version: "3"
 services: 
     webapi:

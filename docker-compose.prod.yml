@@ -1,3 +1,9 @@
+#
+#
+#       CONFIGURATRION FOR DOCKER PRODUCTION IMAGE
+#
+#
+
 version: "3"
 services: 
     webapi:

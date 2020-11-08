@@ -1,3 +1,9 @@
+#
+#
+#       CONFIGURATRION FOR DOCKER DEVELOPMENT ENVIRONMENT WINDOWS
+#
+#
+
 version: "3"
 services: 
     webapi:
