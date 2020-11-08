@@ -21,6 +21,9 @@ const redisConfig = !process.env.NODE_ENV_LOCAL_BLACKLIST
     : null;
 // IMPORTING LANG AND DEBUG
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
+// IMPORT MONGO DB ( MONGOSCHEMA )
+const mongoose = require('mongoose');
+const decode = require('jsonwebtoken/decode');
 
 module.exports = {
 
@@ -31,16 +34,16 @@ module.exports = {
         redisBlacklist
     }) => {
         return new Promise((resolve, reject) => {
-            if(!token) reject(langServer.LABEL_500_HTTP);     // CHECK IF TOKEN IS PASSED
+            if(!token) reject(langServer.LABEL_500_HTTP);                                                                   // CHECK IF TOKEN IS PASSED
             else {
-                if ( localBlacklist ) {
+                if ( localBlacklist ) {                                                                                     // CHECK INTO LOCAL BLACKLIST
                     const blkToken = blkLocal.findCache_LOCAL({ name: 'tokens', data: token });
                     if( blkToken )
                         reject(langServer.LABEL_403_HTTP);
                     else
                         resolve();
-                }                   // CHECK INTO LOCAL BLACKLIST
-                else if( redisBlacklist ) {
+                }              
+                else if( redisBlacklist ) {                                                                                 // CHECK INTO REDIS BLACKLIST
                     const client = redisConfig.clientRedis();
                     const tokenBlacklist = client
                         .get(token, ( error, reply ) => {
@@ -49,22 +52,51 @@ module.exports = {
                            else
                                reject(langServer.LABEL_403_HTTP);
                         });
-                }               // CHECK INTO REDIS BLACKLIST
-                else reject(langServer.LABEL_500_HTTP);       // ERROR IF NOT IN LOCAL OR REDIS BLACKLIST
+                }           
+                else reject(langServer.LABEL_500_HTTP);                                                                     // ERROR IF NOT IN LOCAL OR REDIS BLACKLIST
             }
         });
     },
 
-//  CHECK IF USER IS LOGGED IN RETURN PROMISE
-    isLoggedUser: ({
+//  CHECK IF USERS ID ADMIN OR NOT
+    checkTypeUser: ({
         token
     }) => {
         return new Promise((resolve, reject) => {
             if(!token)
-                reject(langServer.LABEL_500_HTTP);
-            else {
-                
-            }
+                reject(langServer.LABEL_403_HTTP);
+            else 
+            {
+                jwt
+                    .verify(token, secret, (err, decoded) =>
+                    {
+                        if(process.env.NODE_ENV_TEST)
+                        {
+                            console.log(lang.LANG_DEBUG_ERROR, err);
+                            console.log(lang.LANG_DEBUG_DATA, decoded);
+                        }
+
+                        if(err === null)
+                        {
+                            const {
+                                _id,
+                                admin
+                            } = decoded;
+
+                            const findUser = mongoose.model('user', 'users');
+                            findUser
+                                .findById(_id, (error, data) => {
+                                    if(error == null)
+							        {
+                                        if (data.admin == admin) resolve({admin});
+                                        else reject(langServer.LABEL_403_HTTP);
+                                    }
+                                    else reject(langServer.LABEL_500_HTTP);     
+                                });
+                        }
+                        else reject(langServer.LABEL_500_HTTP);
+                    });
+			}
         });
     },
 };

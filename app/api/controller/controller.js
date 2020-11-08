@@ -18,7 +18,7 @@ const lang = require(langServer);
 const secret = process.env.SECRET_KEY || 'secret_key';
 const bcrypt = require('bcryptjs');
 const testUser = process.env.NODE_ENV_DEV
-	? 	{
+	? {
 			id: Math.floor(Math.random() * (999999999 - 99999999 + 1) + 99999999),
 			admin: true,
 			email: 'email@test.xd',
@@ -29,7 +29,7 @@ const testUser = process.env.NODE_ENV_DEV
 		}
 	: null;
 const testUserMail = process.env.NODE_ENV_DEV
-	? 	{
+	? {
 			from: 'test@test.test',
 			to: 'test@test.test',
 			email: 'email@test.xd',
@@ -259,186 +259,186 @@ module.exports =
 		  const token = req.headers['authorization'];
 		  if(blkLocal !== null)
 		  {
-			jwt
-			  .verify(token, secret, (err, decoded) =>
-			  {
-				const { _id, username } = decoded;
-				const tokenBlacklist = blkLocal
-				  .findCache_LOCAL({
-					name:'tokens',
-					data:{
-					  token
-					}
-				  });
-				if(!tokenBlacklist)
-				{
-				  jwt
-					.verify(token, secret, (err, decoded) =>
-					{
-					  if(process.env.NODE_ENV_TEST)
-					  {
-						console.log(lang.LANG_DEBUG_ERROR, err);
-						console.log(lang.LANG_DEBUG_DATA, decoded);
-					  }
+			  jwt
+			    .verify(token, secret, (err, decoded) =>
+			    {
+				    const { _id, username } = decoded;
+				    const tokenBlacklist = blkLocal
+              .findCache_LOCAL({
+                    name:'tokens',
+                    data:{
+                      token
+                    }
+                });
+                if(!tokenBlacklist)
+                {
+                  jwt
+                    .verify(token, secret, (err, decoded) =>
+                    {
+                      if(process.env.NODE_ENV_TEST)
+                      {
+                        console.log(lang.LANG_DEBUG_ERROR, err);
+                        console.log(lang.LANG_DEBUG_DATA, decoded);
+                      }
 
-					  if(err === null)
-					  {
-						const {
-						  admin
-						} = decoded;
-						if(admin)
-						{
-						  const posts = mongoose.model('posts', 'posts');
-						  const date = new Date();
-						  const langPost = req.body.lang;
-						  const {
-							type,
-							title,
-							header,
-							content,
-							visible
-						  } = req.body;
-						  let today = new Date();
-						  let dd = today.getDate();
-						  let mm = today.getMonth() + 1; //January is 0!
+                      if(err === null)
+                      {
+                        const {
+                          admin
+                        } = decoded;
+                        if(admin)
+                        {
+                          const posts = mongoose.model('posts', 'posts');
+                          const date = new Date();
+                          const langPost = req.body.lang;
+                          const {
+                            type,
+                            title,
+                            header,
+                            content,
+                            visible
+                          } = req.body;
+                          let today = new Date();
+                          let dd = today.getDate();
+                          let mm = today.getMonth() + 1; //January is 0!
 
-						  let yyyy = today.getFullYear();
-						  if (dd < 10) {
-							dd = '0' + dd;
-						  }
-						  if (mm < 10) {
-							mm = '0' + mm;
-						  }
-						  let thisDay = dd + '/' + mm + '/' + yyyy;
-						  posts
-							.create({
-							  lang: langPost,
-							  type,
-							  title,
-							  header,
-							  content,
-							  visible,
-							  create: today,
-							  dateUser: thisDay
-							}, (err, result) =>
-							{
-							  if (err == null)
-								resp
-								  .status(201)
-								  .json(lang.LABEL_201_HTTP);
-							});
-						}
-						else
-						  resp
-							.status(403)
-							.json(lang.LABEL_403_HTTP);
-					  }
-					  else
-					  {
-						console.log(lang.LABEL_ERROR_RETURN, err);
-						resp
-						  .status(403)
-						  .json(lang.LABEL_403_HTTP);
-					  }
-					});
-				}
-				else
-				  resp
-					.status(403)
-					.json(lang.LABEL_403_HTTP);
-			  });
+                          let yyyy = today.getFullYear();
+                          
+                          if (dd < 10) {
+                            dd = '0' + dd;
+                          }
+                          
+                          if (mm < 10) {
+                            mm = '0' + mm;
+                          }
+                          
+                          let thisDay = dd + '/' + mm + '/' + yyyy;
+                          posts
+                            .create({
+                              lang: langPost,
+                              type,
+                              title,
+                              header,
+                              content,
+                              visible,
+                              create: today,
+                              dateUser: thisDay
+                            }, (err, result) =>
+                            {
+                              if (err == null)
+                              resp
+                                .status(201)
+                                .json(lang.LABEL_201_HTTP);
+                            });
+                        }
+                        else
+                          resp
+                            .status(403)
+                            .json(lang.LABEL_403_HTTP);
+                      }
+                      else
+                      {
+                        console.log(lang.LABEL_ERROR_RETURN, err);
+                        resp
+                          .status(403)
+                          .json(lang.LABEL_403_HTTP);
+                      }
+                    });
+                }
+                else resp.status(403).json(lang.LABEL_403_HTTP);
+          });
 		  }
 		  else if (blkLocal === null)
 		  {
-			jwt
-			  .verify(token, secret, (err, decoded) =>
-			  {
-				const { _id, username } = decoded;
-				const client = redisConfig.clientRedis();
-				const tokenBlacklist = client
-				  .get(token, (err, reply) =>
-				  {
-					if(!reply)
-					{
-					  jwt
-						.verify(token, secret, (err, decoded) =>
-						{
-						  if(process.env.NODE_ENV_TEST)
-						  {
-							console.log(lang.LANG_DEBUG_ERROR, err);
-							console.log(lang.LANG_DEBUG_DATA, decoded);
-						  }
+        jwt
+          .verify(token, secret, (err, decoded) =>
+          {
+          const { _id, username } = decoded;
+          const client = redisConfig.clientRedis();
+          const tokenBlacklist = client
+            .get(token, (err, reply) =>
+            {
+            if(!reply)
+            {
+              jwt
+              .verify(token, secret, (err, decoded) =>
+              {
+                if(process.env.NODE_ENV_TEST)
+                {
+                console.log(lang.LANG_DEBUG_ERROR, err);
+                console.log(lang.LANG_DEBUG_DATA, decoded);
+                }
 
-						  if(err == null)
-						  {
-							const {
-							  admin
-							} = decoded;
-							if(admin)
-							{
-							  const posts = mongoose.model('posts', 'posts');
-							  const date = new Date();
-							  const langPost = req.body.lang;
-							  const {
-								type,
-								title,
-								header,
-								content,
-								visible
-							  } = req.body;
-							  let today = new Date();
-							  let dd = today.getDate();
-							  let mm = today.getMonth() + 1; //January is 0!
+                if(err == null)
+                {
+                const {
+                  admin
+                } = decoded;
+                if(admin)
+                {
+                  const posts = mongoose.model('posts', 'posts');
+                  const date = new Date();
+                  const langPost = req.body.lang;
+                  const {
+                  type,
+                  title,
+                  header,
+                  content,
+                  visible
+                  } = req.body;
+                  let today = new Date();
+                  let dd = today.getDate();
+                  let mm = today.getMonth() + 1; //January is 0!
 
-							  let yyyy = today.getFullYear();
-							  if (dd < 10) {
-								dd = '0' + dd;
-							  }
-							  if (mm < 10) {
-								mm = '0' + mm;
-							  }
-							  let thisDay = dd + '/' + mm + '/' + yyyy;
-							  posts
-								.create({
-								  lang: langPost,
-								  type,
-								  title,
-								  header,
-								  content,
-								  visible,
-								  create: today,
-								  dateUser: thisDay
-								}, (err, result) =>
-								{
-								  if (err == null)
-									resp
-									  .status(201)
-									  .json(lang.LABEL_201_HTTP);
-								});
-							}
-							else
-							  resp
-								.status(403)
-								.json(lang.LABEL_403_HTTP);
-						  }
-						  else
-						  {
-							console.log(lang.LABEL_ERROR_RETURN, err);
-							resp
-							  .status(403)
-							  .json(lang.LABEL_403_HTTP);
-						  }
-						});
-					}
-					else
-					  resp
-						.status(403)
-						.json(lang.LABEL_403_HTTP);
-				  });
+                  let yyyy = today.getFullYear();
+                  if (dd < 10) {
+                  dd = '0' + dd;
+                  }
+                  if (mm < 10) {
+                  mm = '0' + mm;
+                  }
+                  let thisDay = dd + '/' + mm + '/' + yyyy;
+                  posts
+                  .create({
+                    lang: langPost,
+                    type,
+                    title,
+                    header,
+                    content,
+                    visible,
+                    create: today,
+                    dateUser: thisDay
+                  }, (err, result) =>
+                  {
+                    if (err == null)
+                    resp
+                      .status(201)
+                      .json(lang.LABEL_201_HTTP);
+                  });
+                }
+                else
+                  resp
+                  .status(403)
+                  .json(lang.LABEL_403_HTTP);
+                }
+                else
+                {
+                console.log(lang.LABEL_ERROR_RETURN, err);
+                resp
+                  .status(403)
+                  .json(lang.LABEL_403_HTTP);
+                }
+              });
+            }
+            else
+              resp
+              .status(403)
+              .json(lang.LABEL_403_HTTP);
+            });
 
-			  });
-		  }
-		}
+          });
+        }
+    }
 		catch (err)
 		{
 		  console.log(lang.LABEL_ERROR_RETURN, err);
