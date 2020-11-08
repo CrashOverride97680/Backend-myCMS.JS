@@ -58,7 +58,7 @@ module.exports = {
         });
     },
 
-//  CHECK IF USERS ID ADMIN OR NOT
+//  CHECK IF USERS IS ADMIN OR NOT
     checkTypeUser: ({
         token
     }) => {
@@ -66,7 +66,6 @@ module.exports = {
             if(!token)
                 reject(langServer.LABEL_403_HTTP);
             else 
-            {
                 jwt
                     .verify(token, secret, (err, decoded) =>
                     {
@@ -96,7 +95,6 @@ module.exports = {
                         }
                         else reject(langServer.LABEL_500_HTTP);
                     });
-			}
         });
     },
 };
