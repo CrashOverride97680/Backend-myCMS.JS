@@ -29,6 +29,12 @@ router
 router
 	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser)
 // -> TEST
+if(process.env.NODE_TEST_ADMIN) 
+{
+	router
+		.get('/testToken', controller.sendTestToken);
+}
+
 if (process.env.NODE_ENV_TEST)
 {
 	router
@@ -38,7 +44,7 @@ if (process.env.NODE_ENV_TEST)
 	router
 		.post('/checktoken', controller.checkTokenTest);
 	router
-		.post('/testimg', upload.test, controller.uploadTest);
+		.post('/testimg', upload.test, controller.uploadTest);		
 }
 // -> 404
 router.get('*', controller.notFound);

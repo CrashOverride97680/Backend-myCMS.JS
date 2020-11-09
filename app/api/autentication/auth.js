@@ -32,20 +32,20 @@ module.exports = {
 		check('authorization').notEmpty()
 	],
 	posts:[
-    check('authorization').notEmpty(),
-	  check('lang').notEmpty(),
+    	check('authorization').notEmpty(),
+	  	check('lang').notEmpty(),
 		check('type').notEmpty(),
-    check('title').notEmpty(),
-    check('header').notEmpty(),
-    check('content').notEmpty(),
-    check('visible').isBoolean()
+    	check('title').notEmpty(),
+    	check('header').notEmpty(),
+    	check('content').notEmpty(),
+    	check('visible').isBoolean()
 	],
   	numberPosts: [
-    check('authorization').notEmpty()
-  ],
+    	check('authorization').notEmpty()
+  	],
   	numberMailSub: [
-    check('authorization').notEmpty()
-  ],
+    	check('authorization').notEmpty()
+  	],
   	getChatsUsersNumbers: [
     	check('authorization').notEmpty()
   	],
@@ -54,5 +54,5 @@ module.exports = {
   	],
   	getPostsData: [
     	check('authorization').notEmpty()
-  	],
+	]
 };

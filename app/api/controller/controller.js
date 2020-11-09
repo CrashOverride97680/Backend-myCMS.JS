@@ -34,7 +34,7 @@ const testUserMail = process.env.NODE_ENV_DEV
 			to: 'test@test.test',
 			email: 'email@test.xd',
 			subject: 'test',
-			username: 'testUsername'
+      username: 'testUsername'
 		}
 	: null;
 //  REDIS CACHING MODULE
@@ -47,7 +47,9 @@ const redisConfig = !process.env.NODE_ENV_LOCAL_BLACKLIST
 //  IMPORTING CACHING WHITELIST FOR REGENERATE TOKEN
 const whtlstlocal = !process.env.NODE_ENV_LOCAL_WHITELIST
 	? require('../autentication/whitelist-local/whitelist-local')
-	: null;
+  : null;
+//  IMPORTING GENERAL FUNCTIONS
+const genFunctions = require('../general');
 //  EXPORTING MODULE
 module.exports =
 {
@@ -119,7 +121,32 @@ module.exports =
 						.json(lang.LABEL_403_HTTP);
 				}
 			});
-	},
+  },
+// FATTO
+  sendTestToken: (req, resp) => {
+    const id = generator.randomPassword({
+      length: 25,
+      characters:[generator.lower, generator.upper, generator.digits],
+    });
+    jwt
+      .sign({ _id: id, username: "loremIpsumAdmin", admin: true, auth: true }, secret, { expiresIn: '1d' }, (err, token) =>
+      {
+        if (err)
+        {
+          console.log(lang.LABEL_ERROR_RETURN, err);
+          resp
+            .status(500)
+            .json(lang.LABEL_500_HTTP);
+        }
+        else
+        {
+          resp
+            .json({
+              token
+            });
+        }
+      });
+  },
 // FATTO
 	notFound: (req, resp) => {
 		resp
@@ -531,7 +558,6 @@ module.exports =
 	requireSignin: () => expressJWT({ secret }),
 // FATTO
 	register: (req, resp) => {
-
 		try {
 			const user =
 			{
@@ -628,136 +654,97 @@ module.exports =
 	},
 // DA FARE
 	registerAdmin: (req, resp) => {
-		const user = {
-			email: req.body.email,
-			username: req.body.username,
-			name: req.body.name,
-			surname: req.body.surname,
-			token: req.headers['authorization']
-		};
+		try {
+      const user = {
+        email: req.body.email,
+        username: req.body.username,
+        name: req.body.name,
+        surname: req.body.surname,
+        token: req.headers['authorization']
+      };
 
-			try {
-				const client = redisConfig.clientRedis();
-				client
-					.get(user.token, (err, reply) =>
-					{
-						console.log("ERROR:", err);
-						console.log("REPLY:", reply);
-						if(err)
-							resp
-								.status(403)
-								.json(lang.LABEL_403_HTTP);
-						else
-						{
-							jwt
-								.verify(user.token, secret, (err, decoded) =>
-								{
-									if(process.env.NODE_ENV_TEST)
-									{
-										console.log(lang.LANG_DEBUG_ERROR, err);
-										console.log(lang.LANG_DEBUG_DATA, decoded);
-									}
+      Promise.all([
+        genFunctions.isValidToken({
+          token: user.token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token: user.token
+        })
+      ])
+      .then(result => {
+        console.log("RESULT:", result);
+        const admin = result[1];
+        if(admin)
+        {
+          
+          const passwords = generator.randomPassword({
+            length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
+            characters:[generator.lower, generator.upper, generator.digits],
+          });
 
-									if(err === null)
-									{
-										const {
-											admin,
-										} = decoded;
+          if(process.env.NODE_ENV_TEST)
+          {
+            user.password = passwords;
+            console.log(lang.LANG_DEBUG_DATA, user);
+          }
 
-										if(admin)
-										{
-											const findUser = mongoose.model('user', 'users');
-											findUser
-												.findOne({email: user.email }, (error, data) =>
-												{
-													if(process.env.NODE_ENV_TEST){
-														console.log(lang.LANG_DEBUG_ERROR, error);
-														console.log(lang.LANG_DEBUG_RESULT, data);
-													}
-													if (error === null)
-													{
-														if (data !== null)
-														{
-															if (data.confirmed === false)
-																resp
-																	.status(202)
-																	.json(lang.LABEL_RESEND_EMAIL);
-														}
-														else
-														{
-															const passwords = generator.randomPassword({
-																length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
-																characters:[generator.lower, generator.upper, generator.digits],
-															});
+          bcrypt
+            .hash(passwords, 10, (err, hash) => 
+            {
+              if (!err)
+              {
+                if(process.env.NODE_ENV_TEST)
+                {
+                  console.log("HASH", hash);
+                  console.log("PASSWORDS", passwords);
+                }
 
-															if(process.env.NODE_ENV_TEST)
-															{
-																user.password = passwords;
-																console.log(lang.LANG_DEBUG_DATA, user);
-															}
-
-															bcrypt
-																.hash(passwords, 10, (err, hash) => {
-																	if (!err)
-																	{
-																		console.log("HASH", hash);
-																		console.log("PASSWORDS", passwords);
-																		const createUser = mongoose.model('user', 'users');
-																		let dateObj = new Date();
-																		createUser.create({
-																			admin: user.admin,
-																			email: user.email,
-																			password: hash,
-																			username: user.username,
-																			name: user.name,
-																			surname: user.surname,
-																			admin: true,
-																			create: dateObj.toISOString()
-																		},
-																		(err, result) => {
-																			if (err === null)
-																			{
-																				resp
-																					.status(201)
-																					.json(lang.LABEL_201_HTTP);
-																			}
-																		});
-																	}
-																	else
-																		resp
-																			.status(500)
-																			.json(lang.LABEL_500_HTTP);
-																});
-													}
-												}
-												else
-													resp
-														.status(500)
-														.json(lang.LABEL_500_HTTP);
-											});
-									}
-									else
-										resp
-											.status(403)
-											.json(lang.LABEL_403_HTTP);
-								}
-								else
-								{
-									console.log(lang.LABEL_ERROR_RETURN, err);
-									resp
-										.status(403)
-										.json(lang.LABEL_403_HTTP);
-								}
-							});
-					}
-				});
+                const createUser = mongoose.model('user', 'users');
+                let dateObj = new Date();
+                createUser.create({
+                  admin: user.admin,
+                  email: user.email,
+                  password: hash,
+                  username: user.username,
+                  name: user.name,
+                  surname: user.surname,
+                  admin: true,
+                  create: dateObj.toISOString()
+                },
+                (err, result) => {
+                  if (err === null)
+                  {
+                    resp
+                      .status(201)
+                      .json(lang.LABEL_201_HTTP);
+                  }
+                });
+              }
+              else
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+            });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
 		}
-			catch (e) {
-				console.log(lang.LABEL_ERROR_RETURN, e);
-				resp
-					.status(500)
-					.json(lang.LABEL_500_HTTP);
-			}
+		catch (e) {
+			console.log(lang.LABEL_ERROR_RETURN, e);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
 	},
 // FATTO
 	checkAdminUser: (req, resp, next) => {
@@ -1083,7 +1070,7 @@ module.exports =
 		}
 	},
 // FATTO
-  	getPostsNumbers: (req, resp) => {
+  getPostsNumbers: (req, resp) => {
     try
     {
       const token = req.headers['authorization'];
@@ -1216,7 +1203,7 @@ module.exports =
     }
   } ,
 // FATTO
-  	getMailSubNumbers: (req, resp) => {
+  getMailSubNumbers: (req, resp) => {
     try
     {
       const token = req.headers['authorization'];
@@ -1349,7 +1336,7 @@ module.exports =
     }
   },
 // FATTO
-  	getChatsUsersNumbers: (req, resp) => {
+  getChatsUsersNumbers: (req, resp) => {
     try
     {
       const token = req.headers['authorization'];
@@ -1482,7 +1469,7 @@ module.exports =
     }
   },
 // FATTO
-  	getEarningNumber: (req, resp) => {
+  getEarningNumber: (req, resp) => {
     try
     {
       const token = req.headers['authorization'];
@@ -2108,7 +2095,7 @@ module.exports =
     }
   },
 // FATTO
-  	getAllPostsTable: (req, resp) => {
+  getAllPostsTable: (req, resp) => {
     try {
       const token = req.headers['authorization'];
       if(blkLocal !== null)

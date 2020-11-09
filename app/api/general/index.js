@@ -21,6 +21,7 @@ const redisConfig = !process.env.NODE_ENV_LOCAL_BLACKLIST
     : null;
 // IMPORTING LANG AND DEBUG
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
+const lang = require(langServer);
 // IMPORT MONGO DB ( MONGOSCHEMA )
 const mongoose = require('mongoose');
 const decode = require('jsonwebtoken/decode');
@@ -34,26 +35,26 @@ module.exports = {
         redisBlacklist
     }) => {
         return new Promise((resolve, reject) => {
-            if(!token) reject(langServer.LABEL_500_HTTP);                                                                   // CHECK IF TOKEN IS PASSED
+            if(!token) reject({status: 500, lang: lang.LABEL_500_HTTP});                                                                   // CHECK IF TOKEN IS PASSED
             else {
                 if ( localBlacklist ) {                                                                                     // CHECK INTO LOCAL BLACKLIST
                     const blkToken = blkLocal.findCache_LOCAL({ name: 'tokens', data: token });
                     if( blkToken )
-                        reject(langServer.LABEL_403_HTTP);
+                        reject({status: 403, lang: lang.LABEL_403_HTTP});
                     else
-                        resolve();
+                        resolve(true);
                 }              
                 else if( redisBlacklist ) {                                                                                 // CHECK INTO REDIS BLACKLIST
                     const client = redisConfig.clientRedis();
                     const tokenBlacklist = client
                         .get(token, ( error, reply ) => {
                            if(!reply)
-                               resolve();
+                               resolve(true);
                            else
-                               reject(langServer.LABEL_403_HTTP);
+                               reject({status: 403, lang: lang.LABEL_403_HTTP});
                         });
                 }           
-                else reject(langServer.LABEL_500_HTTP);                                                                     // ERROR IF NOT IN LOCAL OR REDIS BLACKLIST
+                else reject({status: 500, lang: lang.LABEL_500_HTTP});                                                                     // ERROR IF NOT IN LOCAL OR REDIS BLACKLIST
             }
         });
     },
@@ -63,38 +64,41 @@ module.exports = {
         token
     }) => {
         return new Promise((resolve, reject) => {
-            if(!token)
-                reject(langServer.LABEL_403_HTTP);
-            else 
-                jwt
-                    .verify(token, secret, (err, decoded) =>
-                    {
-                        if(process.env.NODE_ENV_TEST)
+            try {
+                if(!token)
+                    reject({status: 403,lang: lang.LABEL_403_HTTP});
+                else 
+                    jwt
+                        .verify(token, secret, (err, decoded) =>
                         {
-                            console.log(lang.LANG_DEBUG_ERROR, err);
-                            console.log(lang.LANG_DEBUG_DATA, decoded);
-                        }
+                            if(process.env.NODE_ENV_TEST) {
+                                console.log(lang.LANG_DEBUG_ERROR, err);
+                                console.log(lang.LANG_DEBUG_DATA, decoded);
+                            }
 
-                        if(err === null)
-                        {
-                            const {
-                                _id,
-                                admin
-                            } = decoded;
+                            if(err === null) {
+                                const {
+                                    _id,
+                                    admin
+                                } = decoded;
 
-                            const findUser = mongoose.model('user', 'users');
-                            findUser
-                                .findById(_id, (error, data) => {
-                                    if(error == null)
-							        {
-                                        if (data.admin == admin) resolve({admin});
-                                        else reject(langServer.LABEL_403_HTTP);
-                                    }
-                                    else reject(langServer.LABEL_500_HTTP);     
-                                });
-                        }
-                        else reject(langServer.LABEL_500_HTTP);
-                    });
+                                const findUser = mongoose.model('user', 'users');
+                                findUser
+                                    .findById(_id, (error, data) => {
+                                        if(error == null) {
+                                            if (data.admin == true || data.admin == false) resolve({admin: data.admin});
+                                            else reject({status: 403,lang: lang.LABEL_403_HTTP});
+                                        }
+                                        else reject({status: 500,lang: lang.LABEL_500_HTTP});     
+                                    });
+                            }
+                            else reject({status: 500,lang: lang.LABEL_500_HTTP});
+                        });
+            }
+            catch (e) {
+                console.log(lang.LABEL_ERROR_RETURN, e);
+                reject({status: 500,label: lang.LABEL_500_HTTP});
+            }
         });
     },
 };
