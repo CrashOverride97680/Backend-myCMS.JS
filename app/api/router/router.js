@@ -42,8 +42,7 @@ if (process.env.NODE_ENV_TEST)
 		.get('/secret', controller.requireSignin, controller.secretTest)
 		.get('/testmail', controller.testMail);
 	router
-		.post('/checktoken', controller.checkTokenTest);
-	router
+		.post('/checktoken', controller.checkTokenTest)
 		.post('/testimg', upload.test, controller.uploadTest);		
 }
 // -> 404
