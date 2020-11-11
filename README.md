@@ -1,4 +1,4 @@
-# myCMS.JS
+# myCMS.JS MODERN DESIGN !!!
 This repository content the design CMS
 ## Login Page
 ![Login Page](/login.jpeg)
