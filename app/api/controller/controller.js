@@ -605,13 +605,12 @@ module.exports =
 											{
 												const createUser = mongoose.model('user', 'users');
 												let dateObj = new Date();
-												createUser.create(
-												{
+												createUser.create({
 													email: user.email,
 													password: hash,
 													username: user.username,
 													name: user.name,
-													surname: user.surname,
+                          surname: user.surname,
 													create: dateObj.toISOString()
 												},
 												(err, result) =>
@@ -701,24 +700,45 @@ module.exports =
                   console.log("PASSWORDS", passwords);
                 }
 
-                const createUser = mongoose.model('user', 'users');
-                let dateObj = new Date();
-                createUser.create({
-                  admin: user.admin,
-                  email: user.email,
-                  password: hash,
-                  username: user.username,
-                  name: user.name,
-                  surname: user.surname,
-                  admin: true,
-                  create: dateObj.toISOString()
-                },
-                (err, result) => {
-                  if (err === null)
+                const findUser = mongoose.model('user', 'users');
+                findUser.find(
+                {
+                  email: user.email
+                }, (err, data) => 
+                {
+
+                  if (data !== null) 
                   {
-                    resp
-                      .status(201)
-                      .json(lang.LABEL_201_HTTP);
+									  if (data.confirmed === false)
+										  resp
+											  .status(202)
+											  .json(lang.LABEL_RESEND_EMAIL);
+									  else
+										  resp
+											  .status(403)
+											  .json(lang.LABEL_403_HTTP);
+                  }
+                  else 
+                  {
+                    const createUser = mongoose.model('user', 'users');
+                    let dateObj = new Date();
+                    createUser.create(
+                    {
+                      admin: user.admin,
+                      email: user.email,
+                      password: hash,
+                      username: user.username,
+                      name: user.name,
+                      surname: user.surname,
+                      admin: true,
+                      create: dateObj.toISOString()
+                    }, (err, result) => 
+                    {
+                      if (err === null)
+                        resp
+                          .status(201)
+                          .json(lang.LABEL_201_HTTP);
+                    });
                   }
                 });
               }
