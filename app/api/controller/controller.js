@@ -673,11 +673,9 @@ module.exports =
         })
       ])
       .then(result => {
-        console.log("RESULT:", result);
         const admin = result[1];
         if(admin)
         {
-          
           const passwords = generator.randomPassword({
             length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
             characters:[generator.lower, generator.upper, generator.digits],
@@ -696,8 +694,8 @@ module.exports =
               {
                 if(process.env.NODE_ENV_TEST)
                 {
-                  console.log("HASH", hash);
-                  console.log("PASSWORDS", passwords);
+                  console.log(lang.LANG_DEBUG_HASH, hash);
+                  console.log(lang.LANG_DEBUG_PASSWORD, passwords);
                 }
 
                 const findUser = mongoose.model('user', 'users');
