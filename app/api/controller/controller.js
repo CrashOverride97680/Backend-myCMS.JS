@@ -169,39 +169,39 @@ module.exports =
   },
 // FATTO
   testMail: (req, resp) => {
-  smtp
-    .testMail()
-    .then(data => {
-      let SMTPConfig = smtp.createTransport({
-        host: data.smtp.host,
-        port: data.smtp.port,
-        secure: data.smtp.secure,
-        auth: {
-          user: data.user,
-          pass: data.pass
-        }
-      });
-      smtp
-        .send({
-          SMTPConfig,
-          from: testUserMail.from,
-          to: testUserMail.to,
-          subject: testUserMail.subject,
-          html: smtp.template.register({ username: testUserMail })
-        })
-        .then((rejection) => {
-          if (rejection.accepted)
+    smtp
+      .testMail()
+      .then(data => {
+        let SMTPConfig = smtp.createTransport({
+          host: data.smtp.host,
+          port: data.smtp.port,
+          secure: data.smtp.secure,
+          auth: {
+            user: data.user,
+            pass: data.pass
+          }
+        });
+        smtp
+          .send({
+            SMTPConfig,
+            from: testUserMail.from,
+            to: testUserMail.to,
+            subject: testUserMail.subject,
+            html: smtp.template.register({ username: testUserMail })
+          })
+          .then((rejection) => {
+            if (rejection.accepted)
+              resp
+                .status(200)
+                .json(lang.LABEL_ACCEPTED_SMTP);
+            else
             resp
-              .status(200)
-              .json(lang.LABEL_ACCEPTED_SMTP);
-          else
-          resp
-            .status(500)
-            .json(lang.LABEL_ERROR_SMTP);
-        })
-        .catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
-    })
-    .catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
+              .status(500)
+              .json(lang.LABEL_ERROR_SMTP);
+          })
+          .catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
+      })
+      .catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
   },
 // FATTO
   secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
@@ -592,167 +592,36 @@ module.exports =
   requireSignin: () => expressJWT({ secret }),  
 // FATTO
   register: (req, resp) => {
-  try {
-    const user =
-    {
-      email: req.body.email,
-      password: req.body.password,
-      username: req.body.username,
-      name: req.body.name,
-      surname: req.body.surname
-    };
-
-    if (process.env.NODE_ENV_DEV)
-      console.log(lang.LANG_DEBUG_USER, user);
-
-    if (!user.token)
-    {
-      const findUser = mongoose.model('user', 'users');
-      try
+    try {
+      const user =
       {
-        findUser
-          .findOne({email: user.email}, (error, data) =>
-          {
-            if(process.env.NODE_ENV_TEST){
-              console.log(lang.LANG_DEBUG_ERROR, error);
-              console.log(lang.LANG_DEBUG_DATA, data);
-            }
-            if (error === null)
-            {
-              if (data !== null)
-              {
-                if (data.confirmed === false)
-                  resp
-                    .status(202)
-                    .json(lang.LABEL_RESEND_EMAIL);
-                else
-                  resp
-                    .status(403)
-                    .json(lang.LABEL_403_HTTP);
-              }
-              else
-              {
-                bcrypt
-                  .hash(user.password, 10, (err, hash) =>
-                  {
-                    if (!err)
-                    {
-                      const createUser = mongoose.model('user', 'users');
-                      let dateObj = new Date();
-                      createUser.create({
-                        email: user.email,
-                        password: hash,
-                        username: user.username,
-                        name: user.name,
-                        surname: user.surname,
-                        create: dateObj.toISOString()
-                      },
-                      (err, result) =>
-                      {
-                        if (err == null)
-                          resp
-                            .status(201)
-                            .json(lang.LABEL_201_HTTP);
-                      });
-                    }
-                  });
-              }
-            }
-            else
-              resp
-                .status(403)
-                .json(lang.LABEL_403_HTTP);
-          });
-      }
-      catch (e)
-      {
-        console.log(lang.LABEL_ERROR_RETURN, e);
-        resp
-          .status(500)
-          .json(lang.LABEL_500_HTTP);
-      }
-    }
-    else
-      resp
-        .status(403)
-        .json(lang.LABEL_403_HTTP);
-  }
-  catch (e)
-  {
-    console.log(lang.LABEL_ERROR_RETURN, e);
-    resp
-      .status(500)
-      .json(lang.LABEL_500_HTTP);
-  }
-  },
-// FATTO
-  registerAdmin: (req, resp) => {
-  try {
-    const user = {
-      email: req.body.email,
-      username: req.body.username,
-      name: req.body.name,
-      surname: req.body.surname,
-      token: req.headers['authorization']
-    };
+        email: req.body.email,
+        password: req.body.password,
+        username: req.body.username,
+        name: req.body.name,
+        surname: req.body.surname
+      };
 
-    Promise.all([
-      genFunctions.isValidToken({
-        token: user.token,
-        localBlacklist: blkLocal,
-        redisBlacklist: redis
-      }),
-      genFunctions.checkTypeUser({
-        token: user.token
-      })
-    ])
-    .then(result => {
-      const res = result[1];
-      const { admin } = res;
-      if(admin)
-      {
-        const passwords = generator.randomPassword({
-          length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
-          characters:[generator.lower, generator.upper, generator.digits],
-        });
+      if (process.env.NODE_ENV_DEV)
+        console.log(lang.LANG_DEBUG_USER, user);
 
-        if(process.env.NODE_ENV_TEST)
+      if (!user.token)
+      {
+        const findUser = mongoose.model('user', 'users');
+        try
         {
-          user.password = passwords;
-          console.log(lang.LANG_DEBUG_DATA, user);
-        }
-
-        bcrypt
-          .hash(passwords, 10, (err, hash) => 
-          {
-            if (!err)
+          findUser
+            .findOne({email: user.email}, (error, data) =>
             {
-              if(process.env.NODE_ENV_TEST)
-              {
-                console.log(lang.LANG_DEBUG_HASH, hash);
-                console.log(lang.LANG_DEBUG_PASSWORD, passwords);
+              if(process.env.NODE_ENV_TEST){
+                console.log(lang.LANG_DEBUG_ERROR, error);
+                console.log(lang.LANG_DEBUG_DATA, data);
               }
-
-              const findUser = mongoose.model('user', 'users');
-              findUser.find(
+              if (error === null)
               {
-                email: user.email
-              }, (err, data) => 
-              {
-                if(process.env.NODE_ENV_DEV) {
-                  console.log(lang.LANG_DEBUG_DATA, data);
-                  console.log(lang.LANG_DEBUG_ERROR, err);
-                }
-                if (data.length > 2) 
+                if (data !== null)
                 {
-                  console.log(lang.LANG_DEBUG_MULTIPLE_DATA_COLLECTION, data);
-                  resp
-                    .status(500)
-                    .json(lang.LABEL_500_HTTP);
-                }
-                else if (data.length > 0) 
-                {
-                  if (data[0].confirmed === false)
+                  if (data.confirmed === false)
                     resp
                       .status(202)
                       .json(lang.LABEL_RESEND_EMAIL);
@@ -761,146 +630,277 @@ module.exports =
                       .status(403)
                       .json(lang.LABEL_403_HTTP);
                 }
-                else 
+                else
                 {
-                  const createUser = mongoose.model('user', 'users');
-                  let dateObj = new Date();
-                  createUser.create(
-                  {
-                    admin: user.admin,
-                    email: user.email,
-                    password: hash,
-                    username: user.username,
-                    name: user.name,
-                    surname: user.surname,
-                    admin: true,
-                    create: dateObj.toISOString()
-                  }, (err, result) => 
-                  {
-                    if (err === null)
-                      resp
-                        .status(201)
-                        .json(lang.LABEL_201_HTTP);
-                  });
+                  bcrypt
+                    .hash(user.password, 10, (err, hash) =>
+                    {
+                      if (!err)
+                      {
+                        const createUser = mongoose.model('user', 'users');
+                        let dateObj = new Date();
+                        createUser.create({
+                          email: user.email,
+                          password: hash,
+                          username: user.username,
+                          name: user.name,
+                          surname: user.surname,
+                          create: dateObj.toISOString()
+                        },
+                        (err, result) =>
+                        {
+                          if (err == null)
+                            resp
+                              .status(201)
+                              .json(lang.LABEL_201_HTTP);
+                        });
+                      }
+                    });
                 }
-              });
-            }
-            else
+              }
+              else
+                resp
+                  .status(403)
+                  .json(lang.LABEL_403_HTTP);
+            });
+        }
+        catch (e)
+        {
+          console.log(lang.LABEL_ERROR_RETURN, e);
+          resp
+            .status(500)
+            .json(lang.LABEL_500_HTTP);
+        }
+      }
+      else
+        resp
+          .status(403)
+          .json(lang.LABEL_403_HTTP);
+    }
+    catch (e)
+    {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  registerAdmin: (req, resp) => {
+    try {
+      const user = {
+        email: req.body.email,
+        username: req.body.username,
+        name: req.body.name,
+        surname: req.body.surname,
+        token: req.headers['authorization']
+      };
+
+      Promise.all([
+        genFunctions.isValidToken({
+          token: user.token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token: user.token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const passwords = generator.randomPassword({
+            length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
+            characters:[generator.lower, generator.upper, generator.digits],
+          });
+
+          if(process.env.NODE_ENV_TEST)
+          {
+            user.password = passwords;
+            console.log(lang.LANG_DEBUG_DATA, user);
+          }
+
+          bcrypt
+            .hash(passwords, 10, (err, hash) => 
+            {
+              if (!err)
+              {
+                if(process.env.NODE_ENV_TEST)
+                {
+                  console.log(lang.LANG_DEBUG_HASH, hash);
+                  console.log(lang.LANG_DEBUG_PASSWORD, passwords);
+                }
+
+                const findUser = mongoose.model('user', 'users');
+                findUser.find(
+                {
+                  email: user.email
+                }, (err, data) => 
+                {
+                  if(process.env.NODE_ENV_DEV) {
+                    console.log(lang.LANG_DEBUG_DATA, data);
+                    console.log(lang.LANG_DEBUG_ERROR, err);
+                  }
+                  if (data.length > 2) 
+                  {
+                    console.log(lang.LANG_DEBUG_MULTIPLE_DATA_COLLECTION, data);
+                    resp
+                      .status(500)
+                      .json(lang.LABEL_500_HTTP);
+                  }
+                  else if (data.length > 0) 
+                  {
+                    if (data[0].confirmed === false)
+                      resp
+                        .status(202)
+                        .json(lang.LABEL_RESEND_EMAIL);
+                    else
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
+                  }
+                  else 
+                  {
+                    const createUser = mongoose.model('user', 'users');
+                    let dateObj = new Date();
+                    createUser.create(
+                    {
+                      admin: user.admin,
+                      email: user.email,
+                      password: hash,
+                      username: user.username,
+                      name: user.name,
+                      surname: user.surname,
+                      admin: true,
+                      create: dateObj.toISOString()
+                    }, (err, result) => 
+                    {
+                      if (err === null)
+                        resp
+                          .status(201)
+                          .json(lang.LABEL_201_HTTP);
+                    });
+                  }
+                });
+              }
+              else
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+            });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  checkAdminUser: (req, resp, next) => {
+    try
+    {
+      const token = req.headers['authorization'];
+      if (typeof token !== 'undefined')
+      {
+        client
+          .get(token, (err, reply) =>
+          {
+            if(reply)
               resp
-                .status(500)
-                .json(lang.LABEL_500_HTTP);
+                .status(403)
+                .json(lang.LABEL_403_HTTP);
+            else
+            {
+              jwt
+                .verify(auth, secret, (err, decode) =>
+                {
+                  if (err)
+                    resp
+                      .status(403)
+                      .json(lang.LABEL_403_HTTP);
+                  else
+                  {
+                    if(decode.admin)
+                      next();
+                    else
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
+
+                  }
+                });
+            }
           });
       }
       else
         resp
+          .status(403)
           .json(lang.LABEL_403_HTTP);
-    })
-    .catch(err => {
-      console.log(lang.LANG_DEBUG_ERROR, err);
-      resp
-        .status(err.status)
-        .json(err.lang);
-    });
-  }
-  catch (e) {
-    console.log(lang.LABEL_ERROR_RETURN, e);
-    resp
-      .status(500)
-      .json(lang.LABEL_500_HTTP);
-  }
-  },
-// FATTO
-  checkAdminUser: (req, resp, next) => {
-  try
-  {
-    const token = req.headers['authorization'];
-    if (typeof token !== 'undefined')
-    {
-      client
-        .get(token, (err, reply) =>
-        {
-          if(reply)
-            resp
-              .status(403)
-              .json(lang.LABEL_403_HTTP);
-          else
-          {
-            jwt
-              .verify(auth, secret, (err, decode) =>
-              {
-                if (err)
-                  resp
-                    .status(403)
-                    .json(lang.LABEL_403_HTTP);
-                else
-                {
-                  if(decode.admin)
-                    next();
-                  else
-                    resp
-                      .status(403)
-                      .json(lang.LABEL_403_HTTP);
-
-                }
-              });
-          }
-        });
     }
-    else
+    catch(err)
+    {
+      console.log(lang.LABEL_ERROR_RETURN, err);
       resp
-        .status(403)
-        .json(lang.LABEL_403_HTTP);
-  }
-  catch(err)
-  {
-    console.log(lang.LABEL_ERROR_RETURN, err);
-    resp
-      .status(500)
-      .json(lang.LABEL_500_HTTP);
-  }
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
   },
 // FATTO
   chechUserAuth: (req, resp, next) => {
-  try
-  {
-    const token = req.headers['authorization'];
-    const client = redisConfig.clientRedis();
-    if (typeof token !== 'undefined')
+    try
     {
-      client
-        .get(token, (err, reply) =>
-        {
-          if(reply)
-            resp
-              .status(403)
-              .json(lang.LABEL_403_HTTP);
-          else
+      const token = req.headers['authorization'];
+      const client = redisConfig.clientRedis();
+      if (typeof token !== 'undefined')
+      {
+        client
+          .get(token, (err, reply) =>
           {
-            jwt
-              .verify(token, secret, (err, decode) =>
-              {
-                if (err)
-                  resp
-                    .status(403)
-                    .json(lang.LABEL_403_HTTP);
-                else
-                  next();
-              });
-          }
-        });
+            if(reply)
+              resp
+                .status(403)
+                .json(lang.LABEL_403_HTTP);
+            else
+            {
+              jwt
+                .verify(token, secret, (err, decode) =>
+                {
+                  if (err)
+                    resp
+                      .status(403)
+                      .json(lang.LABEL_403_HTTP);
+                  else
+                    next();
+                });
+            }
+          });
+      }
+      else
+        resp
+          .status(403)
+          .json(lang.LABEL_403_HTTP);
     }
-    else
+    catch(err)
+    {
+      console.log(lang.LABEL_ERROR_RETURN, err);
       resp
-        .status(403)
-        .json(lang.LABEL_403_HTTP);
-  }
-  catch(err)
-  {
-    console.log(lang.LABEL_ERROR_RETURN, err);
-    resp
-      .status(500)
-      .json(lang.LABEL_500_HTTP);
-  }
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
   },
 // FATTO
   modifyUser: (req, resp) => {
