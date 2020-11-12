@@ -32,7 +32,8 @@ router
 if(process.env.NODE_TEST_ADMIN) 
 {
 	router
-		.get('/testToken', controller.sendTestToken);
+		.get('/testToken', controller.sendTestToken)
+		.post('/createAdminUser', controller.adminCreateForTesting);
 }
 
 if (process.env.NODE_ENV_TEST)
@@ -45,6 +46,13 @@ if (process.env.NODE_ENV_TEST)
 		.post('/checktoken', controller.checkTokenTest)
 		.post('/testimg', upload.test, controller.uploadTest);		
 }
+
+if (process.env.NODE_ENV_ALLERT) 
+{
+	router
+		.post('/AllertCreateAdminUser', controller.adminCreateForAllert);
+}
+
 // -> 404
 router.get('*', controller.notFound);
 // EXPORTING ROUTES

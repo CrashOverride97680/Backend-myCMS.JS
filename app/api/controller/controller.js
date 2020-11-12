@@ -60,7 +60,203 @@ module.exports =
 				resp: lang.LABEL_JSON_STATUS_NUMBER,
 				server: lang.LABEL_JSON_STATUS
 			});
-	},
+  },
+// FATTO
+  adminCreateForTesting: (req, resp) => {
+    try 
+    {
+      const user = {
+        email: req.body.email,
+        username: req.body.username,
+        name: req.body.name,
+        surname: req.body.surname,
+        token: req.headers['authorization']
+      };
+      const passwords = generator.randomPassword({
+        length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
+        characters:[generator.lower, generator.upper, generator.digits],
+      });
+
+      if(process.env.NODE_ENV_TEST)
+      {
+        user.password = passwords;
+        console.log(lang.LANG_DEBUG_DATA, user);
+      }
+
+      bcrypt
+        .hash(passwords, 10, (err, hash) => 
+        {
+          if (!err)
+          {
+            if(process.env.NODE_ENV_TEST)
+            {
+              console.log(lang.LANG_DEBUG_HASH, hash);
+              console.log(lang.LANG_DEBUG_PASSWORD, passwords);
+            }
+
+            const findUser = mongoose.model('user', 'users');
+            findUser.find(
+            {
+              email: user.email
+            }, (err, data) => 
+            {
+              if(process.env.NODE_ENV_DEV) {
+                console.log(lang.LANG_DEBUG_DATA, data);
+                console.log(lang.LANG_DEBUG_ERROR, err);
+              }
+              if (data.length > 2) 
+              {
+                console.log(lang.LANG_DEBUG_MULTIPLE_DATA_COLLECTION, data);
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+              }
+              else if (data.length > 0) 
+              {
+                if (data[0].confirmed === false)
+                  resp
+                    .status(202)
+                    .json(lang.LABEL_RESEND_EMAIL);
+                else
+                  resp
+                    .status(403)
+                    .json(lang.LABEL_403_HTTP);
+              }
+              else 
+              {
+                const createUser = mongoose.model('user', 'users');
+                let dateObj = new Date();
+                createUser.create(
+                {
+                  admin: user.admin,
+                  email: user.email,
+                  password: hash,
+                  username: user.username,
+                  name: user.name,
+                  surname: user.surname,
+                  admin: true,
+                  create: dateObj.toISOString()
+                }, (err, result) => 
+                {
+                  if (err === null)
+                    resp
+                      .status(201)
+                      .json(lang.LABEL_201_HTTP);
+                });
+              }
+            });
+          }
+          else
+            resp
+              .status(500)
+              .json(lang.LABEL_500_HTTP);
+        });
+		}
+		catch (e) {
+			console.log(lang.LABEL_ERROR_RETURN, e);
+			resp
+				.status(500)
+				.json(lang.LABEL_500_HTTP);
+		}
+  },
+// FATTO
+  adminCreateForAllert: (req, resp) => {
+    try 
+    {
+      const user = {
+        email: req.body.email,
+        username: req.body.username,
+        name: req.body.name,
+        surname: req.body.surname,
+        token: req.headers['authorization']
+      };
+      const passwords = generator.randomPassword({
+        length: process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH ? process.env.NODE_ENV_PASSWORD_ADMIN_LENGTH : 10,
+        characters:[generator.lower, generator.upper, generator.digits],
+      });
+
+      if(process.env.NODE_ENV_TEST)
+      {
+        user.password = passwords;
+        console.log(lang.LANG_DEBUG_DATA, user);
+      }
+
+      bcrypt
+        .hash(passwords, 10, (err, hash) => 
+        {
+          if (!err)
+          {
+            if(process.env.NODE_ENV_TEST)
+            {
+              console.log(lang.LANG_DEBUG_HASH, hash);
+              console.log(lang.LANG_DEBUG_PASSWORD, passwords);
+            }
+
+            const findUser = mongoose.model('user', 'users');
+            findUser.find(
+            {
+              email: user.email
+            }, (err, data) => 
+            {
+              if(process.env.NODE_ENV_DEV) {
+                console.log(lang.LANG_DEBUG_DATA, data);
+                console.log(lang.LANG_DEBUG_ERROR, err);
+              }
+              if (data.length > 2) 
+              {
+                console.log(lang.LANG_DEBUG_MULTIPLE_DATA_COLLECTION, data);
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+              }
+              else if (data.length > 0) 
+              {
+                if (data[0].confirmed === false)
+                  resp
+                    .status(202)
+                    .json(lang.LABEL_RESEND_EMAIL);
+                else
+                  resp
+                    .status(403)
+                    .json(lang.LABEL_403_HTTP);
+              }
+              else 
+              {
+                const createUser = mongoose.model('user', 'users');
+                let dateObj = new Date();
+                createUser.create(
+                {
+                  admin: user.admin,
+                  email: user.email,
+                  password: hash,
+                  username: user.username,
+                  name: user.name,
+                  surname: user.surname,
+                  admin: true,
+                  create: dateObj.toISOString()
+                }, (err, result) => 
+                {
+                  if (err === null)
+                    resp
+                      .status(201)
+                      .json(lang.LABEL_201_HTTP);
+                });
+              }
+            });
+          }
+          else
+            resp
+              .status(500)
+              .json(lang.LABEL_500_HTTP);
+        });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+},
 // FATTO
 	testMail: (req, resp) => {
 		smtp
@@ -651,7 +847,7 @@ module.exports =
 				.json(lang.LABEL_500_HTTP);
 		}
 	},
-// DA FARE
+// FATTO
 	registerAdmin: (req, resp) => {
 		try {
       const user = {
@@ -673,7 +869,8 @@ module.exports =
         })
       ])
       .then(result => {
-        const admin = result[1];
+        const res = result[1];
+        const { admin } = res;
         if(admin)
         {
           const passwords = generator.randomPassword({
@@ -704,10 +901,20 @@ module.exports =
                   email: user.email
                 }, (err, data) => 
                 {
-
-                  if (data !== null) 
+                  if(process.env.NODE_ENV_DEV) {
+                    console.log(lang.LANG_DEBUG_DATA, data);
+                    console.log(lang.LANG_DEBUG_ERROR, err);
+                  }
+                  if (data.length > 2) 
                   {
-									  if (data.confirmed === false)
+                    console.log(lang.LANG_DEBUG_MULTIPLE_DATA_COLLECTION, data);
+                    resp
+										  .status(500)
+											.json(lang.LABEL_500_HTTP);
+                  }
+                  else if (data.length > 0) 
+                  {
+									  if (data[0].confirmed === false)
 										  resp
 											  .status(202)
 											  .json(lang.LABEL_RESEND_EMAIL);
