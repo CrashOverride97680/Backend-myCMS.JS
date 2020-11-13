@@ -1074,12 +1074,14 @@ module.exports =
         name: req.body.name,
         description: req.body.description,
         titleSeo: req.body.titleSeo,
-        important: req.body.important,
+        important: (req.body.important >= 0) ? req.body.important : null,
+        url: req.body.url,
         visible: req.body.visible  
       };
+      
       Promise.all([
         genFunctions.isValidToken({
-          token
+          token,
           localBlacklist: blkLocal,
           redisBlacklist: redis
         }),
@@ -1092,24 +1094,39 @@ module.exports =
         const { admin } = res;
         if(admin)
         {
-          const createHeader = mongoose.model('header', 'header');
-          let dateObj = new Date();
-          createHeader.create({
-            name: header.name,
-            description: header.description,
-            titleSEO: header.titleSeo,
-            important: header.important,
-            visible: header.visible,
-            create: dateObj.toISOString()
+          const findCollection = mongoose.model('header', 'header');
+          const find = findCollection.find(
+          {
+            name: header.name
           }, (err, result) => {
-            if (err === null)
+            if(result.length > 0)
               resp
-                .status(201)
-                .json(lang.LABEL_201_HTTP);
-            else
-              resp
-                .status(500)
-                .json(lang.LABEL_500_HTTP);
+                .status(409)
+                .json(lang.LABEL_409_HTTP);
+            else {
+              const createHeader = mongoose.model('header', 'header');
+              let dateObj = new Date();
+              createHeader.create({
+                name: header.name,
+                description: header.description,
+                titleSEO: header.titleSeo,
+                important: header.important,
+                url: header.url,
+                visible: header.visible,
+                create: dateObj.toISOString()
+              }, (err, result) => 
+              {
+                if (err === null)
+                  resp
+                    .status(201)
+                    .json(lang.LABEL_201_HTTP);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+
+            }
           });
         }
         else
@@ -1174,6 +1191,7 @@ module.exports =
                             title,
                             header,
                             content,
+                            category,
                             visible
                           } = req.body;
                           let today = new Date();
@@ -1198,6 +1216,7 @@ module.exports =
                               title,
                               header,
                               content,
+                              category,
                               visible,
                               create: today,
                               dateUser: thisDay
@@ -1231,89 +1250,91 @@ module.exports =
         jwt
           .verify(token, secret, (err, decoded) =>
           {
-          const { _id, username } = decoded;
-          const client = redisConfig.clientRedis();
-          const tokenBlacklist = client
-            .get(token, (err, reply) =>
-            {
-            if(!reply)
-            {
-              jwt
-              .verify(token, secret, (err, decoded) =>
+            const { _id, username } = decoded;
+            const client = redisConfig.clientRedis();
+            const tokenBlacklist = client
+              .get(token, (err, reply) =>
               {
-                if(process.env.NODE_ENV_TEST)
+                if(!reply)
                 {
-                console.log(lang.LANG_DEBUG_ERROR, err);
-                console.log(lang.LANG_DEBUG_DATA, decoded);
-                }
-
-                if(err == null)
-                {
-                const {
-                  admin
-                } = decoded;
-                if(admin)
-                {
-                  const posts = mongoose.model('posts', 'posts');
-                  const date = new Date();
-                  const langPost = req.body.lang;
-                  const {
-                  type,
-                  title,
-                  header,
-                  content,
-                  visible
-                  } = req.body;
-                  let today = new Date();
-                  let dd = today.getDate();
-                  let mm = today.getMonth() + 1; //January is 0!
-
-                  let yyyy = today.getFullYear();
-                  if (dd < 10) {
-                  dd = '0' + dd;
-                  }
-                  if (mm < 10) {
-                  mm = '0' + mm;
-                  }
-                  let thisDay = dd + '/' + mm + '/' + yyyy;
-                  posts
-                  .create({
-                    lang: langPost,
-                    type,
-                    title,
-                    header,
-                    content,
-                    visible,
-                    create: today,
-                    dateUser: thisDay
-                  }, (err, result) =>
+                  jwt
+                  .verify(token, secret, (err, decoded) =>
                   {
-                    if (err == null)
-                    resp
-                      .status(201)
-                      .json(lang.LABEL_201_HTTP);
+                    if(process.env.NODE_ENV_TEST)
+                    {
+                      console.log(lang.LANG_DEBUG_ERROR, err);
+                      console.log(lang.LANG_DEBUG_DATA, decoded);
+                    }
+
+                    if(err == null)
+                    {
+                      const {
+                        admin
+                      } = decoded;
+                      if(admin) 
+                      {
+                        const posts = mongoose.model('posts', 'posts');
+                        const date = new Date();
+                        const langPost = req.body.lang;
+                        const {
+                          type,
+                          title,
+                          header,
+                          content,
+                          category,
+                          visible
+                        } = req.body;
+                        let today = new Date();
+                        let dd = today.getDate();
+                        let mm = today.getMonth() + 1; //January is 0!
+
+                        let yyyy = today.getFullYear();
+                        if (dd < 10) {
+                          dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                          mm = '0' + mm;
+                        }
+                        let thisDay = dd + '/' + mm + '/' + yyyy;
+                        posts
+                          .create(
+                          {
+                            lang: langPost,
+                            type,
+                            title,
+                            header,
+                            content,
+                            category,
+                            visible,
+                            create: today,
+                            dateUser: thisDay
+                          }, (err, result) =>
+                          {
+                            if (err == null)
+                              resp
+                                .status(201)
+                                .json(lang.LABEL_201_HTTP);
+                          });
+                      }
+                      else
+                        resp
+                          .status(403)
+                          .json(lang.LABEL_403_HTTP);
+                    }
+                    else
+                    {
+                      console.log(lang.LABEL_ERROR_RETURN, err);
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
+                    }
                   });
                 }
                 else
                   resp
                   .status(403)
                   .json(lang.LABEL_403_HTTP);
-                }
-                else
-                {
-                console.log(lang.LABEL_ERROR_RETURN, err);
-                resp
-                  .status(403)
-                  .json(lang.LABEL_403_HTTP);
-                }
               });
-            }
-            else
-              resp
-              .status(403)
-              .json(lang.LABEL_403_HTTP);
-            });
-
           });
         }
     }
@@ -2531,6 +2552,45 @@ module.exports =
     }
     catch (err) {
       console.log(lang.LABEL_ERROR_RETURN, err);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getAllHeaderAndCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
       resp
         .status(500)
         .json(lang.LABEL_500_HTTP);

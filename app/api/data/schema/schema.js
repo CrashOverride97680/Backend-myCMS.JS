@@ -71,6 +71,14 @@ module.exports = {
         required: true,
         default: false
       },
+      category: [
+        new Schema({
+            codeHeaderCategory: {
+                type: String,
+                required: true
+            }
+        })
+      ],
       create: { type: Date },
       updated: { type: Date, default: Date.now, required: true },
       modified: { type: Date, default: Date.now, required: true },
@@ -715,11 +723,46 @@ module.exports = {
             type: Number,
             required: true
         },
+        url: {
+            type: String,
+            required: true
+        },
         visible: {
             type: Boolean,
             required: true,
             default: false
         },
+        subCategory: [
+            new Schema({
+                name: {
+                    type: String,
+                    required: true
+                },
+                description: {
+                    type: String,
+                    required: true
+                },
+                titleSEO: {
+                    type: String
+                },
+                important: {
+                    type: Number,
+                    required: true
+                },
+                url: {
+                    type: String,
+                    required: true
+                },
+                visible: {
+                    type: Boolean,
+                    required: true,
+                    default: false
+                },
+                create: { type: Date },
+                updated: { type: Date, default: Date.now, required: true },
+                modified: { type: Date, default: Date.now, required: true },
+            })
+        ],
         create: { type: Date },
         updated: { type: Date, default: Date.now, required: true },
         modified: { type: Date, default: Date.now, required: true },

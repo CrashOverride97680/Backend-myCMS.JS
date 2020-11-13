@@ -61,6 +61,7 @@ module.exports = {
 		check('description').notEmpty(),
 		check('titleSeo').notEmpty(),
 		check('important').notEmpty(),
+		check('url').notEmpty(),
 		check('visible').isBoolean()
 	]
 };
