@@ -699,4 +699,29 @@ module.exports = {
         required: true
       }
     }),
+    header: new Schema({
+        name: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: true
+        },
+        titleSEO: {
+            type: String
+        },
+        important: {
+            type: Number,
+            required: true
+        },
+        visible: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        create: { type: Date },
+        updated: { type: Date, default: Date.now, required: true },
+        modified: { type: Date, default: Date.now, required: true },
+    }),
 };

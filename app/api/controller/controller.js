@@ -1065,7 +1065,71 @@ module.exports =
         OF CMS
 
 -------------------------------------------------------------------------
-*/     
+*/  
+// DA FARE 
+  createHeaderSite: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const header = {
+        name: req.body.name,
+        description: req.body.description,
+        titleSeo: req.body.titleSeo,
+        important: req.body.important,
+        visible: req.body.visible  
+      };
+      Promise.all([
+        genFunctions.isValidToken({
+          token
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const createHeader = mongoose.model('header', 'header');
+          let dateObj = new Date();
+          createHeader.create({
+            name: header.name,
+            description: header.description,
+            titleSEO: header.titleSeo,
+            important: header.important,
+            visible: header.visible,
+            create: dateObj.toISOString()
+          }, (err, result) => {
+            if (err === null)
+              resp
+                .status(201)
+                .json(lang.LABEL_201_HTTP);
+            else
+              resp
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },   
 // DA FARE
 	createPost: (req, resp) => {
 		try

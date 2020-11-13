@@ -54,5 +54,13 @@ module.exports = {
   	],
   	getPostsData: [
     	check('authorization').notEmpty()
+	],
+	createHeader: [
+		check('authorization').notEmpty(),
+		check('name').notEmpty(),
+		check('description').notEmpty(),
+		check('titleSeo').notEmpty(),
+		check('important').notEmpty(),
+		check('visible').isBoolean()
 	]
 };
