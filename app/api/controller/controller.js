@@ -1067,7 +1067,7 @@ module.exports =
 -------------------------------------------------------------------------
 */  
 // DA FARE 
-  createHeaderSite: (req, resp) => {
+  createCategorySite: (req, resp) => {
     try {
       const token = req.headers['authorization'];
       const header = {
@@ -1094,7 +1094,7 @@ module.exports =
         const { admin } = res;
         if(admin)
         {
-          const findCollection = mongoose.model('header', 'header');
+          const findCollection = mongoose.model('category', 'category');
           const find = findCollection.find(
           {
             name: header.name
@@ -1104,14 +1104,13 @@ module.exports =
                 .status(409)
                 .json(lang.LABEL_409_HTTP);
             else {
-              const createHeader = mongoose.model('header', 'header');
+              const createHeader = mongoose.model('category', 'category');
               let dateObj = new Date();
               createHeader.create({
                 name: header.name,
                 description: header.description,
                 titleSEO: header.titleSeo,
                 important: header.important,
-                url: header.url,
                 visible: header.visible,
                 create: dateObj.toISOString()
               }, (err, result) => 

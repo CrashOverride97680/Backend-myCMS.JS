@@ -707,7 +707,7 @@ module.exports = {
         required: true
       }
     }),
-    header: new Schema({
+    category: new Schema({
         name: {
             type: String,
             required: true
@@ -721,10 +721,6 @@ module.exports = {
         },
         important: {
             type: Number,
-            required: true
-        },
-        url: {
-            type: String,
             required: true
         },
         visible: {

@@ -23,7 +23,7 @@ router
 	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
 	.post('/registerAdmin', auth.adminCreateValidator, isValid.runValidation, controller.registerAdmin)
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
-	.post('/createHeader', auth.createHeader, isValid.runValidation, controller.createHeaderSite)
+	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
 // -> DELETE
