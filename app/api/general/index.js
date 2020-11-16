@@ -85,12 +85,13 @@ module.exports = {
                                 const findUser = mongoose.model('user', 'users');
                                 findUser
                                     .findById(_id, (error, data) => {
-                                        
-                                        if(error == null) {
-                                            if (data.admin == true || data.admin == false) resolve({admin: data.admin});
-                                            else reject({status: 403,lang: lang.LABEL_403_HTTP});
+                                        if(data.confirmed) {
+                                            if(error == null) {
+                                                if (data.admin == true || data.admin == false) resolve({admin: data.admin});
+                                                else reject({status: 403,lang: lang.LABEL_403_HTTP});
+                                            }
                                         }
-                                        else reject({status: 500,lang: lang.LABEL_500_HTTP});
+                                        else reject({status: 403,lang: lang.LABEL_403_HTTP});
                                     });
                             }
                             else reject({status: 500,lang: lang.LABEL_500_HTTP});
