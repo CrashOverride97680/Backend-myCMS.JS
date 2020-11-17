@@ -8,15 +8,16 @@ const upload = require('../upload/upload');
 // ROUTES APP
 // -> GET
 router
-  .get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
-  .get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
-  .get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers)
-  .get('/getEarningNumber', auth.getEarningNumber, isValid.runValidation, controller.getEarningNumber)
-  .get('/getAllPosts', auth.getPostsData, isValid.runValidation, controller.getAllPosts)
-  .get('/getPosts/:max', auth.getPostsData, isValid.runValidation, controller.getPostsWithFilter)
-  .get('/getVisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getVisiblePostNumber)
-  .get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
-  .get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable);
+	.get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
+  	.get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
+  	.get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers)
+  	.get('/getEarningNumber', auth.getEarningNumber, isValid.runValidation, controller.getEarningNumber)
+  	.get('/getAllPosts', auth.getPostsData, isValid.runValidation, controller.getAllPosts)
+  	.get('/getPosts/:max', auth.getPostsData, isValid.runValidation, controller.getPostsWithFilter)
+  	.get('/getVisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getVisiblePostNumber)
+  	.get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
+  	.get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable)
+  	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllHeaderAndCategory);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
@@ -24,6 +25,7 @@ router
 	.post('/registerAdmin', auth.adminCreateValidator, isValid.runValidation, controller.registerAdmin)
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)
+	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
 // -> DELETE

@@ -62,5 +62,17 @@ module.exports = {
 		check('titleSeo').notEmpty(),
 		check('important').notEmpty(),
 		check('visible').isBoolean()
-	]
+	],
+	getAllCategory: [
+		check('authorization').notEmpty()
+	],
+	createSubcategory: [
+		check('authorization').notEmpty(),
+		check('codCategoryPrincipal').notEmpty(),
+		check('name').notEmpty(),
+		check('description').notEmpty(),
+		check('titleSeo').notEmpty(),
+		check('important').notEmpty(),
+		check('visible').isBoolean()
+	],
 };

@@ -1066,11 +1066,11 @@ module.exports =
 
 -------------------------------------------------------------------------
 */  
-// DA FARE 
+// FATTO 
   createCategorySite: (req, resp) => {
     try {
       const token = req.headers['authorization'];
-      const header = {
+      const category = {
         name: req.body.name,
         description: req.body.description,
         titleSeo: req.body.titleSeo,
@@ -1097,7 +1097,7 @@ module.exports =
           const findCollection = mongoose.model('category', 'category');
           const find = findCollection.find(
           {
-            name: header.name
+            name: category.name
           }, (err, result) => {
             if(result.length > 0)
               resp
@@ -1107,11 +1107,11 @@ module.exports =
               const createHeader = mongoose.model('category', 'category');
               let dateObj = new Date();
               createHeader.create({
-                name: header.name,
-                description: header.description,
-                titleSEO: header.titleSeo,
-                important: header.important,
-                visible: header.visible,
+                name: category.name,
+                description: category.description,
+                titleSEO: category.titleSeo,
+                important: category.important,
+                visible: category.visible,
                 create: dateObj.toISOString()
               }, (err, result) => 
               {
@@ -1124,7 +1124,6 @@ module.exports =
                     .status(500)
                     .json(lang.LABEL_500_HTTP);
               });
-
             }
           });
         }
@@ -1146,6 +1145,94 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },   
+// FATTO
+  createSubCategorySite: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const category = {
+        codCategoryPrincipal: req.body.codCategory,
+        name: req.body.name,
+        description: req.body.description,
+        titleSeo: req.body.titleSeo,
+        important: (req.body.important >= 0) ? req.body.important : null,
+        visible: req.body.visible  
+      };
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const findCollection = mongoose.model('category', 'category');
+          const find = findCollection.find(
+          {
+            name: category.name
+          }, (err, result) => {
+            if(result.length > 0)
+              resp
+                .status(409)
+                .json(lang.LABEL_409_HTTP);
+            else {
+              const createHeader = mongoose.model('category', 'category');
+              let dateObj = new Date();
+              createHeader.findOneAndUpdate(
+                {
+                  _id: category.codCategoryPrincipal
+                }
+                {
+                  $set: 
+                  {
+                    subCategory: 
+                    {
+                      name: category.name,
+                      description: category.description,
+                      titleSeo: category.titleSEO,
+                      important: category.important,
+                      visible: category.visible  
+                    }
+                  }
+                }, (err, result) => 
+              {
+                if (err === null)
+                  resp
+                    .status(201)
+                    .json(lang.LABEL_201_HTTP);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+            }
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
 // DA FARE
 	createPost: (req, resp) => {
 		try
@@ -2575,7 +2662,18 @@ module.exports =
         const { admin } = res;
         if(admin)
         {
-          
+          const findCategory = mongoose.model('category', 'category');
+          findCategory
+            .find({})
+            .select('_id name description titleSEO important visible subCategory updated')
+            .sort({dateUser: 'desc'})
+            .exec((err, category) =>
+            {
+              if (!err)
+                resp
+                  .status(200)
+                  .json(category);
+            });
         }
         else
           resp
