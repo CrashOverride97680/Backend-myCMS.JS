@@ -28,8 +28,11 @@ router
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
+router
+	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory)
 // -> DELETE
 router
+	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.)
 	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser)
 // -> TEST
 if(process.env.NODE_TEST_ADMIN) 

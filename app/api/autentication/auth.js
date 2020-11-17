@@ -75,4 +75,17 @@ module.exports = {
 		check('important').notEmpty(),
 		check('visible').isBoolean()
 	],
+	modifyCategory: [
+		check('codCategory').notEmpty(),
+		check('authorization').notEmpty(),
+		check('name').notEmpty(),
+		check('description').notEmpty(),
+		check('titleSeo').notEmpty(),
+		check('important').notEmpty(),
+		check('visible').isBoolean()
+	],
+	deleteCategory: [
+		check('codCategory').notEmpty(),
+		check('authorization').notEmpty()
+	],
 };

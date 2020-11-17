@@ -1075,7 +1075,6 @@ module.exports =
         description: req.body.description,
         titleSeo: req.body.titleSeo,
         important: (req.body.important >= 0) ? req.body.important : null,
-        url: req.body.url,
         visible: req.body.visible  
       };
       
@@ -1104,9 +1103,9 @@ module.exports =
                 .status(409)
                 .json(lang.LABEL_409_HTTP);
             else {
-              const createHeader = mongoose.model('category', 'category');
+              const createCategory = mongoose.model('category', 'category');
               let dateObj = new Date();
-              createHeader.create({
+              createCategory.create({
                 name: category.name,
                 description: category.description,
                 titleSEO: category.titleSeo,
@@ -1149,7 +1148,7 @@ module.exports =
   createSubCategorySite: (req, resp) => {
     try {
       const token = req.headers['authorization'];
-      const category = {
+      const subCategory = {
         codCategoryPrincipal: req.body.codCategory,
         name: req.body.name,
         description: req.body.description,
@@ -1176,29 +1175,29 @@ module.exports =
           const findCollection = mongoose.model('category', 'category');
           const find = findCollection.find(
           {
-            name: category.name
+            subCategory: subCategory.name
           }, (err, result) => {
             if(result.length > 0)
               resp
                 .status(409)
                 .json(lang.LABEL_409_HTTP);
             else {
-              const createHeader = mongoose.model('category', 'category');
+              const createSubCategory = mongoose.model('category', 'category');
               let dateObj = new Date();
-              createHeader.findOneAndUpdate(
+              createSubCategory.findOneAndUpdate(
                 {
-                  _id: category.codCategoryPrincipal
+                  _id: subCategory.codCategoryPrincipal
                 }
                 {
                   $set: 
                   {
                     subCategory: 
                     {
-                      name: category.name,
-                      description: category.description,
-                      titleSeo: category.titleSEO,
-                      important: category.important,
-                      visible: category.visible  
+                      name: subCategory.name,
+                      description: subCategory.description,
+                      titleSeo: subCategory.titleSEO,
+                      important: subCategory.important,
+                      visible: subCategory.visible  
                     }
                   }
                 }, (err, result) => 
@@ -2693,7 +2692,123 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
-
+  modifyCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const category = 
+      {
+        codCategory: req.body.codCategory,
+        name: req.body.name,
+        description: req.body.description,
+        titleSeo: req.body.titleSeo,
+        important: (req.body.important >= 0) ? req.body.important : null,
+        visible: req.body.visible  
+      };
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const modifyCategory = mongoose.model('category', 'category');
+          modifyCategory.findByIdAndUpdate(
+            {
+              _id: category.codCategory 
+            },
+            {
+              $set: 
+              {
+                name: category.name,
+                description: category.description,
+                titleSEO: category.titleSeo,
+                important: category.important,
+                visible: category.visible
+              }
+            }
+          );
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+  deleteCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const _id = req.body.codCategory;
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const deleteCategory = mongoose.model('category', 'category');
+          deleteCategory.findByIdAndRemove(
+          {
+            _id
+          }, (err, data) => 
+          {
+            if(data !== null)
+              resp
+                .status(200)
+                .json(lang.LABEL_200_HTTP);
+            else
+              resp
+                .status(403)
+                .json(lang.LABEL_403_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
 /*
 -------------------------------------------------------------------------
 
