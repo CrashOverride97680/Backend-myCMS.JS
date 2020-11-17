@@ -2692,6 +2692,7 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
+// FATTO
   modifyCategory: (req, resp) => {
     try {
       const token = req.headers['authorization'];
@@ -2755,6 +2756,7 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
+// FATTO
   deleteCategory: (req, resp) => {
     try {
       const token = req.headers['authorization'];
