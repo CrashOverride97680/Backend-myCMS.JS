@@ -73,7 +73,7 @@ module.exports = {
       },
       category: [
         new Schema({
-            codeHeaderCategory: {
+            codeCategory: {
                 type: String,
                 required: true
             }
