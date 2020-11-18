@@ -1187,7 +1187,7 @@ module.exports =
               createSubCategory.findOneAndUpdate(
                 {
                   _id: subCategory.codCategoryPrincipal
-                }
+                },
                 {
                   $set: 
                   {
@@ -2643,7 +2643,7 @@ module.exports =
     }
   },
 // FATTO
-  getAllHeaderAndCategory: (req, resp) => {
+  getAllCategory: (req, resp) => {
     try {
       const token = req.headers['authorization'];
       Promise.all([
@@ -2665,7 +2665,7 @@ module.exports =
           findCategory
             .find({})
             .select('_id name description titleSEO important visible subCategory updated')
-            .sort({dateUser: 'desc'})
+            .sort({updated: 'desc'})
             .exec((err, category) =>
             {
               if (!err)
@@ -2735,8 +2735,12 @@ module.exports =
                 important: category.important,
                 visible: category.visible
               }
-            }
-          );
+            }, (err, result) => {
+              if(!err)
+                resp
+                  .status(200)
+                  .json(lang.LABEL_200_HTTP);
+            });
         }
         else
           resp

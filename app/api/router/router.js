@@ -17,7 +17,8 @@ router
   	.get('/getVisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getVisiblePostNumber)
   	.get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
   	.get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable)
-  	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllHeaderAndCategory);
+  	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllCategory);
+	.get('/getCategory/:max')
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
@@ -29,11 +30,11 @@ router
 	.post('/createpost', upload.createPost, controller.createPost);
 // -> PUT
 router
-	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory)
+	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory);
 // -> DELETE
 router
-	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.)
-	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser)
+	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.deleteCategory)
+	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser);
 // -> TEST
 if(process.env.NODE_TEST_ADMIN) 
 {
