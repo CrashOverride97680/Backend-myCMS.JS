@@ -1533,6 +1533,10 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
+                          else
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -1666,6 +1670,10 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
+                          else
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -1799,6 +1807,10 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
+                          else
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -1932,6 +1944,10 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
+                          else
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -2070,6 +2086,8 @@ module.exports =
                               resp
                                 .status(200)
                                 .json(posts);
+                            else
+                              resp
                           });
                       }
                     }
@@ -2319,6 +2337,10 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
+                          else 
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -2438,6 +2460,10 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
+                          else
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -2561,6 +2587,10 @@ module.exports =
                             resp
                               .status(200)
                               .json(posts);
+                          else
+                            resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
                         });
                     }
                     else
@@ -2661,8 +2691,8 @@ module.exports =
         const { admin } = res;
         if(admin)
         {
-          const findCategory = mongoose.model('category', 'category');
-          findCategory
+          const category = mongoose.model('category', 'category');
+          category
             .find({})
             .select('_id name description titleSEO important visible subCategory updated')
             .sort({updated: 'desc'})
@@ -2672,6 +2702,10 @@ module.exports =
                 resp
                   .status(200)
                   .json(category);
+              else
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
             });
         }
         else
@@ -2684,6 +2718,68 @@ module.exports =
           .status(err.status)
           .json(err.lang);
       });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getCategoryWithFilter: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const numberMax = (parseInt(req.params.max) > 0) ? parseInt(req.params.max) : null;
+      if(numberMax) {
+        Promise.all([
+          genFunctions.isValidToken({
+            token,
+            localBlacklist: blkLocal,
+            redisBlacklist: redis
+          }),
+          genFunctions.checkTypeUser({
+            token
+          })
+        ])
+        .then(result => {
+          const res = result[1];
+          const { admin } = res;
+          if(admin)
+          {
+            const categoryWithFilter = mongoose.model('category', 'category');
+            categoryWithFilter
+              .find({})
+              .select('_id name description titleSEO important visible subCategory updated')
+              .limit(numberMax)
+              .sort({updated: 'desc'})
+              .exec((err, category) =>
+              {
+                if (!err)
+                  resp
+                    .status(200)
+                    .json(category);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+          }
+          else
+            resp
+              .json(lang.LABEL_403_HTTP);
+        })
+        .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+      }
+      else
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
     }
     catch (e) {
       console.log(lang.LABEL_ERROR_RETURN, e);
@@ -2740,6 +2836,10 @@ module.exports =
                 resp
                   .status(200)
                   .json(lang.LABEL_200_HTTP);
+              else 
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
             });
         }
         else
@@ -2793,8 +2893,8 @@ module.exports =
                 .json(lang.LABEL_200_HTTP);
             else
               resp
-                .status(403)
-                .json(lang.LABEL_403_HTTP);
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
           });
         }
         else

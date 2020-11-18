@@ -66,6 +66,9 @@ module.exports = {
 	getAllCategory: [
 		check('authorization').notEmpty()
 	],
+	getCategoryWithFilter: [
+		check('authorization').notEmpty()
+	],
 	createSubcategory: [
 		check('authorization').notEmpty(),
 		check('codCategoryPrincipal').notEmpty(),
