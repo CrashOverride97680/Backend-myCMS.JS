@@ -17,8 +17,8 @@ router
   	.get('/getVisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getVisiblePostNumber)
   	.get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
   	.get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable)
-  	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllCategory);
-	.get('/getCategory/:max')
+  	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllCategory)
+	.get('/getCategory/:max', auth.getCategoryWithFilter, isValid.runValidation, controller.getCategoryWithFilter);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
