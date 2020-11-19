@@ -7,7 +7,8 @@
       mailsubscribe,
       chat,
       earning,
-      category
+      category,
+      access
     } = APIMongo;
 // EXPORTING MODULE MONGO
     mongoose.model('user', users);
@@ -16,3 +17,4 @@
     mongoose.model('chat', chat);
     mongoose.model('earning', earning);
     mongoose.model('category', category);
+    mongoose.model('access', access);

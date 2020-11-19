@@ -415,10 +415,32 @@ module.exports =
               }
               else
               {
-                resp
-                  .json({
-                    token
+                if(admin) 
+                {
+                  const access = mongoose.model('access', 'access');
+                  access.create(
+                  {
+                    idUser: testUser.id,
+                    ip: req.ip
+                  }, (err, data) => 
+                  {
+                    if(err == null)
+                      resp
+                        .json({
+                          token
+                        });
+                    else
+                      resp
+                        .status(500)
+                        .json(lang.LABEL_500_HTTP);
                   });
+                }
+                else
+                  resp
+                    .status(200)
+                    .json({
+                      token
+                    });
               }
             });
         }
@@ -467,10 +489,32 @@ module.exports =
                             }
                             else
                             {
-                              resp
-                                .json({
-                                  token
+                              if(admin) 
+                              {
+                                const access = mongoose.model('access', 'access');
+                                access.create({
+                                  idUser: _id,
+                                  ip: req.ip
+                                }, (err, data) => 
+                                {
+                                  if(err == null)
+                                    resp
+                                      .status(200)
+                                      .json({
+                                        token
+                                      });
+                                  else
+                                    resp
+                                      .status(500)
+                                      .json(lang.LABEL_500_HTTP);
                                 });
+                              }
+                              else
+                                resp
+                                  .status(200)
+                                  .json({
+                                    token
+                                  });
                             }
                           });
                       }
@@ -1173,7 +1217,7 @@ module.exports =
         if(admin)
         {
           const findCollection = mongoose.model('category', 'category');
-          const find = findCollection.find(
+          findCollection.find(
           {
             subCategory: subCategory.name
           }, (err, result) => {

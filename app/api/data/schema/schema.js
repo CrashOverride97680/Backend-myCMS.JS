@@ -47,8 +47,7 @@ module.exports = {
     }),
     posts: new Schema({
       lang: {
-        type: String,
-        required: true
+        type: String
       },
       type: {
         type: String,
@@ -755,8 +754,26 @@ module.exports = {
                 modified: { type: Date, default: Date.now, required: true },
             })
         ],
+        lang: {
+            type: String
+        }
         create: { type: Date },
         updated: { type: Date, default: Date.now, required: true },
         modified: { type: Date, default: Date.now, required: true },
+    }),
+    access: new Schema({
+        idUser: {
+            type: String,
+            required: true
+        },
+        ip: {
+            type: String,
+            required: true
+        },
+        dayHour: {
+            type: Date,
+            default: Date.now(),
+            required: true
+        }
     }),
 };
