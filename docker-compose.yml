@@ -48,7 +48,7 @@ services:
             - "mongo"
         networks:
             - cms_app_net
-
+    
     redis:
         container_name: redisCMS
         image: redis:alpine
