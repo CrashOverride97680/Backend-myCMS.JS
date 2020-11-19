@@ -36,17 +36,6 @@ services:
         networks:
             - cms_app_net
     
-    mongoku:
-        container_name: mongo-client
-        image: mongoku
-        restart: always
-        ports:
-            - 3100:3100
-        environment: 
-            MONGOKU_DEFAULT_HOST: mongodb://${MONGOKU_USER}:${MONGOKU_PASSWORD}@mongoCMS:27017
-        networks:
-            - cms_app_net
-    
     redis:
         container_name: redisCMS
         image: redis:alpine
