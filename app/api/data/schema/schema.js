@@ -755,8 +755,8 @@ module.exports = {
             })
         ],
         lang: {
-            type: String
-        }
+            type: String,
+        },
         create: { type: Date },
         updated: { type: Date, default: Date.now, required: true },
         modified: { type: Date, default: Date.now, required: true },
