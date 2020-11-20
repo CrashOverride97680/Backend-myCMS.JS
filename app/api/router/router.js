@@ -27,7 +27,8 @@ router
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
-	.post('/createpost', upload.createPost, controller.createPost);
+	.post('/createpost', upload.createPost, controller.createPost)
+	.post('/imgUpload', upload.imgLoad, controller.uploadImg);
 // -> PUT
 router
 	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory);

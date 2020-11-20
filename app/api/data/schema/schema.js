@@ -84,15 +84,35 @@ module.exports = {
       dateUser: { type: String, required: true}
     }),
     uploadImg: new Schema({
-      imgName: {
-        type: String,
-        required: true
-      },
-      imgPath: {
-        type: String,
-        required: true
-      },
-      create: { type: Date }
+        imgName: {
+            type: String,
+            required: true
+        },
+        originalFileName: {
+            type: String,
+            required: true
+        },
+        destination: {
+            type: String,
+            required: true
+        },
+        imgPath: {
+            type: String,
+            required: true
+        },
+        imageType: {
+            type: String,
+            required: true
+        },
+        size: {
+            type: String,
+            required: true
+        },
+        create: { 
+          type: Date,
+          default: Date.now(),
+          required: true
+        }
     }),
     uploadFile: new Schema({
         fileName: {

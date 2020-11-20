@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
 	  cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
     },
     fileFilter:  (req, file, cb) => {
-        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) 
+        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|pdf)$/)) 
         {
             req.fileValidationError = lang.LABEL_MULTER_VALIDATION_ERROR;
             return cb(new Error(lang.LABEL_MULTER_ERROR), false);
@@ -30,10 +30,6 @@ module.exports =
 {
     createPost: upload.fields([
         {
-            name: 'backgroundImage',
-            maxCount: maxBgImages
-        },
-        {
             name: 'images',
             maxCount: maxImageBody
         },
@@ -41,6 +37,16 @@ module.exports =
             name: 'gallery',
             maxCount: maxGallery
         },
+        {
+            name: 'backgroundImage',
+            maxCount: maxBgImages
+        },
     ]),
     test: upload.single('testimg'),
+    imgLoad: upload.fields([
+        {
+            name: 'images',
+            maxCount: maxImageBody
+        }
+    ]),
 };

@@ -2959,7 +2959,72 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
-  
+  uploadImg: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const file = req.files;
+      if( process.env.NODE_ENV_DEV ) 
+        console.log(lang.LABEL_UPLOAD_VARIABLE, file);
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const upload = mongoose.model('uploadImg', 'uploadImg');
+          upload.create(
+          {
+            imgName: file.images[0].filename,
+            originalFileName: file.images[0].originalname,
+            destination: file.images[0].destination,
+            imgPath: file.images[0].path,
+            imageType: file.images[0].mimetype,
+            size: file.images[0].size
+          }, 
+          (err, data) => 
+          {
+            if(process.env.NODE_ENV_DEV) 
+              console.log(lang.LANG_DEBUG_ERROR, err);
+            if(err == null) { 
+              if(process.env.NODE_ENV_DEV)
+                console.log(lang.LABEL_RESULT_UPLOAD_OK);
+              resp
+                .status(200)
+                .json(lang.LABEL_200_HTTP);
+            }
+            else
+              resp
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
 /*
 -------------------------------------------------------------------------
 
