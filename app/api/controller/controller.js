@@ -2962,7 +2962,7 @@ module.exports =
   uploadImg: (req, resp) => {
     try {
       const token = req.headers['authorization'];
-      const file = req.files;
+      const file = req.files.images;
       if( process.env.NODE_ENV_DEV ) 
         console.log(lang.LABEL_UPLOAD_VARIABLE, file);
       Promise.all([
@@ -2981,15 +2981,19 @@ module.exports =
         if(admin)
         {
           const upload = mongoose.model('uploadImg', 'uploadImg');
+          const data = file.map(element => {
+            return { 
+              imgName: element.filename,
+              originalFileName: element.originalname,
+              destination: element.destination,
+              imgPath: element.path,
+              imageType: element.mimetype,
+              size: element.size
+            };
+          });
           upload.create(
-          {
-            imgName: file.images[0].filename,
-            originalFileName: file.images[0].originalname,
-            destination: file.images[0].destination,
-            imgPath: file.images[0].path,
-            imageType: file.images[0].mimetype,
-            size: file.images[0].size
-          }, 
+            data
+          , 
           (err, data) => 
           {
             if(process.env.NODE_ENV_DEV) 
