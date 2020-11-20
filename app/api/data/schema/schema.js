@@ -83,7 +83,7 @@ module.exports = {
       modified: { type: Date, default: Date.now, required: true },
       dateUser: { type: String, required: true}
     }),
-    gallery: new Schema({
+    uploadImg: new Schema({
       imgName: {
         type: String,
         required: true
@@ -92,9 +92,18 @@ module.exports = {
         type: String,
         required: true
       },
-      create: { type: Date },
-      updated: { type: Date, default: Date.now, required: true },
-      modified: { type: Date, default: Date.now, required: true }
+      create: { type: Date }
+    }),
+    uploadFile: new Schema({
+        fileName: {
+            type: String,
+            required: true
+        },
+        filePath: {
+            type: String,
+            required: true
+        },
+        create: { type: Date } 
     }),
     mailsubscribe: new Schema({
       email:

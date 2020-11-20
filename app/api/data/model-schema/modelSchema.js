@@ -8,7 +8,9 @@
       chat,
       earning,
       category,
-      access
+      access,
+      uploadImg,
+      uploadFile
     } = APIMongo;
 // EXPORTING MODULE MONGO
     mongoose.model('user', users);
@@ -18,3 +20,5 @@
     mongoose.model('earning', earning);
     mongoose.model('category', category);
     mongoose.model('access', access);
+    mongoose.model('uploadImg', uploadImg);
+    mongoose.model('uploadFile', uploadFile);
