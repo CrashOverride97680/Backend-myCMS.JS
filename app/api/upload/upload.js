@@ -1,6 +1,8 @@
 // IMPORT MODULES NODEJS
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
+// DECLARE VARIABLES
+const limit = 1024 * 3;
 // IMPORT MULTER
 const multer  = require('multer');
 const storage = multer.diskStorage({
@@ -9,6 +11,9 @@ const storage = multer.diskStorage({
 	},
 	filename: (req, file, cb) => {
 	  cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
+    },
+    limits: {
+        fileSize: limit
     },
     fileFilter:  (req, file, cb) => {
         if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|pdf)$/)) 
@@ -26,7 +31,6 @@ const maxBgImages = process.env.NODE_ENV_POST_BG_MAX || 1;
 const maxImageBody = ( process.env.NODE_ENV_POST_MAX_GALLERY_BODY <= 12 ) ? process.env.NODE_ENV_POST_MAX_GALLERY_BODY : 12;
 const maxGallery = ( process.env.NODE_ENV_POST_MAX_GALLERY <= 12 ) ? process.env.NODE_ENV_POST_MAX_GALLERY : 12;
 const maxUploadPhoto = ( process.env.NODE_ENV_POST_MAX_UPLOAD_PHOTOS <= 12 ) ? process.env.NODE_ENV_POST_MAX_UPLOAD_PHOTOS : 12;
-const limit = 1024 * 36;
 // EXPORT MODULE NODEJS
 module.exports = 
 {
@@ -44,9 +48,6 @@ module.exports =
             maxCount: maxBgImages
         },
     ]),
-    limits: {
-        fileSize: limit
-    },
     test: upload.single('testimg'),
     imgLoad: upload.fields([
         {
