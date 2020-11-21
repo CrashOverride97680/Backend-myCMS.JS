@@ -23,8 +23,10 @@ const upload = multer({
     storage: storage
 });
 const maxBgImages = process.env.NODE_ENV_POST_BG_MAX || 1;
-const maxImageBody = process.env.NODE_ENV_POST_MAX_GALLERY_BODY || 12;
-const maxGallery = process.env.NODE_ENV_POST_MAX_GALLERY || 12;
+const maxImageBody = ( process.env.NODE_ENV_POST_MAX_GALLERY_BODY <= 12 ) ? process.env.NODE_ENV_POST_MAX_GALLERY_BODY : 12;
+const maxGallery = ( process.env.NODE_ENV_POST_MAX_GALLERY <= 12 ) ? process.env.NODE_ENV_POST_MAX_GALLERY : 12;
+const maxUploadPhoto = ( process.env.NODE_ENV_POST_MAX_UPLOAD_PHOTOS <= 12 ) ? process.env.NODE_ENV_POST_MAX_UPLOAD_PHOTOS : 12;
+const limit = 1024 * 36;
 // EXPORT MODULE NODEJS
 module.exports = 
 {
@@ -42,11 +44,14 @@ module.exports =
             maxCount: maxBgImages
         },
     ]),
+    limits: {
+        fileSize: limit
+    },
     test: upload.single('testimg'),
     imgLoad: upload.fields([
         {
             name: 'images',
-            maxCount: maxImageBody
+            maxCount: maxUploadPhoto
         }
     ]),
 };
