@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
         fileSize: limit
     },
     fileFilter:  (req, file, cb) => {
-        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|pdf)$/)) 
+        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) 
         {
             req.fileValidationError = lang.LABEL_MULTER_VALIDATION_ERROR;
             return cb(new Error(lang.LABEL_MULTER_ERROR), false);
@@ -31,6 +31,7 @@ const maxBgImages = process.env.NODE_ENV_POST_BG_MAX || 1;
 const maxImageBody = ( process.env.NODE_ENV_POST_MAX_GALLERY_BODY <= 12 ) ? process.env.NODE_ENV_POST_MAX_GALLERY_BODY : 12;
 const maxGallery = ( process.env.NODE_ENV_POST_MAX_GALLERY <= 12 ) ? process.env.NODE_ENV_POST_MAX_GALLERY : 12;
 const maxUploadPhoto = ( process.env.NODE_ENV_POST_MAX_UPLOAD_PHOTOS <= 12 ) ? process.env.NODE_ENV_POST_MAX_UPLOAD_PHOTOS : 12;
+const maxFileUpload = ( process.env.NODE_ENV_POST_MAX_UPLOAD_FILE <= 12 ) ? process.env.NODE_ENV_POST_MAX_UPLOAD_FILE : 12;
 // EXPORT MODULE NODEJS
 module.exports = 
 {
@@ -49,10 +50,16 @@ module.exports =
         },
     ]),
     test: upload.single('testimg'),
-    imgLoad: upload.fields([
+    imgUpload: upload.fields([
         {
             name: 'images',
             maxCount: maxUploadPhoto
+        }
+    ]),
+    fileUpload: upload.fields([
+        {
+            name: 'files',
+            maxCount: maxFileUpload
         }
     ]),
 };

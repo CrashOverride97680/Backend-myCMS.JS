@@ -91,4 +91,7 @@ module.exports = {
 		check('codCategory').notEmpty(),
 		check('authorization').notEmpty()
 	],
+	uploadFile: [
+		check('authorization').notEmpty()
+	]
 };

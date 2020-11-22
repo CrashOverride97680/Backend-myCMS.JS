@@ -119,11 +119,31 @@ module.exports = {
             type: String,
             required: true
         },
+        originalFileName: {
+            type: String,
+            required: true
+        },
+        destination: {
+            type: String,
+            required: true
+        },
         filePath: {
             type: String,
             required: true
         },
-        create: { type: Date } 
+        fileType: {
+            type: String,
+            required: true
+        },
+        size: {
+            type: String,
+            required: true
+        },
+        create: { 
+          type: Date,
+          default: Date.now(),
+          required: true
+        } 
     }),
     mailsubscribe: new Schema({
       email:

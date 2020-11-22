@@ -4,7 +4,8 @@ const router = express.Router();
 const controller = require('../controller/controller');
 const auth = require('../autentication/auth');
 const isValid = require('../autentication');
-const upload = require('../upload/upload');
+const uploadImg = require('../upload/uploadImg');
+const uploadFile = require('../upload/uploadFile');
 // ROUTES APP
 // -> GET
 router
@@ -27,8 +28,9 @@ router
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
-	.post('/createpost', upload.createPost, controller.createPost)
-	.post('/imgUpload', upload.imgLoad, controller.uploadImg);
+	.post('/createpost', uploadImg.createPost, controller.createPost)
+	.post('/imgUpload', controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
+	.post('/fileUpload', controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles);
 // -> PUT
 router
 	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory);
@@ -52,7 +54,7 @@ if (process.env.NODE_ENV_TEST)
 		.get('/testmail', controller.testMail);
 	router
 		.post('/checktoken', controller.checkTokenTest)
-		.post('/testimg', upload.test, controller.uploadTest);		
+		.post('/testimg', uploadImg.test, controller.uploadTest);		
 }
 
 if (process.env.NODE_ENV_ALLERT) 

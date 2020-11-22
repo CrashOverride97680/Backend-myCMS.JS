@@ -50,6 +50,8 @@ const whtlstlocal = !process.env.NODE_ENV_LOCAL_WHITELIST
   : null;
 //  IMPORTING GENERAL FUNCTIONS
 const genFunctions = require('../general');
+const uploadFile = require('../upload/uploadFile');
+const uploadImg = require('../upload/uploadImg');
 //  EXPORTING MODULE
 module.exports =
 {
@@ -2959,67 +2961,39 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
+// FATTO
   uploadImg: (req, resp) => {
     try {
-      const token = req.headers['authorization'];
       const file = req.files.images;
-      if( process.env.NODE_ENV_DEV ) 
-        console.log(lang.LABEL_UPLOAD_VARIABLE, file);
-      Promise.all([
-        genFunctions.isValidToken({
-          token,
-          localBlacklist: blkLocal,
-          redisBlacklist: redis
-        }),
-        genFunctions.checkTypeUser({
-          token
-        })
-      ])
-      .then(result => {
-        const res = result[1];
-        const { admin } = res;
-        if(admin)
-        {
-          const upload = mongoose.model('uploadImg', 'uploadImg');
-          const data = file.map(element => {
-            return { 
-              imgName: element.filename,
-              originalFileName: element.originalname,
-              destination: element.destination,
-              imgPath: element.path,
-              imageType: element.mimetype,
-              size: element.size
-            };
-          });
-          upload.create(
-            data
-          , 
-          (err, data) => 
-          {
-            if(process.env.NODE_ENV_DEV) 
-              console.log(lang.LANG_DEBUG_ERROR, err);
-            if(err == null) { 
-              if(process.env.NODE_ENV_DEV)
-                console.log(lang.LABEL_RESULT_UPLOAD_OK);
-              resp
-                .status(200)
-                .json(lang.LABEL_200_HTTP);
-            }
-            else
-              resp
-                .status(500)
-                .json(lang.LABEL_500_HTTP);
-          });
+      const upload = mongoose.model('uploadImg', 'uploadImg');
+      const data = file.map(element => {
+        return { 
+          imgName: element.filename,
+          originalFileName: element.originalname,
+          destination: element.destination,
+          imgPath: element.path,
+          imageType: element.mimetype,
+          size: element.size
+        };
+      });
+      upload.create(
+        data
+      , 
+      (err, data) => 
+      {
+        if(process.env.NODE_ENV_DEV) 
+          console.log(lang.LANG_DEBUG_ERROR, err);
+        if(err == null) { 
+          if(process.env.NODE_ENV_DEV)
+            console.log(lang.LABEL_RESULT_UPLOAD_OK);
+          resp
+            .status(200)
+            .json(lang.LABEL_200_HTTP);
         }
         else
           resp
-            .json(lang.LABEL_403_HTTP);
-      })
-      .catch(err => {
-        console.log(lang.LANG_DEBUG_ERROR, err);
-        resp
-          .status(err.status)
-          .json(err.lang);
+            .status(500)
+            .json(lang.LABEL_500_HTTP);
       });
     }
     catch (e) {
@@ -3027,6 +3001,184 @@ module.exports =
       resp
         .status(500)
         .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  uploadFiles: (req, resp) => {
+    try 
+    {
+      const file = req.files.files;
+      const upload = mongoose.model('uploadFile', 'uploadFile');
+      const data = file.map(element => {
+        return { 
+          fileName: element.filename,
+          originalFileName: element.originalname,
+          destination: element.destination,
+          filePath: element.path,
+          fileType: element.mimetype,
+          size: element.size
+        };
+      });
+      upload.create(
+        data
+      , 
+      (err, data) => 
+      {
+        if(process.env.NODE_ENV_DEV)
+          console.log(lang.LANG_DEBUG_ERROR, err);
+        if(err == null) { 
+          if(process.env.NODE_ENV_DEV)
+            console.log(lang.LABEL_RESULT_UPLOAD_OK);
+          resp
+            .status(200)
+            .json(lang.LABEL_200_HTTP);
+        }
+        else
+          resp
+            .status(500)
+            .json(lang.LABEL_500_HTTP);
+      }); 
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+/*
+-------------------------------------------------------------------------
+
+        CONTROLLER FOR CHECK USER
+
+------------------------------------------------------------------------- 
+*/
+// FATTO
+  checkAdminUser: (req, resp, next) => {
+    try {
+      const token = req.headers['authorization'];
+      if ( process.env.NODE_ENV_LOCAL_BLACKLIST ) 
+      {                                                                                     // CHECK INTO LOCAL BLACKLIST
+        const blkToken = blkLocal.findCache_LOCAL({ name: 'tokens', data: token });
+        if( blkToken )
+            resp
+              .status(403)
+              .json(lang.LABEL_403_HTTP);
+        else {
+          if(!token)
+            resp
+              .status(403)
+              .json(lang.LABEL_403_HTTP);
+          else 
+            jwt
+              .verify(token, secret, (err, decoded) =>
+              {
+                if(process.env.NODE_ENV_TEST) {
+                    console.log(lang.LANG_DEBUG_ERROR, err);
+                    console.log(lang.LANG_DEBUG_DATA, decoded);
+                }
+
+                if(err === null) 
+                {
+                  const {
+                      _id,
+                      admin
+                  } = decoded;
+
+                  const findUser = mongoose.model('user', 'users');
+                  findUser
+                      .findById(_id, (error, data) => 
+                      {
+                        if(data.confirmed) 
+                        {
+                          if(error == null) {
+                            if (data.admin == true) 
+                              next();
+                            else 
+                              resp
+                                .status(403)
+                                .json(lang.LABEL_403_HTTP);
+                          }
+                          else
+                            resp
+                              .status(403)
+                              .json(lang.LABEL_403_HTTP);
+                        }
+                        else 
+                          resp
+                            .status(403)
+                            .json(lang.LABEL_403_HTTP);
+                      });
+                }
+                else 
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+        }
+      }              
+      else if( !process.env.NODE_ENV_LOCAL_BLACKLIST ) 
+      {                                                                                 // CHECK INTO REDIS BLACKLIST
+        const client = redisConfig.clientRedis();
+        const tokenBlacklist = client
+            .get(token, ( error, reply ) => 
+            {
+              jwt
+                .verify(token, secret, (err, decoded) =>
+                {
+                  if(process.env.NODE_ENV_TEST) {
+                    console.log(lang.LANG_DEBUG_ERROR, err);
+                    console.log(lang.LANG_DEBUG_DATA, decoded);
+                  }
+
+                  if(err === null) 
+                  {
+                    const {
+                      _id
+                    } = decoded;
+
+                  const findUser = mongoose.model('user', 'users');
+                  findUser
+                      .findById(_id, (error, data) => 
+                      {
+                        if(data.confirmed) 
+                        {
+                          if(error == null) {
+                            if (data.admin == true) 
+                              next();
+                            else 
+                              resp
+                                .status(403)
+                                .json(lang.LABEL_403_HTTP);
+                          }
+                          else
+                            resp
+                              .status(403)
+                              .json(lang.LABEL_403_HTTP);
+                        }
+                        else 
+                          resp
+                            .status(403)
+                            .json(lang.LABEL_403_HTTP);
+                      });
+                }
+                else 
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+            });
+      }           
+      else 
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }
+    catch(e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(403)
+        .json(lang.LABEL_403_HTTP);
     }
   },
 /*
