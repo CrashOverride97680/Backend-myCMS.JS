@@ -91,7 +91,16 @@ module.exports = {
 		check('codCategory').notEmpty(),
 		check('authorization').notEmpty()
 	],
+	imageUpload:[
+		check('authorization').notEmpty()
+	],
 	uploadFile: [
 		check('authorization').notEmpty()
-	]
+	],
+	getImagesList: [
+		check('authorization').notEmpty()
+	],
+	getFilesList: [
+		check('authorization').notEmpty()
+	],
 };

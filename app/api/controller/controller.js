@@ -2835,6 +2835,114 @@ module.exports =
     }
   },
 // FATTO
+  getImagesUploaded: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const category = mongoose.model('uploadImg', 'uploadImg');
+          category
+            .find({})
+            .select({})
+            .sort({created: 'desc'})
+            .exec((err, category) =>
+            {
+              if (!err)
+                resp
+                  .status(200)
+                  .json(category);
+              else
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+            });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getFilesUploaded: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const category = mongoose.model('uploadFile', 'uploadFile');
+          category
+            .find({})
+            .select({})
+            .sort({created: 'desc'})
+            .exec((err, category) =>
+            {
+              if (!err)
+                resp
+                  .status(200)
+                  .json(category);
+              else
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+            });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
   modifyCategory: (req, resp) => {
     try {
       const token = req.headers['authorization'];

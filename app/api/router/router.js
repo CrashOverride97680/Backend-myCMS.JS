@@ -19,7 +19,9 @@ router
   	.get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
   	.get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable)
   	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllCategory)
-	.get('/getCategory/:max', auth.getCategoryWithFilter, isValid.runValidation, controller.getCategoryWithFilter);
+	.get('/getCategory/:max', auth.getCategoryWithFilter, isValid.runValidation, controller.getCategoryWithFilter)
+	.get('/getListImagesUploaded', auth.getImagesList, isValid.runValidation, controller.getImagesUploaded)
+	.get('/getListFilesUploaded', auth.getFilesList, isValid.runValidation, controller.getFilesUploaded);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
@@ -29,8 +31,8 @@ router
 	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
 	.post('/createpost', uploadImg.createPost, controller.createPost)
-	.post('/imgUpload', controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
-	.post('/fileUpload', controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles);
+	.post('/imgUpload', auth.imageUpload, isValid.runValidation, controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
+	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles);
 // -> PUT
 router
 	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory);

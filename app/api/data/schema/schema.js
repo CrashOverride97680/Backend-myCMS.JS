@@ -108,7 +108,7 @@ module.exports = {
             type: String,
             required: true
         },
-        create: { 
+        created: { 
           type: Date,
           default: Date.now(),
           required: true
@@ -139,7 +139,7 @@ module.exports = {
             type: String,
             required: true
         },
-        create: { 
+        created: { 
           type: Date,
           default: Date.now(),
           required: true
