@@ -3081,8 +3081,7 @@ module.exports =
                 if(err === null) 
                 {
                   const {
-                      _id,
-                      admin
+                      _id
                   } = decoded;
 
                   const findUser = mongoose.model('user', 'users');

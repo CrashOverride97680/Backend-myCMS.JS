@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
         fileSize: limit
     },
     fileFilter:  (req, file, cb) => {
-        if (!file.originalname.match(/\.(pdf | docx | doc | xlt | xls | txt | ppt | pptx | odt | ods | odp | zip | rar)$/)) 
+        if (!file.originalname.match(/\.(pdf|docx|doc|xlt|xls|txt|ppt|pptx|odt|ods|odp|zip|rar)$/)) 
         {
             req.fileValidationError = lang.LABEL_MULTER_VALIDATION_ERROR;
             return cb(new Error(lang.LABEL_MULTER_ERROR), false);

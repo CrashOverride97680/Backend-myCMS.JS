@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
         fileSize: limit
     },
     fileFilter:  (req, file, cb) => {
-        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) 
+        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|webp)$/)) 
         {
             req.fileValidationError = lang.LABEL_MULTER_VALIDATION_ERROR;
             return cb(new Error(lang.LABEL_MULTER_ERROR), false);
