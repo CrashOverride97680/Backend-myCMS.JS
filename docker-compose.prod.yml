@@ -76,8 +76,6 @@ services:
         - "50000:50000"
         networks:
             - cms_app_net
-        depends_on:
-            - gitrepository
 
     proxyserver:
         container_name: proxyNGINX_CMS
