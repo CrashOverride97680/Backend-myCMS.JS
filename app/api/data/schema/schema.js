@@ -46,42 +46,92 @@ module.exports = {
         modified: { type: Date, default: Date.now, required: true },
     }),
     posts: new Schema({
-      lang: {
-        type: String
-      },
-      type: {
-        type: String,
-        required: true
-      },
-      title: {
-        type: String,
-        required: true
-      },
-      header: {
-        type: String,
-        required: true
-      },
-      content: {
-        type: String,
-        required: true
-      },
-      visible: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      category: [
-        new Schema({
-            codeCategory: {
+        lang: {
+            type: String,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        },
+        seo: new Schema({
+            title: {
                 type: String,
                 required: true
-            }
-        })
-      ],
-      create: { type: Date },
-      updated: { type: Date, default: Date.now, required: true },
-      modified: { type: Date, default: Date.now, required: true },
-      dateUser: { type: String, required: true}
+            },
+            description: {
+                type: String,
+                required: true
+            },
+            keywords: {
+                type: String,
+                required: true
+            },
+            ogTitle: {
+                type: String, 
+            },
+            ogType: {
+                type: String,
+            },
+            ogUrl: {
+                type: String,
+            },
+            ogSiteName: {
+                type: String,
+            },
+            geoRegion: {
+                type: String
+            },
+            geoPlacename: {
+                type: String
+            },
+            geoPosition: {
+                type: String
+            },
+            icbm: {
+                type: String
+            },
+            twitterCard: {
+                type: String
+            },
+            twitterSite: {
+                type: String    
+            },
+            twitterCreator: {
+                type: String
+            },
+            twitterUrl: {
+                type: String
+            },
+            twitterTitle: {
+                type: String
+            },
+        }),
+        important: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+        content: {
+            type: String,
+            required: true
+        },
+        visible: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        category: [
+            new Schema({
+                codeCategory: {
+                    type: String,
+                    required: true
+                }
+            })
+        ],
+        create: { type: Date },
+        updated: { type: Date, default: Date.now, required: true },
+        modified: { type: Date, default: Date.now, required: true },
     }),
     uploadImg: new Schema({
         imgName: {

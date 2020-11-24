@@ -35,10 +35,11 @@ module.exports = {
     	check('authorization').notEmpty(),
 	  	check('lang').notEmpty(),
 		check('type').notEmpty(),
-    	check('title').notEmpty(),
-    	check('header').notEmpty(),
+    	check('seo').notEmpty(),
+    	check('important').isNumeric({min: 0}),
     	check('content').notEmpty(),
-    	check('visible').isBoolean()
+		check('visible').isBoolean(),
+		check('category').notEmpty()
 	],
   	numberPosts: [
     	check('authorization').notEmpty()

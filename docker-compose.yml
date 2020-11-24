@@ -15,7 +15,6 @@ services:
         depends_on:
             - mongo
             - redis
-#            - jenkins
         links:
             - "mongo"
             - "redis"
@@ -70,20 +69,6 @@ services:
             - cms_app_net
         restart: always
 
-#    jenkins:
-#        container_name: jenkinsCMS
-#        image: jenkinsci/jenkins:2.150.1-slim
-#        restart: always
-#        volumes: 
-#            - jenkins_data:/var/jenkins_home
-#        ports:
-#        - "8081:8080"
-#        - "50000:50000"
-#        networks:
-#            - cms_app_net
-#        depends_on:
-#            - gitrepository
-
     proxyserver:
         container_name: proxyNGINX_CMS
         image: nginx:alpine
@@ -105,8 +90,6 @@ services:
 
 volumes:
     data-volume-mongoCMS:
-        driver: local
-    jenkins_data:
         driver: local
 
 networks:

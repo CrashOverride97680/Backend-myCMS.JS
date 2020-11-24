@@ -30,7 +30,7 @@ router
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
-	.post('/createpost', uploadImg.createPost, controller.createPost)
+	.post('/createpost', auth.posts, isValid.runValidation, controller.createPost)
 	.post('/imgUpload', auth.imageUpload, isValid.runValidation, controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
 	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles);
 // -> PUT
