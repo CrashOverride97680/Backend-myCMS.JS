@@ -2101,7 +2101,7 @@ module.exports =
                 if (!err)
                   resp
                     .status(200)
-                    .json(posts);
+                    .json(result);
                 else
                   resp
                     .status(500)
@@ -2940,6 +2940,65 @@ module.exports =
         {
           const deleteCategory = mongoose.model('category', 'category');
           deleteCategory.findByIdAndRemove(
+          {
+            _id
+          }, (err, data) => 
+          {
+            if(process.env.NODE_ENV_DEV) {
+              console.log(lang.LANG_DEBUG_RESULT, data);
+              console.log(lang.LANG_DEBUG_ERROR, err);
+            }
+
+            if(data !== null)
+              resp
+                .status(200)
+                .json(lang.LABEL_200_HTTP);
+            else
+              resp
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+  deletePosts: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const _id = req.body.codPosts;
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const deletePosts = mongoose.model('posts', 'posts');
+          deletePosts.findByIdAndRemove(
           {
             _id
           }, (err, data) => 

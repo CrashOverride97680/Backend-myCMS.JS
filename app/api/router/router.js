@@ -40,6 +40,7 @@ router
 // -> DELETE
 router
 	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.deleteCategory)
+	.delete('/deletePosts', auth.deletePosts, isValid.runValidation, controller.deletePosts)
 	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser);
 // -> TEST
 if(process.env.NODE_TEST_ADMIN) 

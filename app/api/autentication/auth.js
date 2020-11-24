@@ -54,6 +54,10 @@ module.exports = {
 		check('visible').isBoolean(),
 		check('category').notEmpty()
 	],
+	deletePosts: [
+		check('authorization').notEmpty(),
+		check('codPosts').notEmpty(),
+	],
   	numberPosts: [
     	check('authorization').notEmpty()
   	],
