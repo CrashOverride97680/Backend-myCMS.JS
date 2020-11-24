@@ -35,9 +35,22 @@ module.exports = {
     	check('authorization').notEmpty(),
 	  	check('lang').notEmpty(),
 		check('type').notEmpty(),
+		check('title').notEmpty(),
     	check('seo').notEmpty(),
     	check('important').isNumeric({min: 0}),
     	check('content').notEmpty(),
+		check('visible').isBoolean(),
+		check('category').notEmpty()
+	],
+	updatePosts:[
+		check('authorization').notEmpty(),
+		check('codPosts').notEmpty(),
+		check('lang').notEmpty(),
+		check('type').notEmpty(),
+		check('title').notEmpty(),
+		check('seo').notEmpty(),
+		check('important').isNumeric({min: 0}),
+		check('content').notEmpty(),
 		check('visible').isBoolean(),
 		check('category').notEmpty()
 	],

@@ -54,11 +54,12 @@ module.exports = {
             type: String,
             required: true
         },
+        title: {
+            type: String,
+            required: true
+        },
         seo: new Schema({
-            title: {
-                type: String,
-                required: true
-            },
+            _id: false,
             description: {
                 type: String,
                 required: true
@@ -123,6 +124,7 @@ module.exports = {
         },
         category: [
             new Schema({
+                _id: false,
                 codeCategory: {
                     type: String,
                     required: true

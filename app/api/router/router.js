@@ -35,7 +35,8 @@ router
 	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles);
 // -> PUT
 router
-	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory);
+	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory)
+	.put('/modifyPosts', auth.updatePosts, isValid.runValidation, controller.modifyPosts);
 // -> DELETE
 router
 	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.deleteCategory)
