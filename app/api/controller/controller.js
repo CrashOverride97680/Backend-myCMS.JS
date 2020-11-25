@@ -3422,6 +3422,67 @@ module.exports =
     }
   },  
 // FATTO
+  deleteVideo: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const _id = req.body.codVideo;
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const deleteVideo = mongoose.model('uploadVideo', 'uploadVideo');
+          deleteVideo.findByIdAndRemove(
+          {
+            _id
+          }, (err, data) => 
+          {
+            if(process.env.NODE_ENV_DEV) {
+              console.log(lang.LANG_DEBUG_RESULT, data);
+              console.log(lang.LANG_DEBUG_ERROR, err);
+            }
+            if(data !== null) {
+              fs.unlinkSync(path.join(files, data.videoName));
+              resp
+                .status(200)
+                .json(lang.LABEL_200_HTTP);
+            }
+            else
+              resp
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  }, 
+// FATTO
   uploadImg: (req, resp) => {
     try {
       const file = req.files.images;

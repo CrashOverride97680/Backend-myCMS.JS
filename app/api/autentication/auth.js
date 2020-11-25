@@ -120,6 +120,10 @@ module.exports = {
 		check('codCategory').notEmpty(),
 		check('authorization').notEmpty()
 	],
+	deleteVideo: [
+		check('codVideo').notEmpty(),
+		check('authorization').notEmpty()
+	],
 	imageUpload:[
 		check('authorization').notEmpty()
 	],

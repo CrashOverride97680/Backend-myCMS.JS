@@ -49,6 +49,7 @@ router
 	.delete('/deleteImage', auth.deleteImage, isValid.runValidation, controller.deleteImage)
 	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.deleteCategory)
 	.delete('/deletePosts', auth.deletePosts, isValid.runValidation, controller.deletePosts)
+	.delete('/deleteVideo', auth.deleteVideo, isValid.runValidation, controller.deleteVideo)
 	.delete('/deleteUser', controller.chechUserAuth, controller.deleteUser);
 // -> TEST
 if(process.env.NODE_TEST_ADMIN) 
