@@ -6,6 +6,8 @@ const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const router = require('./api/router/router');
 const scheduler = require('./api/scheduling/scheduler');
+const path = require('path'); 
+const publicFiles = path.join(__dirname, 'uploads');
 const cors = require('cors');
 const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST
 					? require('./api/autentication/blacklist-local/blacklist-local')
@@ -68,6 +70,7 @@ app.use(bodyParser.json());
 app.use(limiter);
 //  ROUTER ENTRYPOINT
 app.use('/api', router);
+app.use('/public', express.static(publicFiles));
 /*
     app
     .use(express.static(path.join(__dirname, 'public')));

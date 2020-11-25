@@ -39,9 +39,11 @@ router
 	.put('/modifyPosts', auth.updatePosts, isValid.runValidation, controller.modifyPosts);
 // -> DELETE
 router
+	.delete('/deleteFile', auth.deleteFile, isValid.runValidation, controller.deleteFile)
+	.delete('/deleteImage', auth.deleteImage, isValid.runValidation, controller.deleteImage)
 	.delete('/deleteCategory', auth.deleteCategory, isValid.runValidation, controller.deleteCategory)
 	.delete('/deletePosts', auth.deletePosts, isValid.runValidation, controller.deletePosts)
-	.delete('/removeUser', controller.chechUserAuth, controller.deleteUser);
+	.delete('/deleteUser', controller.chechUserAuth, controller.deleteUser);
 // -> TEST
 if(process.env.NODE_TEST_ADMIN) 
 {

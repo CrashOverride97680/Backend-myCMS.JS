@@ -52,6 +52,9 @@ const whtlstlocal = !process.env.NODE_ENV_LOCAL_WHITELIST
 const genFunctions = require('../general');
 const uploadFile = require('../upload/uploadFile');
 const uploadImg = require('../upload/uploadImg');
+const fs = require('fs');
+const path = require('path');
+const files = path.join(__dirname, '..', '..', 'uploads');
 const { post } = require('../../app');
 //  EXPORTING MODULE
 module.exports =
@@ -2671,7 +2674,7 @@ module.exports =
               if (!err)
                 resp
                   .status(200)
-                  .json(category);
+                  .json(result);
               else
                 resp
                   .status(500)
@@ -2730,7 +2733,7 @@ module.exports =
               if (!err)
                 resp
                   .status(200)
-                  .json(category);
+                  .json(uploadFile);
               else
                 resp
                   .status(500)
@@ -2977,6 +2980,7 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
+// FATTO
   deletePosts: (req, resp) => {
     try {
       const token = req.headers['authorization'];
@@ -3036,6 +3040,129 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
+// FATTO
+  deleteImage: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const _id = req.body.codImage;
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const deleteImages = mongoose.model('uploadImg', 'uploadImg');
+          deleteImages.findByIdAndRemove(
+          {
+            _id
+          }, (err, data) => 
+          {
+            if(process.env.NODE_ENV_DEV) {
+              console.log(lang.LANG_DEBUG_RESULT, data);
+              console.log(lang.LANG_DEBUG_ERROR, err);
+            }
+            if(data !== null) {
+
+              fs.unlinkSync(path.join(files, data.imgName));
+              resp
+                .status(200)
+                .json(lang.LABEL_200_HTTP);
+            }
+            else
+              resp
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  deleteFile: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const _id = req.body.codFile;
+      
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const deleteFile = mongoose.model('uploadFile', 'uploadFile');
+          deleteFile.findByIdAndRemove(
+          {
+            _id
+          }, (err, data) => 
+          {
+            if(process.env.NODE_ENV_DEV) {
+              console.log(lang.LANG_DEBUG_RESULT, data);
+              console.log(lang.LANG_DEBUG_ERROR, err);
+            }
+            if(data !== null) {
+              fs.unlinkSync(path.join(files, data.fileName));
+              resp
+                .status(200)
+                .json(lang.LABEL_200_HTTP);
+            }
+            else
+              resp
+                .status(500)
+                .json(lang.LABEL_500_HTTP);
+          });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },  
 // FATTO
   uploadImg: (req, resp) => {
     try {
