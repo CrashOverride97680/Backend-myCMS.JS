@@ -10,7 +10,8 @@
       category,
       access,
       uploadImg,
-      uploadFile
+      uploadFile,
+      uploadVideo
     } = APIMongo;
 // EXPORTING MODULE MONGO
     mongoose.model('user', users);
@@ -22,3 +23,4 @@
     mongoose.model('access', access);
     mongoose.model('uploadImg', uploadImg);
     mongoose.model('uploadFile', uploadFile);
+    mongoose.model('uploadVideo', uploadVideo);

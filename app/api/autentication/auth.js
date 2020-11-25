@@ -54,6 +54,9 @@ module.exports = {
 		check('visible').isBoolean(),
 		check('category').notEmpty()
 	],
+	updateVideo: [
+		check('authorization').notEmpty()
+	],
 	deletePosts: [
 		check('authorization').notEmpty(),
 		check('codPosts').notEmpty(),
@@ -127,6 +130,18 @@ module.exports = {
 		check('authorization').notEmpty()
 	],
 	getFilesList: [
+		check('authorization').notEmpty()
+	],
+	getVideosList: [
+		check('authorization').notEmpty()
+	],
+	getVideosListWithFilter: [
+		check('authorization').notEmpty()
+	],
+	getImagesListWithFilter: [
+		check('authorization').notEmpty()
+	],
+	getFilesListWithFilter: [
 		check('authorization').notEmpty()
 	],
 };

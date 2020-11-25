@@ -2,7 +2,7 @@
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 // DECLARE VARIABLES
-const limit = 1024 * 35;
+const limit = 1024 * 150;
 // IMPORT MULTER
 const multer  = require('multer');
 const storage = multer.diskStorage({
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
         fileSize: limit
     },
     fileFilter:  (req, file, cb) => {
-        if (!file.originalname.match(/\.(pdf|docx|doc|xlt|xls|txt|ppt|pptx|odt|ods|odp|zip|rar)$/)) 
+        if (!file.originalname.match(/\.(mp4|avi|ogv|webm|webvtt)$/)) 
         {
             req.fileValidationError = lang.LABEL_MULTER_VALIDATION_ERROR;
             return cb(new Error(lang.LABEL_MULTER_ERROR), false);
@@ -27,15 +27,15 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage: storage
 });
-const maxFileUpload = ( process.env.NODE_ENV_POST_MAX_UPLOAD_FILE <= 12 ) ? process.env.NODE_ENV_POST_MAX_UPLOAD_FILE : 12;
+const maxVideoUpload = 1;
 // EXPORT MODULE NODEJS
 module.exports = 
 {
-    test: upload.single('testfile'),
-    fileUpload: upload.fields([
+    test: upload.single('testvideo'),
+    videoUpload: upload.fields([
         {
-            name: 'files',
-            maxCount: maxFileUpload
+            name: 'video',
+            maxCount: maxVideoUpload
         }
     ]),
 };

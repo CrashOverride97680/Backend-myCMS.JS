@@ -6,6 +6,7 @@ const auth = require('../autentication/auth');
 const isValid = require('../autentication');
 const uploadImg = require('../upload/uploadImg');
 const uploadFile = require('../upload/uploadFile');
+const uploadVideo = require('../upload/uploadVideo');
 // ROUTES APP
 // -> GET
 router
@@ -21,7 +22,11 @@ router
   	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllCategory)
 	.get('/getCategory/:max', auth.getCategoryWithFilter, isValid.runValidation, controller.getCategoryWithFilter)
 	.get('/getListImagesUploaded', auth.getImagesList, isValid.runValidation, controller.getImagesUploaded)
-	.get('/getListFilesUploaded', auth.getFilesList, isValid.runValidation, controller.getFilesUploaded);
+	.get('/getListImage/:max', auth.getImagesListWithFilter, isValid.runValidation, controller.getAllImageWithFilter)
+	.get('/getListVideoUploaded', auth.getVideosList, isValid.runValidation, controller.getAllVideoUploaded)
+	.get('/getVideos/:max', auth.getVideosListWithFilter, isValid.runValidation, controller.getAllVideoWithFilter)
+	.get('/getListFilesUploaded', auth.getFilesList, isValid.runValidation, controller.getFilesUploaded)
+	.get('/getFiles/:max', auth.getFilesListWithFilter, isValid.runValidation, controller.getAllFilesWithFilter);
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
@@ -32,7 +37,8 @@ router
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
 	.post('/createpost', auth.posts, isValid.runValidation, controller.createPost)
 	.post('/imgUpload', auth.imageUpload, isValid.runValidation, controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
-	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles);
+	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles)
+	.post('/videoUpload', auth.updateVideo, isValid.runValidation, controller.checkAdminUser, uploadVideo.videoUpload, controller.uploadVideo);
 // -> PUT
 router
 	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory)

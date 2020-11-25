@@ -50,8 +50,6 @@ const whtlstlocal = !process.env.NODE_ENV_LOCAL_WHITELIST
   : null;
 //  IMPORTING GENERAL FUNCTIONS
 const genFunctions = require('../general');
-const uploadFile = require('../upload/uploadFile');
-const uploadImg = require('../upload/uploadImg');
 const fs = require('fs');
 const path = require('path');
 const files = path.join(__dirname, '..', '..', 'uploads');
@@ -2733,7 +2731,7 @@ module.exports =
               if (!err)
                 resp
                   .status(200)
-                  .json(uploadFile);
+                  .json(uploadedFiles);
               else
                 resp
                   .status(500)
@@ -2751,6 +2749,266 @@ module.exports =
           .json(err.lang);
       });
     }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getAllVideoUploaded: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+      .then(result => {
+        const res = result[1];
+        const { admin } = res;
+        if(admin)
+        {
+          const videoUploaded = mongoose.model('uploadVideo', 'uploadVideo');
+          videoUploaded
+            .find({})
+            .select({})
+            .sort({created: 'desc'})
+            .exec((err, uploadedVideos) =>
+            {
+              if(process.env.NODE_ENV_DEV) {
+                console.log(lang.LANG_DEBUG_RESULT, uploadedVideos);
+                console.log(lang.LANG_DEBUG_ERROR, err);
+              }
+
+              if (!err)
+                resp
+                  .status(200)
+                  .json(uploadedVideos);
+              else
+                resp
+                  .status(500)
+                  .json(lang.LABEL_500_HTTP);
+            });
+        }
+        else
+          resp
+            .json(lang.LABEL_403_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO 
+  getAllVideoWithFilter: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const max = (req.params.max > 0) ? req.params.max : null;
+      if( max !== null ) { 
+        Promise.all([
+          genFunctions.isValidToken({
+            token,
+            localBlacklist: blkLocal,
+            redisBlacklist: redis
+          }),
+          genFunctions.checkTypeUser({
+            token
+          })
+        ])
+        .then(result => {
+          const res = result[1];
+          const { admin } = res;
+          if(admin)
+          {
+            const videoUploaded = mongoose.model('uploadVideo', 'uploadVideo');
+            videoUploaded
+              .find({})
+              .select({})
+              .sort({created: 'desc'})
+              .limit(max)
+              .exec((err, uploadedVideos) =>
+              {
+                if(process.env.NODE_ENV_DEV) {
+                  console.log(lang.LANG_DEBUG_RESULT, uploadedVideos);
+                  console.log(lang.LANG_DEBUG_ERROR, err);
+                }
+
+                if (!err)
+                  resp
+                    .status(200)
+                    .json(uploadedVideos);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+          }
+          else
+            resp
+              .json(lang.LABEL_403_HTTP);
+        })
+        .catch(err => {
+          console.log(lang.LANG_DEBUG_ERROR, err);
+          resp
+            .status(err.status)
+            .json(err.lang);
+        });
+      }
+      else 
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }  
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO 
+  getAllImageWithFilter: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const max = (req.params.max > 0) ? req.params.max : null;
+      if( max !== null ) { 
+        Promise.all([
+          genFunctions.isValidToken({
+            token,
+            localBlacklist: blkLocal,
+            redisBlacklist: redis
+          }),
+          genFunctions.checkTypeUser({
+            token
+          })
+        ])
+        .then(result => {
+          const res = result[1];
+          const { admin } = res;
+          if(admin)
+          {
+            const imageUploaded = mongoose.model('uploadImg', 'uploadImg');
+            imageUploaded
+              .find({})
+              .select({})
+              .sort({created: 'desc'})
+              .limit(max)
+              .exec((err, uploadedImages) =>
+              {
+                if(process.env.NODE_ENV_DEV) {
+                  console.log(lang.LANG_DEBUG_RESULT, uploadedImages);
+                  console.log(lang.LANG_DEBUG_ERROR, err);
+                }
+
+                if (!err)
+                  resp
+                    .status(200)
+                    .json(uploadedImages);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+          }
+          else
+            resp
+              .json(lang.LABEL_403_HTTP);
+        })
+        .catch(err => {
+          console.log(lang.LANG_DEBUG_ERROR, err);
+          resp
+            .status(err.status)
+            .json(err.lang);
+        });
+      }
+      else 
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }  
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO 
+  getAllFilesWithFilter: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const max = (req.params.max > 0) ? req.params.max : null;
+      if( max !== null ) { 
+        Promise.all([
+          genFunctions.isValidToken({
+            token,
+            localBlacklist: blkLocal,
+            redisBlacklist: redis
+          }),
+          genFunctions.checkTypeUser({
+            token
+          })
+        ])
+        .then(result => {
+          const res = result[1];
+          const { admin } = res;
+          if(admin)
+          {
+            const fileUploaded = mongoose.model('uploadFile', 'uploadFile');
+            fileUploaded
+              .find({})
+              .select({})
+              .sort({created: 'desc'})
+              .limit(max)
+              .exec((err, uploadedFiles) =>
+              {
+                if(process.env.NODE_ENV_DEV) {
+                  console.log(lang.LANG_DEBUG_RESULT, uploadedFiles);
+                  console.log(lang.LANG_DEBUG_ERROR, err);
+                }
+
+                if (!err)
+                  resp
+                    .status(200)
+                    .json(uploadedFiles);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              });
+          }
+          else
+            resp
+              .json(lang.LABEL_403_HTTP);
+        })
+        .catch(err => {
+          console.log(lang.LANG_DEBUG_ERROR, err);
+          resp
+            .status(err.status)
+            .json(err.lang);
+        });
+      }
+      else 
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }  
     catch (e) {
       console.log(lang.LABEL_ERROR_RETURN, e);
       resp
@@ -3217,6 +3475,52 @@ module.exports =
       const data = file.map(element => {
         return { 
           fileName: element.filename,
+          originalFileName: element.originalname,
+          destination: element.destination,
+          filePath: element.path,
+          fileType: element.mimetype,
+          size: element.size
+        };
+      });
+      upload.create(
+        data
+      , 
+      (err, data) => 
+      {
+        if(process.env.NODE_ENV_DEV) {
+          console.log(lang.LANG_DEBUG_RESULT, data);
+          console.log(lang.LANG_DEBUG_ERROR, err);
+        }
+
+        if(err == null) { 
+          if(process.env.NODE_ENV_DEV)
+            console.log(lang.LABEL_RESULT_UPLOAD_OK);
+          resp
+            .status(200)
+            .json(lang.LABEL_200_HTTP);
+        }
+        else
+          resp
+            .status(500)
+            .json(lang.LABEL_500_HTTP);
+      }); 
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  uploadVideo: (req, resp) => {
+    try 
+    {
+      const file = req.files.files;
+      const upload = mongoose.model('uploadVideo', 'uploadVideo');
+      const data = file.map(element => {
+        return { 
+          videoName: element.filename,
           originalFileName: element.originalname,
           destination: element.destination,
           filePath: element.path,
