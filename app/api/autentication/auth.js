@@ -84,6 +84,17 @@ module.exports = {
   	getPostsData: [
     	check('authorization').notEmpty()
 	],
+	modifyUser: [
+		check('authorization').notEmpty(),
+		check('email').notEmpty(),
+		check('username').notEmpty(),
+		check('name').notEmpty(),
+		check('surname').notEmpty()
+	],
+	resetPassord: [
+		check('authorization').notEmpty(),
+		check('newPassword').notEmpty()
+	],
 	createCategory: [
 		check('authorization').notEmpty(),
 		check('name').notEmpty(),

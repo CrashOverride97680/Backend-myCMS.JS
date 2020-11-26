@@ -977,114 +977,164 @@ module.exports =
   },
 // FATTO
   modifyUser: (req, resp) => {
-    const user =
-      {
-        email: req.body.email,
-        username: req.body.username,
-        name: req.body.name,
-        surname: req.body.surname,
-        token: req.headers['authorization']
-      };
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        })
+      ])
+      .then(result => {
+        if (process.env.NODE_ENV_DEV)
+          console.log(lang.LANG_DEBUG_USER, user);
 
-      if (process.env.NODE_ENV_DEV)
-        console.log(lang.LANG_DEBUG_USER, user);
-
-      jwt
-        .verify(user.token, secret, (error, decode) =>
-        {
-          if(error == null)
+        jwt
+          .verify(token, secret, (error, decode) =>
           {
-            const findUser = mongoose.model('user', 'users');
-            const {
-              _id,
-              username
-            } = decode;
-            findUser.findById(_id, (error, data) =>
+            if(error == null)
             {
-              if(error == null)
-              {
-                if(data.confirmed)
+              const findUser = mongoose.model('user', 'users');
+              const {
+                _id,
+                username
+              } = decode;
+              findUser.findById(_id, (error, data) =>
+              { 
+                if(error == null)
                 {
-                  if(user.email && user.username && user.name && user.surname)
+                  if(data.confirmed)
                   {
-                    const newUser =
+                    if(user.email && user.username && user.name && user.surname)
                     {
-                      email: req.body.email,
-                      username: req.body.username,
-                      name: req.body.name,
-                      surname: req.body.surname,
+                      const newUser =
+                      {
+                        email: req.body.email,
+                        username: req.body.username,
+                        name: req.body.name,
+                        surname: req.body.surname,
+                      };
+
+                      const modifyUser = mongoose.model('user', 'users');
+                      modifyUser.findByIdAndUpdate(_id, newUser, (err, result) =>
+                      {
+                        if(process.env.NODE_ENV_DEV) {
+                          console.log(lang.LANG_DEBUG_RESULT, result);
+                          console.log(lang.LANG_DEBUG_ERROR, err);
+                        }
+
+                        if(err === null)
+                          resp
+                            .status(200)
+                            .json(lang.LABEL_200_HTTP);
+                        else
+                          resp
+                            .status(500)
+                            .json(lang.LABEL_500_HTTP);
+                      });
                     }
-
-                    const modifyUser = mongoose.model('user', 'users');
-                    modifyUser.findByIdAndUpdate(_id, newUser, (err, result) =>
-                    {
-                      if(process.env.NODE_ENV_DEV) {
-                        console.log(lang.LANG_DEBUG_RESULT, result);
-                        console.log(lang.LANG_DEBUG_ERROR, err);
-                      }
-
-                      if(err === null)
-                        resp
-                          .status(200)
-                          .json(lang.LABEL_200_HTTP);
-                      else
-                        resp
-                          .status(500)
-                          .json(lang.LABEL_500_HTTP);
-                    });
+                    else
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
                   }
                   else
                     resp
-                      .status(403)
-                      .json(lang.LABEL_403_HTTP);
+                      .status(500)
+                      .json(lang.LABEL_500_HTTP);
                 }
                 else
                   resp
                     .status(500)
                     .json(lang.LABEL_500_HTTP);
-              }
-              else
-                resp
-                  .status(500)
-                  .json(lang.LABEL_500_HTTP);
             });
           }
           else
             resp
               .status(500)
               .json(lang.LABEL_500_HTTP);
-        });
-  },
-// DA FARE
-  resetPassword: (req, resp) => {
-    const user =
-    {
-      token: req.headers['authorization'],
-      newPassword: req.body.newPassword
-    };
-
-    jwt
-      .verify(token, secret, (error, decode) =>
-      {
-        const updateUser = mongoose.model('user', 'users');
-        const {
-          _id
-        } = decode;
-        updateUser.findByIdAndUpdate(_id,
-        {
-
-        }, (error, data) =>
-        {
-          if(error == null)
-            resp
-              .status(200)
-              .json(lang.LABEL_200_HTTP);
-          else
-            resp
-              .status(500)
-              .json(lang.LABEL_500_HTTP);
-        });
+        });  
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
       });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  resetPassword: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        })
+      ])
+      .then(result => {
+        const user =
+        {
+          newPassword: req.body.newPassword
+        };
+
+        jwt
+          .verify(token, secret, (error, decode) =>
+          {
+            const updateUser = mongoose.model('user', 'users');
+            const {
+              _id
+            } = decode;
+            bcrypt
+              .hash(user.newPassword, 10, (err, hash) =>
+              {
+                if (!err)
+                {
+                  updateUser.findByIdAndUpdate(_id,
+                  {
+                    password: hash,
+                    confirmed: true
+                  }, (error, data) =>
+                  {
+                    if(error == null)
+                      resp
+                        .status(200)
+                        .json(lang.LABEL_200_HTTP);
+                    else
+                      resp
+                        .status(403)
+                        .json(lang.LABEL_403_HTTP);
+                  });
+                }
+                else
+                  resp
+                    .status(403)
+                    .json(lang.LABEL_403_HTTP);
+              });
+          });
+        })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(err.status)
+          .json(err.lang);
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+        .status(500)
+        .json(lang.LABEL_500_HTTP);
+    }
   },
 // FATTO
   deleteUser: (req, resp) => {

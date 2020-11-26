@@ -42,6 +42,8 @@ router
 // -> PUT
 router
 	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory)
+	.put('/modifyUsers', auth.modifyUser, isValid.runValidation, controller.modifyUser)
+	.put('/resetPassword', auth.resetPassord, isValid.runValidation, controller.resetPassword)
 	.put('/modifyPosts', auth.updatePosts, isValid.runValidation, controller.modifyPosts);
 // -> DELETE
 router
