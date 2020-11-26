@@ -56,10 +56,4 @@ module.exports =
             maxCount: maxUploadPhoto
         }
     ]),
-    fileUpload: upload.fields([
-        {
-            name: 'files',
-            maxCount: maxFileUpload
-        }
-    ]),
 };

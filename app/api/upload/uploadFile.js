@@ -2,7 +2,7 @@
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 // DECLARE VARIABLES
-const limit = 1024 * 35;
+const limit = 1024 * 3;
 // IMPORT MULTER
 const multer  = require('multer');
 const storage = multer.diskStorage({

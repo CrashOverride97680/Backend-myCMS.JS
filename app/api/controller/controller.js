@@ -3577,7 +3577,7 @@ module.exports =
   uploadVideo: (req, resp) => {
     try 
     {
-      const file = req.files.files;
+      const file = req.files.videos;
       const upload = mongoose.model('uploadVideo', 'uploadVideo');
       const data = file.map(element => {
         return { 

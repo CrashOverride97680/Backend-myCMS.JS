@@ -2,7 +2,7 @@
 const langServer = '../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 // DECLARE VARIABLES
-const limit = 1024 * 150;
+const limit = 1024 * 3;
 // IMPORT MULTER
 const multer  = require('multer');
 const storage = multer.diskStorage({
@@ -27,14 +27,14 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage: storage
 });
-const maxVideoUpload = 1;
+const maxVideoUpload = ( process.env.NODE_ENV_POST_MAX_UPLOAD_VIDEO <= 12 ) ? process.env.NODE_ENV_POST_MAX_UPLOAD_VIDEO : 12;
 // EXPORT MODULE NODEJS
 module.exports = 
 {
     test: upload.single('testvideo'),
     videoUpload: upload.fields([
         {
-            name: 'video',
+            name: 'videos',
             maxCount: maxVideoUpload
         }
     ]),
