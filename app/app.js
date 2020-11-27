@@ -39,7 +39,29 @@ connect();
 // IMPORTING LANG AND DEBUG
 const langServer = './lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
-//  DEBUG VARIABLES ENVIROMENT
+// CHECK EMAIL CONFIGURATION
+
+if(process.env.NODE_ENV_HOST_SMTP !== null) {
+	console.log(lang.LANG_DEBUG_EMAIL_HOST);
+	process.exit(0);
+}
+
+if(process.env.NODE_ENV_PORT_SMTP !== null) {
+	console.log(lang.LANG_DEBUG_EMAIL_PORT);
+	process.exit(0);
+}
+
+if(process.env.NODE_ENV_SECURE_SMTP !== null) {
+	console.log(lang.LANG_DEBUG_EMAIL_SECURE);
+	process.exit(0);
+}
+
+if(process.env.NODE_ENV_AUTH_SMTP !== null) {
+	console.log(lang.LANG_DEBUG_EMAIL_AUTH);
+	process.exit(0);
+} 
+
+// DEBUG VARIABLES ENVIROMENT
 if (process.env.NODE_ENV_DEV || process.env.NODE_DEV_ENV_VAR) console.log(lang.LABEL_ENV_VAR, dotenv);
 // RUN SCHEDULER FOR LOCAL BLACKLIST AND REDIS
 if(locBlacklist){
