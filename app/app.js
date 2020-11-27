@@ -40,28 +40,27 @@ connect();
 const langServer = './lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 // CHECK EMAIL CONFIGURATION FOR SMTP
-
-if(process.env.NODE_ENV_HOST_SMTP !== null) {
+if(!process.env.NODE_ENV_HOST_SMTP) {
 	console.log(lang.LANG_DEBUG_EMAIL_HOST);
 	process.exit(0);
 }
 
-if(process.env.NODE_ENV_PORT_SMTP !== null) {
+if(!process.env.NODE_ENV_PORT_SMTP) {
 	console.log(lang.LANG_DEBUG_EMAIL_PORT);
 	process.exit(0);
 }
 
-if(process.env.NODE_ENV_SECURE_SMTP !== null) {
+if(!process.env.NODE_ENV_SECURE_SMTP) {
 	console.log(lang.LANG_DEBUG_EMAIL_SECURE);
 	process.exit(0);
 }
 
-if(process.env.NODE_ENV_USER_SMTP !== null) {
+if(!process.env.NODE_ENV_USER_SMTP) {
 	console.log(lang.LANG_DEBUG_EMAIL_USER);
 	process.exit(0);
 }
 
-if(process.env.NODE_ENV_PASS_SMTP !== null) {
+if(!process.env.NODE_ENV_PASS_SMTP) {
 	console.log(lang.LANG_DEBUG_PASSWORD);
 	process.exit(0);
 } 
