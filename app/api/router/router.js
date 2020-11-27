@@ -8,6 +8,7 @@ const uploadImg = require('../upload/uploadImg');
 const uploadFile = require('../upload/uploadFile');
 const uploadVideo = require('../upload/uploadVideo');
 // ROUTES APP
+
 // -> GET
 router
 	.get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
@@ -27,6 +28,7 @@ router
 	.get('/getVideos/:max', auth.getVideosListWithFilter, isValid.runValidation, controller.getAllVideoWithFilter)
 	.get('/getListFilesUploaded', auth.getFilesList, isValid.runValidation, controller.getFilesUploaded)
 	.get('/getFiles/:max', auth.getFilesListWithFilter, isValid.runValidation, controller.getAllFilesWithFilter);
+
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
@@ -39,12 +41,14 @@ router
 	.post('/imgUpload', auth.imageUpload, isValid.runValidation, controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
 	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles)
 	.post('/videoUpload', auth.updateVideo, isValid.runValidation, controller.checkAdminUser, uploadVideo.videoUpload, controller.uploadVideo);
+
 // -> PUT
 router
 	.put('/modifyCategory', auth.modifyCategory, isValid.runValidation, controller.modifyCategory)
 	.put('/modifyUsers', auth.modifyUser, isValid.runValidation, controller.modifyUser)
 	.put('/resetPassword', auth.resetPassord, isValid.runValidation, controller.resetPassword)
 	.put('/modifyPosts', auth.updatePosts, isValid.runValidation, controller.modifyPosts);
+
 // -> DELETE
 router
 	.delete('/deleteFile', auth.deleteFile, isValid.runValidation, controller.deleteFile)
@@ -53,6 +57,7 @@ router
 	.delete('/deletePosts', auth.deletePosts, isValid.runValidation, controller.deletePosts)
 	.delete('/deleteVideo', auth.deleteVideo, isValid.runValidation, controller.deleteVideo)
 	.delete('/deleteUser', controller.chechUserAuth, controller.deleteUser);
+
 // -> TEST
 if(process.env.NODE_TEST_ADMIN) 
 {
@@ -80,5 +85,6 @@ if (process.env.NODE_ENV_ALLERT)
 
 // -> 404
 router.get('*', controller.notFound);
+
 // EXPORTING ROUTES
 module.exports = router;
