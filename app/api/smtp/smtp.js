@@ -1,6 +1,5 @@
 // IMPORT MODULES NODEJS
 const nodemailer = require('nodemailer');
-const data = require('./config/config');
 // MODULE EXPORT MAIL
 module.exports = {
 	template: {
@@ -10,14 +9,13 @@ module.exports = {
                 ${username}.
             `;
 		},
-		testSend: () => {
-			`
-                <h1>Test email</h1>
-            `;
-		},
+		testSend: 
+		`
+            <h1>Test email</h1>
+        `,
 	},
 	testMail: async () => await nodemailer.createTestAccount(),
-	createTransport: ({ host, port, secure, auth }) => nodemailer.createTransport({ host, port, secure, auth }),
+	createTransport: (data) => nodemailer.createTransport(data),
 	send: async ({ SMTPConfig, from, to, subject, html }) =>
 		await SMTPConfig.sendMail({
 			from,

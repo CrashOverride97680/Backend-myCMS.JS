@@ -61,9 +61,29 @@ if(!process.env.NODE_ENV_USER_SMTP) {
 }
 
 if(!process.env.NODE_ENV_PASS_SMTP) {
-	console.log(lang.LANG_DEBUG_PASSWORD);
+	console.log(lang.LANG_DEBUG_EMAIL_PASSWORD);
 	process.exit(0);
 } 
+
+if(!process.env.NODE_ENV_SERVICE_SMTP) {
+	console.log(lang.LANG_DEBUG_EMAIL_SERVICE);
+	process.exit(0);
+}
+
+if(!process.env.NODE_ENV_DEBUG_SMTP) {
+	console.log(lang.LANG_DEBUG_EMAIL_DEBUG);
+	process.exit(0);
+}
+
+if(!process.env.NODE_ENV_LOGGER_SMTP) {
+	console.log(lang.LANG_DEBUG_EMAIL_LOGGER);
+	process.exit(0);
+}
+
+if(!process.env.NODE_ENV_REJECT_UNAUTHORIZED_SMTP) {
+	console.log(lang.LANG_DEBUG_EMAIL_REJECT_UNAUTHORIZED);
+	process.exit(0);
+}
 
 // DEBUG VARIABLES ENVIROMENT
 if (process.env.NODE_ENV_DEV || process.env.NODE_DEV_ENV_VAR) console.log(lang.LABEL_ENV_VAR, dotenv);

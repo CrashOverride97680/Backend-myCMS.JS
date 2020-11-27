@@ -71,7 +71,8 @@ if (process.env.NODE_ENV_TEST)
 	router
 		.get('/test', controller.test)
 		.get('/secret', controller.requireSignin, controller.secretTest)
-		.get('/testmail', controller.testMail);
+		.get('/testmail', controller.testMail)
+		.get('/testSendingEmail', controller.testSendingEmail);
 	router
 		.post('/checktoken', controller.checkTokenTest)
 		.post('/testimg', uploadImg.test, controller.uploadTest);		

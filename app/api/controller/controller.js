@@ -54,6 +54,7 @@ const fs = require('fs');
 const path = require('path');
 const files = path.join(__dirname, '..', '..', 'uploads');
 const { post } = require('../../app');
+const configEmail = require('../smtp/config/config');
 //  EXPORTING MODULE
 module.exports =
 {
@@ -206,6 +207,35 @@ module.exports =
           .catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
       })
       .catch(() => resp.status(500).json(lang.LABEL_500_HTTP));
+  },
+// FATTO
+  testSendingEmail: (req, resp) => {
+    const SMTP_CONFIG = smtp.createTransport(configEmail);
+    smtp.createTransport(configEmail).verify((error, success) => {
+      if (error)
+        console.error(error)
+      else
+        console.log('works?', success)
+    });
+    smtp
+      .send({
+        SMTPConfig: SMTP_CONFIG,
+        from: configEmail.user,
+        to: configEmail.auth.user,
+        subject: lang.LANG_TEST_SMTP_SUBJECT,
+        html: smtp.template.testSend
+      })
+      .then(result => {
+        resp
+          .status(200)
+          .json(lang.LABEL_200_HTTP);
+      })
+      .catch(err => {
+        console.log(lang.LANG_DEBUG_ERROR, err);
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+      });
   },
 // FATTO
   secretTest: (req, resp) => resp.json(lang.LABELL_ACCESS_PAGE),
@@ -882,6 +912,10 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
+// DA FARE
+  sendEmailRegistration: (req, resp) => {
+    
+  },
 // FATTO
   checkAdminUser: (req, resp, next) => {
     try
@@ -1281,7 +1315,7 @@ module.exports =
         .status(500)
         .json(lang.LABEL_500_HTTP);
     }
-  },   
+  },
 // FATTO
   createSubCategorySite: (req, resp) => {
     try {
