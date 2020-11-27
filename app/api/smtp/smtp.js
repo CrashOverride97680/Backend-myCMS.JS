@@ -9,7 +9,12 @@ module.exports = {
                 <h1>Confirm you email</h1>
                 ${username}.
             `;
-		}
+		},
+		testSend: () => {
+			`
+                <h1>Test email</h1>
+            `;
+		},
 	},
 	testMail: async () => await nodemailer.createTestAccount(),
 	createTransport: ({ host, port, secure, auth }) => nodemailer.createTransport({ host, port, secure, auth }),
