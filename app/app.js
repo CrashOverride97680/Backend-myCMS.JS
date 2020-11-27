@@ -39,7 +39,7 @@ connect();
 // IMPORTING LANG AND DEBUG
 const langServer = './lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
-// CHECK EMAIL CONFIGURATION
+// CHECK EMAIL CONFIGURATION FOR SMTP
 
 if(process.env.NODE_ENV_HOST_SMTP !== null) {
 	console.log(lang.LANG_DEBUG_EMAIL_HOST);
