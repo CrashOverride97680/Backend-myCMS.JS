@@ -26,3 +26,4 @@ package-lock.json
 /app/uploads/*.odp
 /app/uploads/*.zip
 /app/uploads/*.rar
+app/.env

@@ -56,8 +56,13 @@ if(process.env.NODE_ENV_SECURE_SMTP !== null) {
 	process.exit(0);
 }
 
-if(process.env.NODE_ENV_AUTH_SMTP !== null) {
-	console.log(lang.LANG_DEBUG_EMAIL_AUTH);
+if(process.env.NODE_ENV_USER_SMTP !== null) {
+	console.log(lang.LANG_DEBUG_EMAIL_USER);
+	process.exit(0);
+}
+
+if(process.env.NODE_ENV_PASS_SMTP !== null) {
+	console.log(lang.LANG_DEBUG_PASSWORD);
 	process.exit(0);
 } 
 
