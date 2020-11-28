@@ -12,7 +12,8 @@ module.exports = {
 		testSend: 
 		`
             <h1>Test email</h1>
-        `,
+		`,
+		
 	},
 	testMail: async () => await nodemailer.createTestAccount(),
 	createTransport: (data) => nodemailer.createTransport(data),
