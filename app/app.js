@@ -75,11 +75,6 @@ if(!process.env.NODE_ENV_DEBUG_SMTP) {
 	process.exit(0);
 }
 
-if(!process.env.NODE_ENV_LOGGER_SMTP) {
-	console.log(lang.LANG_DEBUG_EMAIL_LOGGER);
-	process.exit(0);
-}
-
 if(!process.env.NODE_ENV_REJECT_UNAUTHORIZED_SMTP) {
 	console.log(lang.LANG_DEBUG_EMAIL_REJECT_UNAUTHORIZED);
 	process.exit(0);
