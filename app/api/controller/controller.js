@@ -53,7 +53,6 @@ const genFunctions = require('../general');
 const fs = require('fs');
 const path = require('path');
 const files = path.join(__dirname, '..', '..', 'uploads');
-const { post } = require('../../app');
 const configEmail = require('../smtp/config/config');
 //  EXPORTING MODULE
 module.exports =
@@ -911,10 +910,6 @@ module.exports =
         .status(500)
         .json(lang.LABEL_500_HTTP);
     }
-  },
-// DA FARE
-  sendEmailRegistration: (req, resp) => {
-    
   },
 // FATTO
   checkAdminUser: (req, resp, next) => {
