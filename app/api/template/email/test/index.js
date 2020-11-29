@@ -103,7 +103,7 @@ module.exports =
                                  <a target="_blank" style="text-decoration: underline;
                                  color: #FFFFFF; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 120%;"
                                  href="https://github.com/CrashOverride97680/myCMS.JS">
-                                    View on GitHub
+                                    Confirm registration
                                  </a>
                               </td>
                            </tr>
@@ -111,8 +111,6 @@ module.exports =
                      </a>
                   </td>
                </tr>
-               <!-- LINE -->
-               <!-- Set line color -->
                <tr>
                   <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
                      padding-top: 30px;" class="line">
@@ -120,11 +118,7 @@ module.exports =
                         color="#565F73" align="center" width="100%" size="1" noshade style="margin: 0; padding: 0;" />
                   </td>
                </tr>
-               <!-- FOOTER -->
-               <!-- Set text color and font family ("sans-serif" or "Georgia, serif"). Duplicate all text styles in links, including line-height -->
-               <!-- End of WRAPPER -->
             </table>
-            <!-- End of SECTION / BACKGROUND -->
          </td>
       </tr>
    </table>

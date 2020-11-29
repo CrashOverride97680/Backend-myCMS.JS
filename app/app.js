@@ -9,6 +9,7 @@ const scheduler = require('./api/scheduling/scheduler');
 const path = require('path'); 
 const publicFiles = path.join(__dirname, 'uploads');
 const publicFileEmail = path.join(__dirname, 'api', 'template', 'email', 'img');
+console.log("FILE EMAIL:", publicFileEmail);
 const cors = require('cors');
 const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST
 					? require('./api/autentication/blacklist-local/blacklist-local')
