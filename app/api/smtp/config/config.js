@@ -6,7 +6,6 @@ const user = (process.env.NODE_ENV_USER_SMTP) ? process.env.NODE_ENV_USER_SMTP :
 const pass = (process.env.NODE_ENV_PASS_SMTP) ? process.env.NODE_ENV_PASS_SMTP : null;
 const service = (process.env.NODE_ENV_SERVICE_SMTP) ? process.env.NODE_ENV_SERVICE_SMTP : null;
 const debug = (process.env.NODE_ENV_DEBUG_SMTP) ? process.env.NODE_ENV_DEBUG_SMTP : null;
-const logger = (process.env.NODE_ENV_LOGGER_SMTP) ? process.env.NODE_ENV_LOGGER_SMTP : null;
 const rejectUnauthorized = (process.env.NODE_ENV_REJECT_UNAUTHORIZED_SMTP) ? process.env.NODE_ENV_REJECT_UNAUHORIZED_SMTP : null;
 module.exports = {
 	service,

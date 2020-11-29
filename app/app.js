@@ -8,6 +8,7 @@ const router = require('./api/router/router');
 const scheduler = require('./api/scheduling/scheduler');
 const path = require('path'); 
 const publicFiles = path.join(__dirname, 'uploads');
+const publicFileEmail = path.join(__dirname, 'api', 'template', 'email', 'img');
 const cors = require('cors');
 const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST
 					? require('./api/autentication/blacklist-local/blacklist-local')
@@ -112,6 +113,7 @@ app.use(limiter);
 //  ROUTER ENTRYPOINT
 app.use('/api', router);
 app.use('/media', express.static(publicFiles));
+app.use('/mediaEmail', express.static(publicFileEmail));
 /*
     app
     .use(express.static(path.join(__dirname, 'public')));
