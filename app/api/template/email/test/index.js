@@ -103,7 +103,7 @@ module.exports =
                                  <a target="_blank" style="text-decoration: underline;
                                  color: #FFFFFF; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 120%;"
                                  href="https://github.com/CrashOverride97680/myCMS.JS">
-                                    Confirm registration
+                                    View on Github
                                  </a>
                               </td>
                            </tr>

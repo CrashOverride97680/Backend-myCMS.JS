@@ -750,7 +750,6 @@ module.exports =
                             console.log(lang.LANG_DEBUG_RESULT, result);
                             console.log(lang.LANG_DEBUG_ERROR, err);
                           }
-
                           if (err == null)
                             resp
                               .status(201)
