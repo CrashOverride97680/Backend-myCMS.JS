@@ -3,7 +3,6 @@
 #       CONFIGURATRION FOR DOCKER DEVELOPMENT ENVIRONMENT WINDOWS
 #
 #
-
 version: "3"
 services: 
     webapi:
@@ -29,10 +28,8 @@ services:
         container_name: mongoCMS
         image: mongo:bionic
         restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: secret
-            MONGO_INITDB_DATABASE: cms
+        env_file: 
+            - ./config/env/.env
         ports:
             - "27017:27017"
         volumes:
@@ -55,7 +52,7 @@ services:
             - "mongo"
         networks:
             - cms_app_net
-
+    
     redis:
         container_name: redisCMS
         image: redis:alpine
@@ -66,7 +63,7 @@ services:
     varnish:
         image: varnish:stable
         ports:
-            - "80:80"
+            - 80:80
         depends_on:
             - proxyserver
         links:
@@ -82,7 +79,7 @@ services:
         image: nginx:alpine
         restart: always
         ports:
-            - "8080:80"
+            - 8080:80
         networks:
             - cms_app_net
         depends_on:
@@ -98,8 +95,6 @@ services:
 
 volumes:
     data-volume-mongoCMS:
-        driver: local
-    jenkins_data:
         driver: local
 
 networks:
