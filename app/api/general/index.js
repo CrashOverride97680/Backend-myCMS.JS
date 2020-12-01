@@ -1,5 +1,4 @@
 //            FILE CONTENT GENERALS FUNCTION
-
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');

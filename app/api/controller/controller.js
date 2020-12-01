@@ -363,7 +363,7 @@ module.exports =
               }
               else if (data.length > 0) 
               {
-                if (data[0].confirmed === false)
+                if (data[0].confirmed === false) 
                   resp
                     .status(202)
                     .json(lang.LABEL_RESEND_EMAIL);
@@ -911,6 +911,61 @@ module.exports =
     }
   },
 // FATTO
+  validateRegistration: (req, resp) => {
+    try {
+      const token = req.params.token;
+      jwt
+        .verify(token, secret, (err, decoded) =>
+        {
+          if (process.env.NODE_ENV_TEST) {
+              console.log(lang.LANG_DEBUG_ERROR, err);
+              console.log(lang.LANG_DEBUG_DATA, decoded);
+          }
+          
+          const {
+            _id,
+            username,
+            admin
+          } = decoded;
+          const user = mongoose.model('user');
+          user.find(
+          {
+            _id,
+            username,
+            admin,
+            confirmed: false 
+          }, (err, data) => {
+            if ( err !== null )
+              resp
+                .status(403)
+                .json(lang.LABEL_403_HTTP);
+            else 
+            {
+              const update = mongoose.model('user');
+              update.findByIdAndUpdate(_id,{
+                confirmed:true
+              }, (err, data) => {
+                if(err !== null)
+                  resp
+                    .status(200)
+                    .json(lang.LABEL_200_HTTP);
+                else
+                  resp
+                    .status(500)
+                    .json(lang.LABEL_500_HTTP);
+              })
+            }
+          });
+        });
+      }
+      catch(e) {
+        console.log(lang.LANG_DEBUG_ERROR, e);
+        resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+      }
+  },
+// FATTO
   checkAdminUser: (req, resp, next) => {
     try
     {
@@ -1218,7 +1273,6 @@ module.exports =
         .json(lang.LABEL_500_HTTP);
     }
   },
-
 /*
 -------------------------------------------------------------------------
 

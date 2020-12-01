@@ -27,7 +27,8 @@ router
 	.get('/getListVideoUploaded', auth.getVideosList, isValid.runValidation, controller.getAllVideoUploaded)
 	.get('/getVideos/:max', auth.getVideosListWithFilter, isValid.runValidation, controller.getAllVideoWithFilter)
 	.get('/getListFilesUploaded', auth.getFilesList, isValid.runValidation, controller.getFilesUploaded)
-	.get('/getFiles/:max', auth.getFilesListWithFilter, isValid.runValidation, controller.getAllFilesWithFilter);
+	.get('/getFiles/:max', auth.getFilesListWithFilter, isValid.runValidation, controller.getAllFilesWithFilter)
+	.get('/validateRegistration/:token', controller.validateRegistration);
 
 // -> POST
 router

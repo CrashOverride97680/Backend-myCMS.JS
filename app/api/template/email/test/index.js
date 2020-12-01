@@ -44,15 +44,6 @@ module.exports =
                width="500" style="border-collapse: collapse; border-spacing: 0; padding: 0; width: inherit;
                max-width: 500px;" class="wrapper">
                <tr>
-                  <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
-                     padding-top: 20px;
-                     padding-bottom: 20px;">
-                     <div style="display: none; visibility: hidden; overflow: hidden; opacity: 0; font-size: 1px; line-height: 1px; height: 0; max-height: 0; max-width: 0; color: #2D3445;" class="preheader">
-                        Available on&nbsp;GitHub and&nbsp;CodePen. Highly compatible. Designer friendly. More than 50%&nbsp;of&nbsp;total email opens occurred on&nbsp;a&nbsp;mobile device&nbsp;— a&nbsp;mobile-friendly design is&nbsp;a&nbsp;must for&nbsp;email campaigns.
-                     </div>
-                  </td>
-               </tr>
-               <tr>
                   <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-top: 0px;" class="hero">
                      <a target="_blank" style="text-decoration: none;" href="${domain}">
                         <img border="0" vspace="0" hspace="0"
