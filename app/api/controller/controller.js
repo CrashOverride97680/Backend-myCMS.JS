@@ -54,6 +54,7 @@ const fs = require('fs');
 const path = require('path');
 const files = path.join(__dirname, '..', '..', 'uploads');
 const configEmail = require('../smtp/config/config');
+const expLogin = ( process.env.NODE_ENV_EXP_TOKEN_LOGIN ) ? process.env.NODE_ENV_EXP_TOKEN_LOGIN : '1d'; 
 //  EXPORTING MODULE
 module.exports =
 {
@@ -268,7 +269,7 @@ module.exports =
       characters:[generator.lower, generator.upper, generator.digits],
     });
     jwt
-      .sign({ _id: id, username: "loremIpsumAdmin", admin: true, auth: true }, secret, { expiresIn: '1d' }, (err, token) =>
+      .sign({ _id: id, username: "loremIpsumAdmin", admin: true, auth: true }, secret, { expiresIn: expLogin }, (err, token) =>
       {
         if (err)
         {
@@ -442,7 +443,7 @@ module.exports =
             admin
           } = testUser;
           jwt
-            .sign({ _id: id, username, admin, auth: true }, secret, { expiresIn: '1d' }, (err, token) =>
+            .sign({ _id: id, username, admin, auth: true }, secret, { expiresIn: expLogin }, (err, token) =>
             {
               if (err)
               {
@@ -521,7 +522,7 @@ module.exports =
                       {
                         const { _id, username, admin } = data;
                         jwt
-                          .sign({ _id, username, admin, auth: true }, secret, { expiresIn: '1d' }, (err, token) =>
+                          .sign({ _id, username, admin, auth: true }, secret, { expiresIn: expLogin }, (err, token) =>
                           {
                             if (err)
                             {
