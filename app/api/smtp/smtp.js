@@ -1,17 +1,15 @@
 // IMPORT MODULES NODEJS
 const nodemailer = require('nodemailer');
 const testTemplate = require('../template/email/test');
+const registerTemplate = require('../template/email/register');
 // MODULE EXPORT MAIL
 module.exports = {
 	template: {
-		register: ({ username }) => {
-			`
-                <h1>Confirm you email</h1>
-                ${username}.
-            `;
-		},
+		register: (code, name) => registerTemplate({
+			code,
+			name
+		}),
 		testSend: testTemplate,
-		
 	},
 	testMail: async () => await nodemailer.createTestAccount(),
 	createTransport: (data) => nodemailer.createTransport(data),
