@@ -54,7 +54,9 @@ const fs = require('fs');
 const path = require('path');
 const files = path.join(__dirname, '..', '..', 'uploads');
 const configEmail = require('../smtp/config/config');
+
 const expLogin = ( process.env.NODE_ENV_EXP_TOKEN_LOGIN ) ? process.env.NODE_ENV_EXP_TOKEN_LOGIN : '1d'; 
+const expSTMP = ( process.env.NODE_ENV_TOKEN_EMAIL_SMTP ) ? process.env.NODE_ENV_TOKEN_EMAIL_SMTP : '15m';
 //  EXPORTING MODULE
 module.exports =
 {
@@ -719,10 +721,46 @@ module.exports =
               {
                 if (data !== null)
                 {
-                  if (data.confirmed === false)
-                    resp
-                      .status(202)
-                      .json(lang.LABEL_RESEND_EMAIL);
+                  if (data.confirmed == false) {
+                    const {
+                      _id,
+                      email,
+                      name
+                    } = data;
+                    jwt
+                      .sign(
+                      { 
+                        _id,
+                        email
+                      }, secret, { expiresIn: expSTMP }, (err, token) => {
+                        if(!err) 
+                        {
+                          const SMTP_CONFIG = smtp.createTransport(configEmail);
+                          smtp
+                            .send({
+                              SMTPConfig: SMTP_CONFIG,
+                              from: configEmail.user,
+                              to: configEmail.auth.user,
+                              subject: lang.LANG_TEST_SMTP_SUBJECT,
+                              html: smtp.template.register(token, name)
+                            })
+                            .then(result => {
+                              resp
+                                .status(202)
+                                .json(lang.LABEL_202_HTTP);
+                            })
+                            .catch(err => {
+                              resp
+                                .status(500)
+                                .json(lang.LABEL_500_HTTP);
+                            });
+                        }
+                        else
+                          resp
+                            .status(500)
+                            .json(lang.LABEL_500_HTTP);
+                      });                    
+                  }
                   else
                     resp
                       .status(403)
@@ -751,10 +789,46 @@ module.exports =
                             console.log(lang.LANG_DEBUG_RESULT, result);
                             console.log(lang.LANG_DEBUG_ERROR, err);
                           }
-                          if (err == null)
-                            resp
-                              .status(201)
-                              .json(lang.LABEL_201_HTTP);
+                          if (err == null) {
+                            const {
+                              _id,
+                              email,
+                              name
+                            } = result;
+                            jwt
+                              .sign(
+                              { 
+                                _id,
+                                email
+                              }, secret, { expiresIn: expSTMP }, (err, token) => {
+                                if(!err) 
+                                {
+                                  const SMTP_CONFIG = smtp.createTransport(configEmail);
+                                  smtp
+                                    .send({
+                                      SMTPConfig: SMTP_CONFIG,
+                                      from: configEmail.user,
+                                      to: configEmail.auth.user,
+                                      subject: lang.LANG_TEST_SMTP_SUBJECT,
+                                      html: smtp.template.register(token, name)
+                                    })
+                                    .then(result => {
+                                      resp
+                                        .status(201)
+                                        .json(lang.LABEL_201_HTTP);
+                                    })
+                                    .catch(err => {
+                                      resp
+                                        .status(500)
+                                        .json(lang.LABEL_500_HTTP);
+                                    });
+                                }
+                                else
+                                  resp
+                                    .status(500)
+                                    .json(lang.LABEL_500_HTTP);
+                              });
+                          }
                         });
                       }
                     });

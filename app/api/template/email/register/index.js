@@ -1,10 +1,9 @@
 const domain = (process.env.NODE_ENV_DOMAIN_NAME_SMTP) ? process.env.NODE_ENV_DOMAIN_NAME_SMTP : 'http://localhost'; 
 module.exports = ({
     code,
-    name,
-    typeUser
+    name
 }) => {
-`
+return `
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -68,14 +67,6 @@ module.exports = ({
                     </td>
                 </tr>
                 <tr>
-                    <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;  padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 24px; font-weight: bold; line-height: 130%;
-                        padding-top: 5px;
-                        color: #FFFFFF;
-                        font-family: sans-serif;" class="header">
-                        Category User ${typeUser}
-                    </td>
-                </tr>
-                <tr>
                     <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
                         padding-top: 15px; 
                         color: #FFFFFF;
@@ -117,5 +108,5 @@ module.exports = ({
     </table>
 </body>
 </html>
-`
+`;
 };
