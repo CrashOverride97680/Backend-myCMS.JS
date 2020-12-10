@@ -2,12 +2,19 @@
 const nodemailer = require('nodemailer');
 const testTemplate = require('../template/email/test');
 const registerTemplate = require('../template/email/register');
+const registerAdmin = require('../template/email/registerAdmin');
 // MODULE EXPORT MAIL
 module.exports = {
 	template: {
 		register: (code, name) => registerTemplate({
 			code,
 			name
+		}),
+		registerAdmin: (code, name, email, password) => registerAdmin({
+			code,
+			name,
+			email,
+			password
 		}),
 		testSend: testTemplate,
 	},

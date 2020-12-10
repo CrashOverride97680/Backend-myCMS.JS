@@ -7,6 +7,7 @@ const isValid = require('../autentication');
 const uploadImg = require('../upload/uploadImg');
 const uploadFile = require('../upload/uploadFile');
 const uploadVideo = require('../upload/uploadVideo');
+const registerUsers = (process.env.NODE_USER_SUBSCRIBE) ? process.env.NODE_USER_SUBSCRIBE : false;
 // ROUTES APP
 
 // -> GET
@@ -32,8 +33,11 @@ router
 
 // -> POST
 router
-	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
-	.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register)
+	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login);
+if (process.env.NODE_USER_SUBSCRIBE)
+	router
+		.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register);
+router
 	.post('/registerAdmin', auth.adminCreateValidator, isValid.runValidation, controller.registerAdmin)
 	.post('/logout', auth.logout, isValid.runValidation, controller.logout)
 	.post('/createCategory', auth.createCategory, isValid.runValidation, controller.createCategorySite)

@@ -809,7 +809,7 @@ module.exports =
                                       SMTPConfig: SMTP_CONFIG,
                                       from: configEmail.user,
                                       to: configEmail.auth.user,
-                                      subject: lang.LANG_TEST_SMTP_SUBJECT,
+                                      subject: lang.LANG_REGISTERED_USER_SUBJECT,
                                       html: smtp.template.register(token, name)
                                     })
                                     .then(result => {
@@ -930,8 +930,8 @@ module.exports =
                   {
                     if (data[0].confirmed === false)
                       resp
-                        .status(202)
-                        .json(lang.LABEL_RESEND_EMAIL);
+                        .status(401)
+                        .json(lang.LABEL_ADMIN_PROBLEM_NOT_CONFIRMED_EMAIL);
                     else
                       resp
                         .status(403)
@@ -953,10 +953,39 @@ module.exports =
                       create: dateObj.toISOString()
                     }, (err, result) => 
                     {
-                      if (err === null)
-                        resp
-                          .status(201)
-                          .json(lang.LABEL_201_HTTP);
+                      if (err === null) {
+                        const {
+                          _id,
+                          name,
+                          email
+                        } = result;
+                        jwt
+                          .sign(
+                          { 
+                            _id,
+                            email
+                          }, secret, { expiresIn: expSTMP }, (err, token) => {
+                            const SMTP_CONFIG = smtp.createTransport(configEmail);     
+                            smtp
+                              .send({
+                                SMTPConfig: SMTP_CONFIG,
+                                from: configEmail.user,
+                                to: configEmail.auth.user,
+                                subject: lang.LANG_REGISTERED_USER_SUBJECT,
+                                html: smtp.template.registerAdmin(token, name, email, passwords)
+                              })
+                              .then(result => {
+                                resp
+                                  .status(201)
+                                  .json(lang.LABEL_201_HTTP);
+                              })
+                              .catch(err => {
+                                resp
+                                  .status(500)
+                                  .json(lang.LABEL_500_HTTP);
+                              });
+                          });
+                      }
                     });
                   }
                 });
@@ -992,45 +1021,53 @@ module.exports =
       jwt
         .verify(token, secret, (err, decoded) =>
         {
-          if (process.env.NODE_ENV_TEST) {
+          if(process.env.NODE_ENV_TEST)
+            console.log(lang.LANG_DEBUG_ERROR, err);
+          if( err !== null ) 
+            resp
+              .status(403)
+              .json(lang.LABEL_403_HTTP);
+          else {
+            if (process.env.NODE_ENV_TEST) {
               console.log(lang.LANG_DEBUG_ERROR, err);
               console.log(lang.LANG_DEBUG_DATA, decoded);
-          }
-          
-          const {
-            _id,
-            username,
-            admin
-          } = decoded;
-          const user = mongoose.model('user');
-          user.find(
-          {
-            _id,
-            username,
-            admin,
-            confirmed: false 
-          }, (err, data) => {
-            if ( err !== null )
-              resp
-                .status(403)
-                .json(lang.LABEL_403_HTTP);
-            else 
-            {
-              const update = mongoose.model('user');
-              update.findByIdAndUpdate(_id,{
-                confirmed:true
-              }, (err, data) => {
-                if(err !== null)
-                  resp
-                    .status(200)
-                    .json(lang.LABEL_200_HTTP);
-                else
-                  resp
-                    .status(500)
-                    .json(lang.LABEL_500_HTTP);
-              })
             }
-          });
+          
+            const {
+              _id,
+              username,
+              admin
+            } = decoded;
+            const user = mongoose.model('user');
+            user.find(
+            {
+              _id,
+              username,
+              admin,
+              confirmed: false 
+            }, (err, data) => {
+              if ( err !== null )
+                resp
+                  .status(403)
+                  .json(lang.LABEL_403_HTTP);
+              else 
+              {
+                const update = mongoose.model('user');
+                update.findByIdAndUpdate(_id,{
+                  confirmed:true
+                }, (err, data) => {
+                  if(err == null)
+                    resp
+                      .status(200)
+                      .json(lang.LABEL_200_HTTP);
+                  else
+                    resp
+                      .status(500)
+                      .json(lang.LABEL_500_HTTP);
+                })
+              }
+            });
+          }
         });
       }
       catch(e) {
