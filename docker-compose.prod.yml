@@ -15,7 +15,7 @@ services:
             - ./app:/src
         ports:
             - "9000:9000"
-        command: sh -c "npm install --legacy-peer-deps && npm run dev-legacy"
+        command: sh -c "npm install --legacy-peer-deps && npm run start"
         networks:
             - cms_app_net
         depends_on:
