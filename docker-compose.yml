@@ -1,14 +1,13 @@
 version: "3"
 services: 
     webapi:
-        container_name: myCMS.js
         build: ./app
         restart: always
         working_dir: /src
         volumes: 
             - ./app:/src
         ports:
-            - "9000:9000"
+            - "9000"
         command: sh -c "npm install --legacy-peer-deps && npm run dev-legacy"
         networks:
             - cms_app_net
@@ -20,13 +19,12 @@ services:
             - "redis"
 
     mongo:
-        container_name: mongoCMS
         image: mongo:bionic
         restart: always
         env_file: 
             - ./config/env/.env
         ports:
-            - "27017:27017"
+            - "27017"
         volumes:
             - ./mongo-config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
             - data-volume-mongoCMS:/data/db
@@ -38,7 +36,7 @@ services:
         image: huggingface/mongoku
         restart: always
         ports:
-            - 3100:3100
+            - "3100:3100"
         env_file: 
             - ./config/env/.env
         depends_on:
@@ -49,7 +47,6 @@ services:
             - cms_app_net
     
     redis:
-        container_name: redisCMS
         image: redis:alpine
         restart: always
         networks:
@@ -70,7 +67,6 @@ services:
         restart: always
 
     proxyserver:
-        container_name: proxyNGINX_CMS
         image: nginx:alpine
         restart: always
         ports:
