@@ -3,7 +3,7 @@ const redis = require('redis');
 const langServer = '../../../lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
 const port = process.env.NODE_ENV_REDIS_PORT || 6379;
-const url = process.env.NODE_ENV_REDIS_URL || 'redis://redisCMS';
+const url = process.env.NODE_ENV_REDIS_URL || 'redis://redis';
 const password = process.env.NODE_ENV_REDIS_PASSWORD || null;
 // REDIS CONFIG
 module.exports = {
