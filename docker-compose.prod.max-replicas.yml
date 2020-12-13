@@ -10,7 +10,9 @@ services:
         build: ./app
         restart: always
         deploy:
-            replicas: 3
+            replicas: 9
+            placement:
+                max_replicas_per_node: 3
             restart_policy:
                 condition: on-failure
         working_dir: /src
@@ -32,7 +34,9 @@ services:
         image: mongo:bionic
         restart: always
         deploy:
-            replicas: 1
+            replicas: 3
+            placement:
+                max_replicas_per_node: 1
             restart_policy:
                 condition: on-failure
         env_file: 
@@ -49,7 +53,9 @@ services:
         image: redis:alpine
         restart: always
         deploy:
-            replicas: 1
+            replicas: 3
+            placement:
+                max_replicas_per_node: 1
             restart_policy:
                 condition: on-failure
         ports:
@@ -82,7 +88,9 @@ services:
         image: nginx:alpine
         restart: always
         deploy:
-            replicas: 1
+            replicas: 3
+            placement:
+                max_replicas_per_node: 1
             restart_policy:
                 condition: on-failure
         ports:
