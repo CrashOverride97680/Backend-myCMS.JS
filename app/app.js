@@ -11,8 +11,7 @@ const path = require('path');
 const publicFiles = path.join(__dirname, 'uploads');
 const publicFileEmail = path.join(__dirname, 'api', 'template', 'email', 'img');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');
-const installationCMS = (process.env.NODE_INSTALL_CMS == true ) ? process.env.NODE_INSTALL_CMS : false; 
+const bcrypt = require('bcryptjs'); 
 const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST
 					? require('./api/autentication/blacklist-local/blacklist-local')
 					: null;
@@ -91,35 +90,6 @@ if(locBlacklist){
 	locBlacklist.resetDB_LOCAL();
 	scheduler.loadSCheduler();
 	console.log(lang.LABEL_LOCAL_CACHE_BLACKLIST_ON);
-}
-// RUN INSTALLATION VIA TERMINAL FOR INIT CMS
-if( installationCMS ) {
-	const installed = mongoose.model('settingGeneral');
-	installed.find({
-		setting: 'installed',
-		value: 'true'
-	}, )
-	const userTmp = mongoose.model('user');
-	bcrypt
-        .hash('rootAdmin', 10, (err, hash) => 
-        {
-			let dateObj = new Date();
-			userTmp.create({
-				admin: true,
-				email: 'root@root.com',
-				password: hash,
-				username: 'root',
-				name: 'root',
-				surname: 'root',
-				confirmed: true,
-				create: dateObj.toDateString()
-			}, (err, data) => {
-				if(err !== null)
-					console.log(lang.LABEL_DEBUG_INSTALLATION, err)
-				else
-					console.log(lang.LABEL_INSTALLATION_COMPLETE);
-			});
-		});
 }
 // INIZIALIZE FUNCTION, CLASS, ELEMENT AND MODULES
 const app = express();

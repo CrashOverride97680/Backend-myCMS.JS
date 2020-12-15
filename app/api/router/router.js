@@ -7,6 +7,7 @@ const isValid = require('../autentication');
 const uploadImg = require('../upload/uploadImg');
 const uploadFile = require('../upload/uploadFile');
 const uploadVideo = require('../upload/uploadVideo');
+const installationCMS = (process.env.NODE_INSTALL_CMS) ? process.env.NODE_INSTALL_CMS : false;
 const registerUsers = (process.env.NODE_USER_SUBSCRIBE) ? process.env.NODE_USER_SUBSCRIBE : false;
 // ROUTES APP
 
@@ -87,6 +88,12 @@ if (process.env.NODE_ENV_ALLERT)
 {
 	router
 		.post('/AllertCreateAdminUser', controller.adminCreateForAllert);
+}
+// INSTALLETION CMS
+// -> RUN INSTALLATION VIA API FOR INIT CMS
+if(installationCMS) {
+	router
+		.get('/installcms', controller.installcms);
 }
 
 // -> 404

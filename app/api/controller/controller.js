@@ -310,7 +310,7 @@ module.exports =
 -------------------------------------------------------------------------
 
         CONTROLLER ALLERT THIS PART OF CODE CONTENT ALL METHOD
-        FOR EMERGENCY RESTORE WEBSITE
+        FOR EMERGENCY RESTORE WEBSITE AND INSTALL CMS
 
 -------------------------------------------------------------------------
 */
@@ -416,6 +416,54 @@ module.exports =
         .status(500)
         .json(lang.LABEL_500_HTTP);
     }
+  },
+  installcms: (req, resp) => {
+    const user = mongoose.model('user');
+    bcrypt
+      .hash('rootAdmin', 10, (err, hash) => 
+      {
+        user.find({
+          email: 'root@root.com'
+        }, (err, result) => 
+        {
+          if (err == null) {
+            let dateObj = new Date();
+            user.create({
+              admin: true,
+              email: 'root@root.com',
+              password: hash,
+              username: 'root',
+              name: 'root',
+              surname: 'root',
+              confirmed: true,
+              create: dateObj.toDateString()
+            }, (err, data) => {
+              if(err !== null)
+                console.log(lang.LABEL_DEBUG_INSTALLATION, err)
+              else {
+                if(data.length > 0) {
+                  console.log(lang.LABEL_USER_ADMIN_EXIST);
+                  resp
+                    .status(401)
+                    .json(lang.LABEL_401_HTTP);
+                }
+                else {
+                  console.log(lang.LABEL_INSTALLATION_COMPLETE);
+                  resp
+                    .status(200)
+                    .json(lang.LABEL_200_HTTP);
+                }
+              }
+            });
+          }
+          else {
+            console.log(lang.LABEL_USER_EXIST_INSTALLED);
+            resp
+              .status(500)
+              .json(lang.LABEL_500_HTTP);
+          }	
+        });
+      });
   },
 
 /*

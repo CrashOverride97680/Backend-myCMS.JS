@@ -908,4 +908,14 @@ module.exports = {
             required: true
         }
     }),
+    settingGeneral: new Schema({
+        setting: {
+            type: String,
+            required: true
+        },
+        value: {
+            type: String,
+            required: true
+        }
+    })
 };
