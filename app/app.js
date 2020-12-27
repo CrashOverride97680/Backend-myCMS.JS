@@ -30,6 +30,9 @@ log4js.configure({
 		}
 	}
 });
+// INSTALL USER CMS ROOT
+const cmsInstallFunction = require('./api/install');
+cmsInstallFunction();
 // EXPRESS LIMIT MIDDLEWARE
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({

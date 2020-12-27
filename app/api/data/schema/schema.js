@@ -64,10 +64,6 @@ module.exports = {
                 type: String,
                 required: true
             },
-            keywords: {
-                type: String,
-                required: true
-            },
             ogTitle: {
                 type: String, 
             },
