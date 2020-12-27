@@ -30,9 +30,6 @@ log4js.configure({
 		}
 	}
 });
-// INSTALL USER CMS ROOT
-const cmsInstallFunction = require('./api/install');
-cmsInstallFunction();
 // EXPRESS LIMIT MIDDLEWARE
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
@@ -45,6 +42,9 @@ connect();
 // IMPORTING LANG AND DEBUG
 const langServer = './lang/' + (process.env.LANG_SERVER || 'eng');
 const lang = require(langServer);
+// INSTALL USER CMS ROOT
+const cmsInstallFunction = require('./api/install');
+cmsInstallFunction();
 // CHECK EMAIL CONFIGURATION FOR SMTP
 if(!process.env.NODE_ENV_HOST_SMTP) {
 	console.log(lang.LANG_DEBUG_EMAIL_HOST);
