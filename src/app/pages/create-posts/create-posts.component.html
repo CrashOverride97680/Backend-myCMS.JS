@@ -4,31 +4,79 @@
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
       <div>
         <div class="form-group row">
-          <div class="col-6">
-            <input type="text" id="lang" placeholder="Lang website..." name="lang" [(ngModel)]="lang" title="Insert lang CMS" required>
-          </div>
-          <div class="col-6">
-            <input type="text" id="type" placeholder="Type website..." name="type" [(ngModel)]="type" title="Insert type CMS" required>
-          </div>
-        </div>
-      </div>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <ngb-tabset type="pills">
+                  <ngb-tab title="Content Posts">
+                    <ng-template ngbTabContent>
+                      <div class="card mt-4">
+                        <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">General information</h2>
+                        <div class="card-body">
+                          <div class="mt-4 input-group">
+                            <span class="input-group-text" name="lang">Lang *</span>
+                            <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="lang" placeholder="Select lang website..." name="lang" [(ngModel)]="lang" title="Select lang CMS..." required>
+                          </div>
 
-      <div class="pt-3">
-        <div class="form-group row">
-          <div class="col-6">
-            <input type="text" id="title" placeholder="Title website..." name="title" [(ngModel)]="title" title="Insert title CMS" required>
-          </div>
-          <div class="col-6">
-            <input type="text" id="header" placeholder="Header website..." name="header" [(ngModel)]="header" title="Insert header CMS" required>
-          </div>
-        </div>
-      </div>
-      <div class="row pt-5">
-        <div class="col-12">
-          <div class="card">
-            <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Post content</h2>
-            <div class="card-body">
-              <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+                          <div class="mt-4 input-group">
+                            <span class="input-group-text" name="type">Category *</span>
+                            <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="type" placeholder="Select category website..." name="category" [(ngModel)]="type" title="Select category website..." required>
+                          </div>
+
+                          <div class="mt-4 input-group">
+                            <span class="input-group-text" name="title">Title *</span>
+                            <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="title" placeholder="Write title website, is important for Seo..." name="title" [(ngModel)]="title" title="Write title website, is important for Seo..." required>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row pt-5">
+                        <div class="col-12">
+                          <div class="card">
+                            <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Post content</h2>
+                            <div class="card-body">
+                              <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+
+                  <ngb-tab title="Seo/Sem">
+                    <ng-template ngbTabContent>
+                      <div class="card mt-4">
+                        <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Seo</h2>
+                        <div class="card-body">
+                          <div class="mt-4 input-group">
+                            <span class="input-group-text" name="description">Description *</span>
+                            <textarea class="form-control" aria-describedby="inputGroup-sizing-sm" id="description" placeholder="Write title website, is important for Seo..." name="description" [(ngModel)]="description" title="Write description website, is important for Seo..." required></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+
+                  <ngb-tab title="Settings">
+                    <ng-template ngbTabContent>
+                      <div class="card mt-4">
+                        <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">General Setting Post</h2>
+                        <div class="card-body">
+                          <div class="mt-4 input-group">
+                            <span class="input-group-text" name="important">Important *</span>
+                            <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="important" placeholder="Select important for website..." name="important" [(ngModel)]="important" title="Select important for website..." required>
+                          </div>
+
+                          <div class="form-check form-switch mt-4">
+                            <input class="form-check-input" type="checkbox" id="websiteVisibility">
+                            <label class="form-check-label" for="websiteVisibility">Visibility website</label>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+                </ngb-tabset>
+              </div>
             </div>
           </div>
         </div>

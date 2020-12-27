@@ -8,8 +8,11 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class CreatePostsComponent implements OnInit {
 // SET VARIABLE INTERFACE
   public htmlContent: string;
-  public header: string;
+  public lang: string;
   public title: string;
+  public type: string;
+  public description: string;
+  public important: string;
   public editorConfig: AngularEditorConfig =
   {
     editable: true,
@@ -60,8 +63,6 @@ export class CreatePostsComponent implements OnInit {
       ]
     ]
   };
-  public type: string;
-  public lang: string;
 // FUNTIONS INTERFACE
   onSubmit(): void {
     console.log("TEST");
