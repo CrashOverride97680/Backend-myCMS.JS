@@ -15,6 +15,8 @@ module.exports = () => {
             process.exit(0);
         }
         else {
+            console.log("DATA::::", data);
+            process.exit(0);
             if(data.length == 0) {
                 const user = mongoose.model('user');
                 bcrypt
