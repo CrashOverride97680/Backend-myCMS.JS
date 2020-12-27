@@ -15,7 +15,7 @@ module.exports = () => {
             process.exit(0);
         }
         else {
-            if(data.lenght == 0) {
+            if(data.length == 0) {
                 const user = mongoose.model('user');
                 bcrypt
                     .hash('rootAdmin', 10, (err, hash) => 
