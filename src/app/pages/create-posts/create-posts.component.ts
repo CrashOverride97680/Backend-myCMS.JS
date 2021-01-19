@@ -68,7 +68,9 @@ export class CreatePostsComponent implements OnInit {
     console.log("TEST");
   }
 
-  constructor() { }
+  constructor() {
+    this.lang = '-';
+  }
 
   ngOnInit(): void {
   }

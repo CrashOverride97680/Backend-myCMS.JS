@@ -51,6 +51,7 @@ import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
 import { CreatePostsComponent } from './pages/create-posts/create-posts.component';
+import { CategoryComponent } from './category/category.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +77,8 @@ import { CreatePostsComponent } from './pages/create-posts/create-posts.componen
     AddPluginsComponent,
     AddWidgetsComponent,
     ModifyPostsComponent,
-    CreatePostsComponent
+    CreatePostsComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,
