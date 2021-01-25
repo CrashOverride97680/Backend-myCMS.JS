@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment} from '../../../environments/environment';
 import { accessLoginInterface } from '../../pages/interfaces/login.interface';
-
+import { SeosemCreatePostsInterfaces } from '../../pages/interfaces/seosemCreatePosts.interfaces';
 @Injectable({
   providedIn: 'root'
 })
@@ -277,6 +277,77 @@ export class ApiService
             reject(false);
           }
         });
+    });
+  }
+
+// GET ALL CATEGORIES
+  getAllCategories(
+    token: string
+  ) {
+    const url = `${environment.loginEntrypoint}/getAllCategory`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url,
+          {
+            headers: {
+              authorization: token
+            }
+          }).subscribe(
+        {
+          next(data: any) {
+            resolve(data);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
+// POST CREATE POSTS
+  createpost(
+    token: string,
+    lang: string,
+    type: string,
+    title: string,
+    seo: SeosemCreatePostsInterfaces[],
+    content: string,
+    important: number,
+    visible: boolean,
+    category: any[]
+  ) {
+    const url = `${environment.loginEntrypoint}/createpost`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .post(url,
+          {
+            lang,
+            type,
+            title,
+            seo,
+            content,
+            important,
+            visible,
+            category
+          },
+          {
+            headers: {
+              authorization: token
+            }
+          }).subscribe(
+          {
+            next(data: any) {
+            resolve(data);
+          },
+            error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+          });
     });
   }
 }

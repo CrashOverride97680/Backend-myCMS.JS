@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { ApiService } from '../../services/api/api.service';
+import { GetAllCategoryInterface } from '../interfaces/getAllCategory.interface';
+import {SeosemCreatePostsInterfaces} from "../interfaces/seosemCreatePosts.interfaces";
 @Component({
   selector: 'app-create-posts',
   templateUrl: './create-posts.component.html',
@@ -8,11 +11,18 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class CreatePostsComponent implements OnInit {
 // SET VARIABLE INTERFACE
   public htmlContent: string;
-  public lang: string;
+  public lang: string = '-';
   public title: string;
-  public type: string;
+  public type: string = '-';
   public description: string;
-  public important: string;
+  public important: ( number | string ) = '-';
+  public category: string;
+  public visibility: boolean;
+  public listCategory: any;
+  public checkData: boolean = false;
+  public toast: any = {
+    classElement: 'bg-danger text-light toast'
+  };
   public editorConfig: AngularEditorConfig =
   {
     editable: true,
@@ -64,15 +74,61 @@ export class CreatePostsComponent implements OnInit {
     ]
   };
 // FUNTIONS INTERFACE
-  onSubmit(): void {
-    console.log("TEST");
+  close(): void {
+    this.checkData = true;
+    setTimeout(() => this.checkData = false, 1000);
   }
 
-  constructor() {
-    this.lang = '-';
+  onSubmit(): void {
+    const token = localStorage.getItem('token');
+    let seo = {
+      description: this.description
+    };
+    console.log("HTML:", this.htmlContent);
+    this
+      .api
+      .createpost(
+        token,
+        this.lang,
+        this.type,
+        this.title,
+        seo,
+        this.htmlContent,
+        this.important,
+        this.visibility,
+        {
+          codeCategory: this.category
+        }
+      )
+      .then(value => {
+        console.log("SENDING!!");
+      })
+      .catch(error => console.log("ERROR:", error));
   }
 
   ngOnInit(): void {
+  }
+
+  counter(i: number) {
+    return new Array(i);
+  }
+
+  constructor(
+    private api: ApiService
+  ) {
+  // FETCH DATA BEFORE INIZIALIZE
+    const token = localStorage.getItem('token');
+    Promise
+      .all([
+        this.api.getAllCategories(token),
+      ])
+      .then(value => {
+        this.listCategory = value[0];
+      });
+  // SETTING VARIABLE DEFAULT
+    this.lang = '-';
+    this.category = '-';
+    this.important = '-';
   }
 
 }

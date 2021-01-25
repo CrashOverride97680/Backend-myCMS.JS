@@ -15,7 +15,7 @@
                         <div class="card-body">
                           <div class="mt-4 input-group">
                             <span class="input-group-text" name="lang">Lang *</span>
-                            <select class="custom-select" aria-label="Select language website" id="lang" name="lang" [(ngModel)]="lang" required>
+                            <select class="custom-select" aria-label="Select language website..." id="lang" name="lang" [(ngModel)]="lang" required>
                               <option value="-">Select lang website...</option>
                               <option value="ab">Abkhazian</option>
                               <option value="aa">Afar</option>
@@ -211,8 +211,20 @@
                           </div>
 
                           <div class="mt-4 input-group">
-                            <span class="input-group-text" name="type">Category *</span>
-                            <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="type" placeholder="Select category website..." name="category" [(ngModel)]="type" title="Select category website..." required>
+                            <span class="input-group-text" name="category">Category *</span>
+                            <select class="custom-select" aria-label="Select category website..." id="category" name="lang" [(ngModel)]="category" required>
+                              <option value="-">Select category website...</option>
+                              <option *ngFor="let categorydata of listCategory" [value]="categorydata._id">{{categorydata.name}}</option>
+                            </select>
+                          </div>
+
+                          <div class="mt-4 input-group">
+                            <span class="input-group-text" name="type">Type *</span>
+                            <select class="custom-select" aria-label="Select type website..." id="type" name="lang" [(ngModel)]="type" required>
+                              <option value="-">Select type website...</option>
+                              <option value="post">Post</option>
+                              <option value="article">Article</option>
+                            </select>
                           </div>
 
                           <div class="mt-4 input-group">
@@ -256,11 +268,14 @@
                         <div class="card-body">
                           <div class="mt-4 input-group">
                             <span class="input-group-text" name="important">Important *</span>
-                            <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="important" placeholder="Select important for website..." name="important" [(ngModel)]="important" title="Select important for website..." required>
+                            <select class="custom-select" aria-label="Select important website page..." id="important" name="important" [(ngModel)]="important" required>
+                              <option value="-">Select important website...</option>
+                              <option *ngFor='let in of counter(20) ;let i = index'>{{i + 1}}</option>
+                            </select>
                           </div>
 
                           <div class="form-check form-switch mt-4">
-                            <input class="form-check-input" type="checkbox" id="websiteVisibility">
+                            <input class="form-check-input" type="checkbox" id="websiteVisibility" [(ngModel)]="visibility">
                             <label class="form-check-label" for="websiteVisibility">Visibility website</label>
                           </div>
                         </div>
@@ -279,3 +294,12 @@
     </form>
   </div>
 </div>
+<ngb-toast
+  *ngIf="checkData"
+  header="Incorrect Data"
+  [autohide]="false"
+  (hide)="close()"
+  [class]="toast.classElement"
+>
+  Problem send data with server check and resend
+</ngb-toast>
