@@ -321,33 +321,29 @@ export class ApiService
     const url = `${environment.loginEntrypoint}/createpost`;
     return new Promise ((resolve, reject) =>
     {
-      this
-        .http
-        .post(url,
-          {
-            lang,
-            type,
-            title,
-            seo,
-            content,
-            important,
-            visible,
-            category
+      this.http.post(url ,
+        {
+          lang,
+          type,
+          title,
+          seo,
+          content,
+          important,
+          visible,
+          category,
+        },
+        {
+          headers: {authorization: token}
+        }).subscribe(
+        {
+          next(data: any) {
+            resolve(true);
           },
-          {
-            headers: {
-              authorization: token
-            }
-          }).subscribe(
-          {
-            next(data: any) {
-            resolve(data);
-          },
-            error(msg) {
+          error(msg) {
             console.log('Error message:', msg);
             reject(false);
           }
-          });
+        });
     });
   }
 }

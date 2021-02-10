@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ApiService } from '../../services/api/api.service';
 import { GetAllCategoryInterface } from '../interfaces/getAllCategory.interface';
-import {SeosemCreatePostsInterfaces} from "../interfaces/seosemCreatePosts.interfaces";
+import { SeosemCreatePostsInterfaces } from "../interfaces/seosemCreatePosts.interfaces";
 @Component({
   selector: 'app-create-posts',
   templateUrl: './create-posts.component.html',
@@ -10,16 +10,18 @@ import {SeosemCreatePostsInterfaces} from "../interfaces/seosemCreatePosts.inter
 })
 export class CreatePostsComponent implements OnInit {
 // SET VARIABLE INTERFACE
-  public htmlContent: string;
+  public htmlContent: string = '';
   public lang: string = '-';
   public title: string;
   public type: string = '-';
   public description: string;
-  public important: ( number | string ) = '-';
+  public important: any = '-';
   public category: string;
   public visibility: boolean;
   public listCategory: any;
   public checkData: boolean = false;
+  public seo: any;
+  public catSend: any;
   public toast: any = {
     classElement: 'bg-danger text-light toast'
   };
@@ -81,10 +83,12 @@ export class CreatePostsComponent implements OnInit {
 
   onSubmit(): void {
     const token = localStorage.getItem('token');
-    let seo = {
+    this.seo = {
       description: this.description
     };
-    console.log("HTML:", this.htmlContent);
+    this.catSend = {
+      codeCategory: this.category
+    };
     this
       .api
       .createpost(
@@ -92,16 +96,15 @@ export class CreatePostsComponent implements OnInit {
         this.lang,
         this.type,
         this.title,
-        seo,
+        this.seo,
         this.htmlContent,
         this.important,
         this.visibility,
-        {
-          codeCategory: this.category
-        }
+        this.catSend
       )
       .then(value => {
         console.log("SENDING!!");
+        console.log("VALUE:", value);
       })
       .catch(error => console.log("ERROR:", error));
   }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  loginEntrypoint: 'http://192.168.1.117/api'
+  loginEntrypoint: 'link api services entrypoint'
 };
 
 /*
