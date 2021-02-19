@@ -32,7 +32,8 @@ import {
   faSignOutAlt,
   faCheckCircle,
   faTimesCircle,
-  faPlusSquare
+  faPlusSquare,
+  faPencilAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -52,6 +53,7 @@ import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
 import { CreatePostsComponent } from './pages/create-posts/create-posts.component';
 import { CategoryComponent } from './category/category.component';
+import { ModifyPostComponent } from './modify-post/modify-post.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +80,8 @@ import { CategoryComponent } from './category/category.component';
     AddWidgetsComponent,
     ModifyPostsComponent,
     CreatePostsComponent,
-    CategoryComponent
+    CategoryComponent,
+    ModifyPostComponent
   ],
   imports: [
     BrowserModule,
