@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ApiService } from '../../services/api/api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GetAllCategoryInterface } from '../interfaces/getAllCategory.interface';
 import { SeosemCreatePostsInterfaces } from "../interfaces/seosemCreatePosts.interfaces";
 @Component({
   selector: 'app-create-posts',
   templateUrl: './create-posts.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./create-posts.component.scss']
 })
 export class CreatePostsComponent implements OnInit {
@@ -22,9 +24,6 @@ export class CreatePostsComponent implements OnInit {
   public checkData: boolean = false;
   public seo: any;
   public catSend: any;
-  public toast: any = {
-    classElement: 'bg-danger text-light toast'
-  };
   public editorConfig: AngularEditorConfig =
   {
     editable: true,
@@ -81,7 +80,7 @@ export class CreatePostsComponent implements OnInit {
     setTimeout(() => this.checkData = false, 1000);
   }
 
-  onSubmit(): void {
+  onSubmit(contentExec, contentNotExec): void {
     const token = localStorage.getItem('token');
     this.seo = {
       description: this.description
@@ -103,10 +102,11 @@ export class CreatePostsComponent implements OnInit {
         this.catSend
       )
       .then(value => {
-        console.log("SENDING!!");
-        console.log("VALUE:", value);
+        this.modalService.open(contentExec, { centered: true });
       })
-      .catch(error => console.log("ERROR:", error));
+      .catch(error => {
+        this.modalService.open(contentNotExec, { centered: true });
+      });
   }
 
   ngOnInit(): void {
@@ -117,7 +117,8 @@ export class CreatePostsComponent implements OnInit {
   }
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private modalService: NgbModal
   ) {
   // FETCH DATA BEFORE INIZIALIZE
     const token = localStorage.getItem('token');

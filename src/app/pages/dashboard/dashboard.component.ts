@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   public mailsubCards: boolean = true;
   public chatCards: boolean = true;
   public paymentsCards: boolean = true;
+  public postsorig: any = [];
   public posts: any = [];
 
   constructor(
@@ -37,7 +38,13 @@ export class DashboardComponent implements OnInit {
         this.mailsubData = value[1];
         this.chatData = value[2];
         this.paymentsData = value[3];
-        this.posts = value[4];
+        this.postsorig = value[4];
+        this.posts = this.postsorig.map(el => {
+          let data = el;
+          data.updated = data.updated.split("T")[0];
+          return data;
+        });
+        console.log("POSTS:", this.posts);
       });
   }
 

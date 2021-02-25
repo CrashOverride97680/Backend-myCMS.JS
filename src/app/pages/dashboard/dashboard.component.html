@@ -48,7 +48,7 @@
                 <th scope="col" class="text-uppercase">Title</th>
                 <th scope="col" class="text-uppercase">Type</th>
                 <th scope="col" class="text-uppercase">Visible</th>
-                <th scope="col" class="text-uppercase">gg/mm/aaaa</th>
+                <th scope="col" class="text-uppercase">dd/mm/yyyy</th>
               </tr>
               </thead>
               <tbody>
@@ -69,7 +69,7 @@
                   <fa-icon icon="times-circle"></fa-icon>
                 </td>
                 <td>
-                  {{ post.dateUser }}
+                  {{ post.updated | date: 'dd/MM/yyyy' }}
                 </td>
               </tr>
               </tbody>

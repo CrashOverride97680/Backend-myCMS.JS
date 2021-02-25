@@ -1,7 +1,7 @@
 <div class="screen-correct jumbotron m-0">
   <div class="container">
     <h1 class="h3 mb-4 font-weight-normal text-gray-800 text-capitalize">Create post</h1>
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(contentExec, contentNotExec)">
         <div class="form-group row">
           <div class="col-12 mb-4">
             <div class="card">
@@ -292,12 +292,34 @@
     </form>
   </div>
 </div>
-<ngb-toast
-  *ngIf="checkData"
-  header="Incorrect Data"
-  [autohide]="false"
-  (hide)="close()"
-  [class]="toast.classElement"
->
-  Problem send data with server check and resend
-</ngb-toast>
+
+
+<ng-template #contentExec let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Sending data correct</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Close the browser window o create another page. if page not created contact administrator for check.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #contentNotExec let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Error on sending data</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>General error recheck data and resend if problem persists contact administrator</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

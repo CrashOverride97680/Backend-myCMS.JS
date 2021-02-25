@@ -11,6 +11,7 @@ export class PostsComponent implements OnInit {
   public postsVisibleData: any = '--';
   public postsUnvisibleData: any = '--';
   public posts: any = [];
+  public postsorig: any = [];
   public settings: any = {
     hideSubHeader: false,
     actions: false,
@@ -32,8 +33,8 @@ export class PostsComponent implements OnInit {
         title: 'VISIBLE',
         filter: false
       },
-      dateUser: {
-        title: 'GG/MM/AAAA'
+      updated: {
+        title: 'DD/MM/YYYY'
       },
       actions: {
         title: 'ACTIONS',
@@ -62,7 +63,15 @@ export class PostsComponent implements OnInit {
         this.postsData = value[0];
         this.postsVisibleData = value[1];
         this.postsUnvisibleData = value[2];
-        this.posts = value[3];
+        this.postsorig = value[3];
+        this.posts = this.postsorig.map(el => {
+          let data = el;
+          let day = data.updated.split("T")[0].split("-")[2];
+          let mounth = data.updated.split("T")[0].split("-")[1];
+          let year = data.updated.split("T")[0].split("-")[0];
+          data.updated =  `${day}/${mounth}/${year}`;
+          return data;
+        });
       });
   }
 
