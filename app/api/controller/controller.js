@@ -2514,7 +2514,7 @@ module.exports =
                     } = decoded;
                     if(admin)
                     {
-                      const posts = mongoose.model('earning', 'earning');
+                      const posts = mongoose.model('posts', 'posts');
                       posts
                         .count({visible: true}, (err, count) => {
                           if(process.env.NODE_ENV_DEV) {
@@ -2526,7 +2526,7 @@ module.exports =
                             resp
                               .status(200)
                               .json({count});
-                          else 
+                          else
                             resp
                               .status(500)
                               .json(lang.LABEL_500_HTTP);
@@ -2572,7 +2572,7 @@ module.exports =
                           admin
                         } = decoded;
                         if (admin) {
-                          const posts = mongoose.model('earning', 'earning');
+                          const posts = mongoose.model('posts', 'posts');
                           posts
                             .count({visible: true}, (err, count) => {
                               if(process.env.NODE_ENV_DEV) {
@@ -2647,7 +2647,7 @@ module.exports =
                     } = decoded;
                     if(admin)
                     {
-                      const posts = mongoose.model('earning', 'earning');
+                      const posts = mongoose.model('posts', 'posts');
                       posts
                         .count({visible: false}, (err, count) => {
                           if(process.env.NODE_ENV_DEV) {
@@ -2705,7 +2705,7 @@ module.exports =
                           admin
                         } = decoded;
                         if (admin) {
-                          const posts = mongoose.model('earning', 'earning');
+                          const posts = mongoose.model('posts', 'posts');
                           posts
                             .count({visible: false}, (err, count) => {
                               if(process.env.NODE_ENV_DEV) {
@@ -2928,6 +2928,61 @@ module.exports =
       resp
         .status(500)
         .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getAllNumberCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+          .then(result => {
+            const res = result[1];
+            const { admin } = res;
+            if(admin)
+            {
+              const category = mongoose.model('category', 'category');
+              category
+                  .count({}, (err, count) => {
+                    if(process.env.NODE_ENV_DEV) {
+                      console.log(lang.LANG_DEBUG_RESULT, count);
+                      console.log(lang.LANG_DEBUG_ERROR, err);
+                    }
+
+                    if(!err)
+                      resp
+                          .status(200)
+                          .json({count});
+                    else
+                      resp
+                          .status(500)
+                          .json(lang.LABEL_500_HTTP);
+                  });
+            }
+            else
+              resp
+                  .json(lang.LABEL_403_HTTP);
+          })
+          .catch(err => {
+            console.log(lang.LANG_DEBUG_ERROR, err);
+            resp
+                .status(err.status)
+                .json(err.lang);
+          });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
     }
   },
 // FATTO

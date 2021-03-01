@@ -27,3 +27,4 @@ package-lock.json
 /app/uploads/*.zip
 /app/uploads/*.rar
 app/.env
+.idea

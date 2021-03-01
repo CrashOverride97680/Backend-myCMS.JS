@@ -159,4 +159,7 @@ module.exports = {
 	getFilesListWithFilter: [
 		check('authorization').notEmpty()
 	],
+	getAllNumberCategory: [
+		check('authorization').notEmpty()
+	]
 };
