@@ -370,4 +370,36 @@ export class ApiService
         });
     });
   }
+// POST CREATE CATEGORY
+  createcategory(
+    token: string,
+    name: string,
+    titleSeo: string,
+    description: string,
+    visibility: boolean
+  ) {
+    const url = `${environment.loginEntrypoint}/createCategory`;
+    return new Promise ((resolve, reject) =>
+    {
+      this.http.post(url ,
+        {
+          name,
+          titleSeo,
+          description,
+          visibility
+        },
+        {
+          headers: {authorization: token}
+        }).subscribe(
+        {
+          next(data: any) {
+            resolve(true);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
 }

@@ -17,6 +17,7 @@ export class IndexLoginComponent implements OnInit
   public toast: any = {
     classElement: 'bg-danger text-light toast'
   };
+  public spinner: boolean = false;
 
   constructor(
     private http: ApiService,
@@ -34,6 +35,7 @@ export class IndexLoginComponent implements OnInit
   }
 
   onSubmit(): void {
+    this.spinner = true;
     this
       .http
       .login(this.email, this.password)
@@ -41,6 +43,7 @@ export class IndexLoginComponent implements OnInit
       {
         if(success)
         {
+          this.spinner = false;
           this
             .route
             .navigate(['/', 'dashboard']);
@@ -49,12 +52,14 @@ export class IndexLoginComponent implements OnInit
       .catch(success =>
       {
         if(!success) {
+          this.spinner = false;
           this.checkData = true;
         }
       });
   }
 
   ngOnInit(): void {
+    this.spinner = false;
     const token: string = localStorage.getItem('token');
     if(!token)
       localStorage.clear();

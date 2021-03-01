@@ -1,4 +1,4 @@
-<div class="w-100 vh-100 d-flex justify-content-center">
+<div [ngClass]="{'justify-content-center spinner align-items-center': true, 'view': view, 'none': !view }">
   <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
   </div>
