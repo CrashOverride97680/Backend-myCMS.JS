@@ -1,0 +1,76 @@
+<div class="screen-correct jumbotron m-0">
+  <div class="container">
+    <h1 class="h3 mb-4 font-weight-normal text-gray-800 text-capitalize">Create category</h1>
+    <p class="h6 mb-4 text-danger"><strong><em>* Mandatory data</em></strong></p>
+    <form #createCategoryForm="ngForm" (ngSubmit)="onSubmit(contentExec, contentNotExec)">
+      <div class="form-group row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="mt-4 input-group">
+                <span class="input-group-text">Name *</span>
+                <input [ngClass]="{'form-control': true, 'border-danger': dangerName}" type="text" aria-describedby="inputGroup-sizing-sm" id="name" placeholder="Write name category" name="name" [(ngModel)]="name" title="Write name category" required/>
+              </div>
+
+              <div class="mt-4 input-group">
+                <span class="input-group-text">Title for Seo *</span>
+                <input [ngClass]="{'form-control': true, 'border-danger': dangerTitleSeo}" type="text" aria-describedby="inputGroup-sizing-sm" id="titleSeo" placeholder="Write title for seo." name="titleSeo" [(ngModel)]="titleSeo" title="Write title for Seo." required/>
+              </div>
+
+              <div class="mt-4 input-group">
+                <span class="input-group-text">Description *</span>
+                <textarea [ngClass]="{'form-control': true, 'border-danger': dangerDescription}" aria-describedby="inputGroup-sizing-sm" id="description" placeholder="Write description category" name="description" [(ngModel)]="description" title="Write description category." required></textarea>
+              </div>
+
+              <div class="form-check form-switch mt-4">
+                <input class="form-check-input" name="visibility" type="checkbox" id="category_visibility" [(ngModel)]="visibility">
+                <label class="form-check-label" for="websiteVisibility">Visibility category</label>
+              </div>
+
+              <div class="mb-4 fixed-bottom d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-circle-md">
+                  <fa-icon icon="paper-plane"></fa-icon>
+                </button>
+
+                <button type="submit" class="btn btn-danger btn-circle-md ml-5">
+                  <fa-icon icon="brush"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<ng-template #contentExec let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Sending data correct</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Close the browser window o create another page. if page not created contact administrator for check.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #contentNotExec let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Error on sending data</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>General error recheck data and resend if problem persists contact administrator</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

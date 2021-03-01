@@ -306,6 +306,30 @@ export class ApiService
         });
     });
   }
+// GET ALL NUMBER CATEGORY
+  getAllNumberCategory(
+    token: string
+  )  {
+    const url = `${environment.loginEntrypoint}/getAllNumberCategory`;
+    return new Promise ((resolve, reject) =>
+    {
+      this
+        .http
+        .get(url ,
+        {
+          headers: {authorization: token}
+        }).subscribe(
+        {
+          next(data: any) {
+            resolve(data.count);
+          },
+          error(msg) {
+            console.log('Error message:', msg);
+            reject(false);
+          }
+        });
+    });
+  }
 // POST CREATE POSTS
   createpost(
     token: string,

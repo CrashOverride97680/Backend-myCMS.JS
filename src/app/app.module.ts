@@ -33,7 +33,11 @@ import {
   faCheckCircle,
   faTimesCircle,
   faPlusSquare,
-  faPencilAlt
+  faPencilAlt,
+  faPaperPlane,
+  faSave,
+  faTimes,
+  faBrush
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -52,8 +56,10 @@ import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
 import { CreatePostsComponent } from './pages/create-posts/create-posts.component';
-import { CategoryComponent } from './category/category.component';
-import { ModifyPostComponent } from './modify-post/modify-post.component';
+import { CategoryComponent } from './pages/category/category.component';
+import { ModifyPostComponent } from './pages/modify-post/modify-post.component';
+import { CreateCategoryComponent } from './pages/create-category/create-category.component';
+import { SpinnerComponent } from './static components/spinner/spinner.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +87,9 @@ import { ModifyPostComponent } from './modify-post/modify-post.component';
     ModifyPostsComponent,
     CreatePostsComponent,
     CategoryComponent,
-    ModifyPostComponent
+    ModifyPostComponent,
+    CreateCategoryComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -103,8 +111,6 @@ export class AppModule {
   constructor(
     library: FaIconLibrary
   ) {
-    library
-      .addIcons(faRocket);
     library
       .addIcons(faClipboard);
     library
@@ -137,5 +143,15 @@ export class AppModule {
       .addIcons(faTimesCircle);
     library
       .addIcons(faPlusSquare);
+    library
+      .addIcons(faPaperPlane);
+    library
+      .addIcons(faPencilAlt);
+    library
+      .addIcons(faTimes);
+    library
+      .addIcons(faSave);
+    library
+      .addIcons(faBrush);
   }
 }

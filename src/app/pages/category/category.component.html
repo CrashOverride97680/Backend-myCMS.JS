@@ -1,0 +1,32 @@
+<div class="screen-correct jumbotron m-0">
+  <div class="container">
+    <h1 class="h3 mb-4 font-weight-normal text-gray-800 text-capitalize">Category pubblicated</h1>
+    <div class="row">
+      <div class="col-4 mr-2">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title h6 text-primary font-weight-lighter text-uppercase">Total</h2>
+            <p class="card-text h5 mb-0 font-weight-bold text-gray-800">{{ categoryData }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-5">
+      <div class="col-12">
+        <div class="card">
+          <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Category written</h2>
+          <div class="card-body">
+            <ng2-smart-table [settings]="settings" [source]="categorys"></ng2-smart-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="btn-add-posts">
+  <a href="/createCategory" title="Add category" target="_blank" class="btn-posts">
+    <fa-icon icon="plus-square"></fa-icon>
+  </a>
+</div>

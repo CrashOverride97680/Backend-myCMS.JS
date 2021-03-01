@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api/api.service';
+import {ApiService} from '../../services/api/api.service';
 
 @Component({
-  selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss']
 })
-export class PostsComponent implements OnInit {
-  public postsData: any = '--';
-  public postsVisibleData: any = '--';
-  public postsUnvisibleData: any = '--';
-  public posts: any = [];
-  public postsorig: any = [];
+export class CategoryComponent implements OnInit {
+
+  public categoryData: any = '--';
+  public categoryVisibleData: any = '--';
+  public categoryUnvisibleData: any = '--';
+  public categorys: any = [];
+  public categoriesorig: any = [];
   public settings: any = {
     hideSubHeader: false,
     actions: false,
@@ -23,15 +24,11 @@ export class PostsComponent implements OnInit {
         title: 'ID',
         show: false
       },
-      type: {
-        title: 'TYPE'
+      name: {
+        title: 'NAME'
       },
-      title: {
-        title: 'TITLE'
-      },
-      visible: {
-        title: 'VISIBLE',
-        filter: false
+      description: {
+        title: 'DESCRIPTION'
       },
       updated: {
         title: 'DD/MM/YYYY'
@@ -54,17 +51,13 @@ export class PostsComponent implements OnInit {
     const token = localStorage.getItem('token');
     Promise
       .all([
-        this.api.getNumPosts(token),
-        this.api.getVisiblePostNumber(token),
-        this.api.getUnvisiblePostNumber(token),
-        this.api.getAllPostsTable(token)
+        this.api.getAllNumberCategory(token),
+        this.api.getAllCategories(token)
       ])
       .then(value => {
-        this.postsData = value[0];
-        this.postsVisibleData = value[1];
-        this.postsUnvisibleData = value[2];
-        this.postsorig = value[3];
-        this.posts = this.postsorig.map(el => {
+        this.categoryData = value[0];
+        this.categoriesorig = value[1];
+        this.categorys = this.categoriesorig.map(el => {
           let data = el;
           let day = data.updated.split("T")[0].split("-")[2];
           let mounth = data.updated.split("T")[0].split("-")[1];

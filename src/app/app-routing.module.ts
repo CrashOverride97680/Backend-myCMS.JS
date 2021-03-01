@@ -20,7 +20,9 @@ import { GuardService } from '../app/services/auth/guard/guard.service';
 import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
 import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
-import {CreatePostsComponent} from "./pages/create-posts/create-posts.component";
+import { CreatePostsComponent } from "./pages/create-posts/create-posts.component";
+import { CategoryComponent } from './pages/category/category.component';
+import {CreateCategoryComponent} from './pages/create-category/create-category.component';
 
 const routes: Routes =
 [
@@ -37,6 +39,8 @@ const routes: Routes =
   { path: 'menus', component: MenusComponent, canActivate: [GuardService]},
   { path: 'header', component: HeaderComponent, canActivate: [GuardService]},
   { path: 'users', component: UsersComponent, canActivate: [GuardService]},
+  { path: 'category', component: CategoryComponent, canActivate: [GuardService]},
+  { path: 'createCategory', component: CreateCategoryComponent, canActivate: [GuardService]},
   { path: 'chart-all', component: ChartAllComponent, canActivate: [GuardService]},
   { path: 'chart-earning', component: ChartEarningComponent, canActivate: [GuardService]},
   { path: 'chart-social', component: ChartSocialComponent, canActivate: [GuardService]},
