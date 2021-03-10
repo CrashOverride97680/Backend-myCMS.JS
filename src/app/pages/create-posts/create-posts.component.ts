@@ -89,7 +89,7 @@ export class CreatePostsComponent implements OnInit {
   }
 
   onSubmit(contentExec, contentNotExec): void {
-    console.log("LANG:", this.lang);
+
     const token = localStorage.getItem('token');
     this.seo = {
       description: this.description
@@ -116,9 +116,9 @@ export class CreatePostsComponent implements OnInit {
       this.requiredNotInsertLang = true;
     if (this.type == '-')
       this.requiredNotInsertType = true;
-    if (this.title == '')
+    if (this.title == '' || this.title == undefined)
       this.requiredNotInsertTitle = true;
-    if (this.description == '')
+    if (this.description == '' || this.description == undefined)
       this.requiredNotInsertDescription = true;
     if (this.htmlContent == '')
       this.requiredNotInsertHtmlContent = true;
