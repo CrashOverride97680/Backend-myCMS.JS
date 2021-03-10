@@ -103,6 +103,18 @@ export class CreatePostsComponent implements OnInit {
       )
       .then(value => {
         this.modalService.open(contentExec, { centered: true });
+        this.lang = '-';
+        this.category = '-';
+        this.important = '-';
+        this.lang = '-';
+        this.type = '';
+        this.title = '';
+        this.description = '';
+        this.htmlContent = '';
+        this.important = '-';
+        this.visibility = false;
+        this.catSend = '-';
+        this.type = '-';
       })
       .catch(error => {
         this.modalService.open(contentNotExec, { centered: true });
@@ -128,6 +140,7 @@ export class CreatePostsComponent implements OnInit {
       ])
       .then(value => {
         this.listCategory = value[0];
+
       });
   // SETTING VARIABLE DEFAULT
     this.lang = '-';

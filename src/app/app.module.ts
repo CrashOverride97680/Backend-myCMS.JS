@@ -37,7 +37,8 @@ import {
   faPaperPlane,
   faSave,
   faTimes,
-  faBrush
+  faBrush,
+  faPlusCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -153,5 +154,9 @@ export class AppModule {
       .addIcons(faSave);
     library
       .addIcons(faBrush);
+    library
+      .addIcons(faRocket);
+    library
+      .addIcons(faPlusCircle);
   }
 }
