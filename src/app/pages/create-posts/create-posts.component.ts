@@ -82,6 +82,7 @@ export class CreatePostsComponent implements OnInit {
   public requiredNotInsertDescription: boolean = false;
   public requiredNotInsertImportant: boolean = false;
   public requiredNotInsertCategory: boolean = false;
+  public btnLoading: boolean = false;
 // FUNTIONS INTERFACE
   close(): void {
     this.checkData = true;
@@ -89,7 +90,7 @@ export class CreatePostsComponent implements OnInit {
   }
 
   onSubmit(contentExec, contentNotExec): void {
-
+    this.btnLoading = !this.btnLoading;
     const token = localStorage.getItem('token');
     this.seo = {
       description: this.description
@@ -150,6 +151,7 @@ export class CreatePostsComponent implements OnInit {
           this.catSend
         )
         .then(value => {
+          this.btnLoading = !this.btnLoading;
           this.modalService.open(contentExec, {centered: true});
           this.lang = '-';
           this.category = '-';
@@ -165,6 +167,7 @@ export class CreatePostsComponent implements OnInit {
           this.type = '-';
         })
         .catch(error => {
+          this.btnLoading = !this.btnLoading;
           this.modalService.open(contentNotExec, {centered: true});
         });
     }

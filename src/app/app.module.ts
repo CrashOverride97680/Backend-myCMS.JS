@@ -38,7 +38,8 @@ import {
   faSave,
   faTimes,
   faBrush,
-  faPlusCircle
+  faPlusCircle,
+  faFeather
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';

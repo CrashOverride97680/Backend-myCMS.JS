@@ -6,8 +6,8 @@
         <div class="col-7">
           <div class="card">
             <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Post content</h2>
-            <div class="card-body">
-              <angular-editor [ngClass]="{'border border-danger': requiredNotInsertHtmlContent }" [placeholder]="'Enter text here...'" name="htmlContent" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+            <div [ngClass]="{'card-body': true,'border border-danger': requiredNotInsertHtmlContent }">
+              <angular-editor [placeholder]="'Enter text here...'" name="htmlContent" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
             </div>
           </div>
         </div>
@@ -264,7 +264,12 @@
               </div>
 
               <div class="mt-3">
-                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Write post">
+                <button class="btn btn-primary btn-lg btn-block" type="button" *ngIf="btnLoading" disabled>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </button>
+
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Write post" *ngIf="!btnLoading">
               </div>
             </div>
           </div>
