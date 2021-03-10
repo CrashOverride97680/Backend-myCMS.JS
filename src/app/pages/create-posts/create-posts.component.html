@@ -7,7 +7,7 @@
           <div class="card">
             <h2 class="card-header h5 text-uppercase font-weight-bold text-primary">Post content</h2>
             <div class="card-body">
-              <angular-editor [placeholder]="'Enter text here...'" name="htmlContent" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+              <angular-editor [ngClass]="{'border border-danger': requiredNotInsertHtmlContent }" [placeholder]="'Enter text here...'" name="htmlContent" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
             </div>
           </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="card-body">
               <div class="mt-1 form-group">
                 <label for="lang">Lang *</label>
-                <select class="form-control" aria-label="Select language website..." id="lang" name="lang" [(ngModel)]="lang" required>
+                <select [ngClass]="{'form-control': true, 'border border-danger': requiredNotInsertLang }" aria-label="Select language website..." id="lang" name="lang" [(ngModel)]="lang" required>
                   <option value="-">Select lang website...</option>
                   <option value="ab">Abkhazian</option>
                   <option value="aa">Afar</option>
@@ -215,7 +215,7 @@
 
               <div class="mt-1 form-group">
                 <label for="category">Category *</label>
-                <select class="form-control" aria-label="Select category website..." id="category" name="category" [(ngModel)]="category" required>
+                <select [ngClass]="{'form-control': true, 'border border-danger': requiredNotInsertCategory }" aria-label="Select category website..." id="category" name="category" [(ngModel)]="category" required>
                   <option value="-">Select category website...</option>
                   <option *ngFor="let categorydata of listCategory" [value]="categorydata._id">{{categorydata.name}}</option>
                 </select>
@@ -223,7 +223,7 @@
 
               <div class="mt-1 form-group">
                 <label for="type">Type *</label>
-                <select class="form-control" aria-label="Select type website..." id="type" name="type" [(ngModel)]="type" required>
+                <select [ngClass]="{'form-control': true, 'border border-danger': requiredNotInsertType }" aria-label="Select type website..." id="type" name="type" [(ngModel)]="type" required>
                   <option value="-">Select type website...</option>
                   <option value="post">Post</option>
                   <option value="article">Article</option>
@@ -232,7 +232,7 @@
 
               <div class="mt-1 form-group">
                 <label for="title">Title *</label>
-                <input class="form-control" type="text" aria-describedby="inputGroup-sizing-sm" id="title" placeholder="Write title website, is important for Seo..." name="title" [(ngModel)]="title" title="Write title website, is important for Seo..." required>
+                <input [ngClass]="{'form-control': true, 'border border-danger': requiredNotInsertTitle }" type="text" aria-describedby="inputGroup-sizing-sm" id="title" placeholder="Write title website, is important for Seo..." name="title" [(ngModel)]="title" title="Write title website, is important for Seo..." required>
               </div>
             </div>
           </div>
@@ -242,7 +242,7 @@
             <div class="card-body">
               <div class="mt-1 form-group">
                 <label for="description">Description *</label>
-                <textarea class="form-control" aria-describedby="inputGroup-sizing-sm" id="description" placeholder="Write title website, is important for Seo..." name="description" [(ngModel)]="description" title="Write description website, is important for Seo..." required></textarea>
+                <textarea [ngClass]="{'form-control': true, 'border border-danger': requiredNotInsertDescription }" aria-describedby="inputGroup-sizing-sm" id="description" placeholder="Write title website, is important for Seo..." name="description" [(ngModel)]="description" title="Write description website, is important for Seo..." required></textarea>
               </div>
             </div>
           </div>
@@ -252,7 +252,7 @@
             <div class="card-body">
               <div class="mt-1 form-group">
                 <label for="important">Important *</label>
-                <select class="form-control" aria-label="Select important website page..." id="important" name="important" [(ngModel)]="important" required>
+                <select [ngClass]="{'form-control': true, 'border border-danger': requiredNotInsertImportant }" aria-label="Select important website page..." id="important" name="important" [(ngModel)]="important" required>
                   <option value="-">Select important website...</option>
                   <option *ngFor='let in of counter(20) ;let i = index'>{{i + 1}}</option>
                 </select>

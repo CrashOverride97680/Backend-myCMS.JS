@@ -74,6 +74,14 @@ export class CreatePostsComponent implements OnInit {
       ]
     ]
   };
+// CHECK INTERFACE
+  public requiredNotInsertHtmlContent: boolean = false;
+  public requiredNotInsertLang: boolean = false;
+  public requiredNotInsertTitle: boolean = false;
+  public requiredNotInsertType: boolean = false;
+  public requiredNotInsertDescription: boolean = false;
+  public requiredNotInsertImportant: boolean = false;
+  public requiredNotInsertCategory: boolean = false;
 // FUNTIONS INTERFACE
   close(): void {
     this.checkData = true;
@@ -81,6 +89,7 @@ export class CreatePostsComponent implements OnInit {
   }
 
   onSubmit(contentExec, contentNotExec): void {
+    console.log("LANG:", this.lang);
     const token = localStorage.getItem('token');
     this.seo = {
       description: this.description
@@ -88,37 +97,77 @@ export class CreatePostsComponent implements OnInit {
     this.catSend = {
       codeCategory: this.category
     };
-    this
-      .api
-      .createpost(
-        token,
-        this.lang,
-        this.type,
-        this.title,
-        this.seo,
-        this.htmlContent,
-        this.important,
-        this.visibility,
-        this.catSend
-      )
-      .then(value => {
-        this.modalService.open(contentExec, { centered: true });
-        this.lang = '-';
-        this.category = '-';
-        this.important = '-';
-        this.lang = '-';
-        this.type = '';
-        this.title = '';
-        this.description = '';
-        this.htmlContent = '';
-        this.important = '-';
-        this.visibility = false;
-        this.catSend = '-';
-        this.type = '-';
-      })
-      .catch(error => {
-        this.modalService.open(contentNotExec, { centered: true });
-      });
+    this.requiredNotInsertLang = false;
+    this.requiredNotInsertType = false;
+    this.requiredNotInsertTitle = false;
+    this.requiredNotInsertDescription = false;
+    this.requiredNotInsertHtmlContent = false;
+    this.requiredNotInsertImportant = false;
+    this.requiredNotInsertCategory = false;
+    this.requiredNotInsertLang = false;
+    this.requiredNotInsertType = false;
+    this.requiredNotInsertTitle = false;
+    this.requiredNotInsertDescription = false;
+    this.requiredNotInsertHtmlContent = false;
+    this.requiredNotInsertImportant = false;
+    this.requiredNotInsertCategory = false;
+
+    if (this.lang == '-')
+      this.requiredNotInsertLang = true;
+    if (this.type == '-')
+      this.requiredNotInsertType = true;
+    if (this.title == '')
+      this.requiredNotInsertTitle = true;
+    if (this.description == '')
+      this.requiredNotInsertDescription = true;
+    if (this.htmlContent == '')
+      this.requiredNotInsertHtmlContent = true;
+    if (this.important == '-')
+      this.requiredNotInsertImportant = true;
+    if (this.category == '-')
+      this.requiredNotInsertCategory = true;
+
+    if (
+      this.requiredNotInsertLang == false &&
+      this.requiredNotInsertType == false &&
+      this.requiredNotInsertTitle == false &&
+      this.requiredNotInsertDescription == false &&
+      this.requiredNotInsertHtmlContent == false &&
+      this.requiredNotInsertImportant == false &&
+      this.requiredNotInsertCategory == false
+    ) {
+      this
+        .api
+        .createpost(
+          token,
+          this.lang,
+          this.type,
+          this.title,
+          this.seo,
+          this.htmlContent,
+          this.important,
+          this.visibility,
+          this.catSend
+        )
+        .then(value => {
+          this.modalService.open(contentExec, {centered: true});
+          this.lang = '-';
+          this.category = '-';
+          this.important = '-';
+          this.lang = '-';
+          this.type = '';
+          this.title = '';
+          this.description = '';
+          this.htmlContent = '';
+          this.important = '-';
+          this.visibility = false;
+          this.catSend = '-';
+          this.type = '-';
+        })
+        .catch(error => {
+          this.modalService.open(contentNotExec, {centered: true});
+        });
+    }
   }
 
   ngOnInit(): void {
