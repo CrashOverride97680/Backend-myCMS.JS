@@ -159,5 +159,7 @@ export class AppModule {
       .addIcons(faRocket);
     library
       .addIcons(faPlusCircle);
+    library
+      .addIcons(faFeather);
   }
 }

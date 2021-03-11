@@ -264,12 +264,19 @@
               </div>
 
               <div class="mt-3">
-                <button class="btn btn-primary btn-lg btn-block" type="button" *ngIf="btnLoading" disabled>
-                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  Loading...
-                </button>
+                <ng-template [ngIf]="btnLoading">
+                  <button class="btn btn-primary btn-lg btn-block" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
+                </ng-template>
 
-                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Write post" *ngIf="!btnLoading">
+                <ng-template [ngIf]="!btnLoading">
+                  <button class="btn btn-primary btn-lg btn-block" type="submit">
+                    <fa-icon icon="feather"></fa-icon>
+                    Write
+                  </button>
+                </ng-template>
               </div>
             </div>
           </div>

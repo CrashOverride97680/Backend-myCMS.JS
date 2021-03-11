@@ -31,10 +31,16 @@ export class PostsComponent implements OnInit {
       },
       visible: {
         title: 'VISIBLE',
-        filter: false
+        filter: false,
+        type: 'html',
+        valuePrepareFunction: (cel, row) => {
+          return `${row.visible == true ? '&#10003;' : '&#10007;'}`
+        }
       },
       updated: {
-        title: 'DD/MM/YYYY'
+        title: 'DD/MM/YYYY',
+        filter: false,
+        sort: false,
       },
       actions: {
         title: 'ACTIONS',
@@ -42,7 +48,7 @@ export class PostsComponent implements OnInit {
         filter: false,
         sort: false,
         valuePrepareFunction: (cel, row) => {
-          return `<span></span><a href="/modifyPosts/${row._id}" title="modify ${row.title}" target="_blank">Modify</a> / <a href="/deletePosts/${row._id}" title="delete ${row._id}">Delete</a></span>`
+          return `<span><a href="/modifyPosts/${row._id}" title="modify ${row.title}" target="_blank">Modify</a> / <a href="/deletePosts/${row._id}" title="delete ${row._id}">Delete</a></span>`
         }
       }
     }

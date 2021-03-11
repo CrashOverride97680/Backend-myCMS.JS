@@ -90,7 +90,8 @@ export class CreatePostsComponent implements OnInit {
   }
 
   onSubmit(contentExec, contentNotExec): void {
-    this.btnLoading = !this.btnLoading;
+
+    this.btnLoading = true;
     const token = localStorage.getItem('token');
     this.seo = {
       description: this.description
@@ -151,8 +152,8 @@ export class CreatePostsComponent implements OnInit {
           this.catSend
         )
         .then(value => {
-          this.btnLoading = !this.btnLoading;
           this.modalService.open(contentExec, {centered: true});
+          this.btnLoading = false;
           this.lang = '-';
           this.category = '-';
           this.important = '-';
@@ -167,10 +168,14 @@ export class CreatePostsComponent implements OnInit {
           this.type = '-';
         })
         .catch(error => {
-          this.btnLoading = !this.btnLoading;
           this.modalService.open(contentNotExec, {centered: true});
+          this.btnLoading = false;
         });
     }
+    else
+      setTimeout(() => {
+        this.btnLoading = false;
+      }, 500);
   }
 
   ngOnInit(): void {
