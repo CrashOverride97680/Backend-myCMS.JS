@@ -19,10 +19,10 @@ import { UsersComponent } from './pages/users/users.component';
 import { GuardService } from '../app/services/auth/guard/guard.service';
 import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
-import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
 import { CreatePostsComponent } from "./pages/create-posts/create-posts.component";
 import { CategoryComponent } from './pages/category/category.component';
-import {CreateCategoryComponent} from './pages/create-category/create-category.component';
+import { CreateCategoryComponent } from './pages/create-category/create-category.component';
+import { ModifyPostComponent } from './pages/modify-post/modify-post.component';
 
 const routes: Routes =
 [
@@ -46,7 +46,7 @@ const routes: Routes =
   { path: 'chart-social', component: ChartSocialComponent, canActivate: [GuardService]},
   { path: 'add-plugins', component: AddPluginsComponent, canActivate: [GuardService]},
   { path: 'add-widgets', component: AddWidgetsComponent, canActivate: [GuardService]},
-  { path: 'modifyPosts/:id', component: ModifyPostsComponent, canActivate: [GuardService]},
+  { path: 'modifyPost/:id', component: ModifyPostComponent, canActivate: [GuardService]},
   { path: 'createPosts', component: CreatePostsComponent, canActivate: [GuardService]},
   { path: '**', component: NotFoundComponent }
 ];

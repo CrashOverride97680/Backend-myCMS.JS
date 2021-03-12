@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit {
           data.updated = data.updated.split("T")[0];
           return data;
         });
-        console.log("POSTS:", this.posts);
       });
   }
 

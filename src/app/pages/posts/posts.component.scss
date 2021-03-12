@@ -14,3 +14,7 @@
     color: #96ACEC;
   }
 }
+
+::ng-deep ng2-smart-table * {
+  font-size: .875rem !important;
+}

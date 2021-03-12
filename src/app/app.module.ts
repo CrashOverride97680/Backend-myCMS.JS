@@ -56,7 +56,6 @@ import { HeaderComponent } from './pages/header/header.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AddPluginsComponent } from './pages/add-plugins/add-plugins.component';
 import { AddWidgetsComponent } from './pages/add-widgets/add-widgets.component';
-import { ModifyPostsComponent } from './pages/modify-posts/modify-posts.component';
 import { CreatePostsComponent } from './pages/create-posts/create-posts.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { ModifyPostComponent } from './pages/modify-post/modify-post.component';
@@ -86,7 +85,6 @@ import { SpinnerComponent } from './static components/spinner/spinner.component'
     UsersComponent,
     AddPluginsComponent,
     AddWidgetsComponent,
-    ModifyPostsComponent,
     CreatePostsComponent,
     CategoryComponent,
     ModifyPostComponent,

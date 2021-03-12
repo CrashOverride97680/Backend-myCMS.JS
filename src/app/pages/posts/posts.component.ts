@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-posts',
@@ -16,21 +17,23 @@ export class PostsComponent implements OnInit {
     hideSubHeader: false,
     actions: false,
     attr: {
-      class: 'table'
+      class: 'table table-font'
     },
     columns: {
       _id: {
         title: 'ID',
-        show: false
+        show: false,
+        sort: false,
       },
       type: {
         title: 'TYPE'
       },
       title: {
-        title: 'TITLE'
+        title: 'TITLE',
+        sort: false,
       },
       visible: {
-        title: 'VISIBLE',
+        title: 'VIEW',
         filter: false,
         type: 'html',
         valuePrepareFunction: (cel, row) => {
@@ -48,12 +51,12 @@ export class PostsComponent implements OnInit {
         filter: false,
         sort: false,
         valuePrepareFunction: (cel, row) => {
-          return `<span><a href="/modifyPosts/${row._id}" title="modify ${row.title}" target="_blank">Modify</a> / <a href="/deletePosts/${row._id}" title="delete ${row._id}">Delete</a></span>`
+          return `<span class="d-block"><a href="/modifyPost/${row._id}" title="modify ${row.title}" target="_blank" class="btn btn-warning btn-sm d-block text-light text-decoration-none"><strong>Modify</strong></a></span>`
         }
       }
     }
   };
-
+  public removeRowState: boolean = false;
   constructor(
     private api: ApiService
   ) {
