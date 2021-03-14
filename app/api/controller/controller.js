@@ -2514,7 +2514,7 @@ module.exports =
                     } = decoded;
                     if(admin)
                     {
-                      const posts = mongoose.model('earning', 'earning');
+                      const posts = mongoose.model('posts', 'posts');
                       posts
                         .count({visible: true}, (err, count) => {
                           if(process.env.NODE_ENV_DEV) {
@@ -2572,7 +2572,7 @@ module.exports =
                           admin
                         } = decoded;
                         if (admin) {
-                          const posts = mongoose.model('earning', 'earning');
+                          const posts = mongoose.model('posts', 'posts');
                           posts
                             .count({visible: true}, (err, count) => {
                               if(process.env.NODE_ENV_DEV) {
@@ -2647,7 +2647,7 @@ module.exports =
                     } = decoded;
                     if(admin)
                     {
-                      const posts = mongoose.model('earning', 'earning');
+                      const posts = mongoose.model('posts', 'posts');
                       posts
                         .count({visible: false}, (err, count) => {
                           if(process.env.NODE_ENV_DEV) {
@@ -2705,7 +2705,7 @@ module.exports =
                           admin
                         } = decoded;
                         if (admin) {
-                          const posts = mongoose.model('earning', 'earning');
+                          const posts = mongoose.model('posts', 'posts');
                           posts
                             .count({visible: false}, (err, count) => {
                               if(process.env.NODE_ENV_DEV) {
