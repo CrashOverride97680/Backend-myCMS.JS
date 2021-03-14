@@ -23,6 +23,7 @@ router
   	.get('/getUnvisiblePostNumber', auth.getPostsData, isValid.runValidation, controller.getUnvisiblePostNumber)
   	.get('/getAllPostsTable', auth.getPostsData, isValid.runValidation, controller.getAllPostsTable)
   	.get('/getAllCategory', auth.getAllCategory, isValid.runValidation, controller.getAllCategory)
+	.get('/getAllNumberCategory', auth.getAllNumberCategory, isValid.runValidation, controller.getAllNumberCategory)
 	.get('/getCategory/:max', auth.getCategoryWithFilter, isValid.runValidation, controller.getCategoryWithFilter)
 	.get('/getListImagesUploaded', auth.getImagesList, isValid.runValidation, controller.getImagesUploaded)
 	.get('/getListImage/:max', auth.getImagesListWithFilter, isValid.runValidation, controller.getAllImageWithFilter)
