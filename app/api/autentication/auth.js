@@ -58,8 +58,7 @@ module.exports = {
 		check('authorization').notEmpty()
 	],
 	deletePosts: [
-		check('authorization').notEmpty(),
-		check('codPosts').notEmpty(),
+		check('authorization').notEmpty()
 	],
 	deleteImage: [
 		check('authorization').notEmpty(),
