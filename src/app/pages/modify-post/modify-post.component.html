@@ -1,6 +1,6 @@
 <div class="screen-correct jumbotron m-0">
   <div class="container">
-    <h1 class="h3 mb-4 font-weight-normal text-gray-800 text-capitalize">Create post</h1>
+    <h1 class="h3 mb-4 font-weight-normal text-gray-800 text-capitalize">Modify post</h1>
     <form #createPostForm="ngForm" (ngSubmit)="onSubmit(contentExec, contentNotExec)">
       <div class="row">
         <div class="col-7">
@@ -274,7 +274,29 @@
                 <ng-template [ngIf]="!btnLoading">
                   <button class="btn btn-primary btn-lg btn-block" type="submit">
                     <fa-icon icon="feather"></fa-icon>
-                    Write
+                    Rewrite
+                  </button>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <h2 class="card-header h5 text-uppercase font-weight-bold text-danger">Delete post</h2>
+            <div class="card-body">
+
+              <div class="mt-3">
+                <ng-template [ngIf]="btnLoading">
+                  <button class="btn btn-danger btn-lg btn-block" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
+                </ng-template>
+
+                <ng-template [ngIf]="!btnLoading">
+                  <button class="btn btn-danger btn-lg btn-block" type="submit">
+                    <fa-icon icon="trash"></fa-icon>
+                    Delete
                   </button>
                 </ng-template>
               </div>

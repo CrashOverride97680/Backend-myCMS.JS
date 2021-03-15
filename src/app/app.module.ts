@@ -39,7 +39,8 @@ import {
   faTimes,
   faBrush,
   faPlusCircle,
-  faFeather
+  faFeather,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { PostsComponent } from './pages/posts/posts.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -159,5 +160,7 @@ export class AppModule {
       .addIcons(faPlusCircle);
     library
       .addIcons(faFeather);
+    library
+      .addIcons(faTrash);
   }
 }
