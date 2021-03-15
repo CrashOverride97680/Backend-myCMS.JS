@@ -402,4 +402,31 @@ export class ApiService
         });
     });
   }
+
+  removePost(
+    token: string,
+    id: string
+  ) {
+    const url = `${environment.loginEntrypoint}/deletePosts`;
+    return new Promise ((resolve, reject) => {
+      this
+        .http
+        .delete(url,
+          {
+            params:{id},
+            headers: {authorization: token}
+          })
+        .subscribe(
+          {
+            next(data: any) {
+              resolve(true);
+            },
+            error(msg) {
+              console.log('Error message:', msg);
+              reject(false);
+            }
+          }
+        );
+    });
+  }
 }

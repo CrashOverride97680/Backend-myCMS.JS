@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {ApiService} from '../../services/api/api.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-modify-post',
   templateUrl: './modify-post.component.html',
@@ -21,6 +23,7 @@ export class ModifyPostComponent implements OnInit {
   public checkData: boolean = false;
   public seo: any;
   public catSend: any;
+  public id: string;
   public editorConfig: AngularEditorConfig =
     {
       editable: true,
@@ -175,7 +178,28 @@ export class ModifyPostComponent implements OnInit {
       }, 500);
   }
 
+  public removePost(modal): void {
+    const token = localStorage.getItem('token');
+    this
+      .api
+      .removePost(token, this.id)
+      .then(data => {
+        this.modalService.dismissAll(modal);
+        window.close();
+      })
+      .catch(err => {
+        console.log(err);
+        this.modalService.dismissAll(modal);
+      });
+  }
+
+  public Open(content): void {
+    this.modalService.open(content);
+  }
+
   ngOnInit(): void {
+    // READ ROUTE
+    this.id = this.route.snapshot.params.id;
   }
 
   counter(i: number) {
@@ -184,7 +208,8 @@ export class ModifyPostComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private route: ActivatedRoute
   ) {
     // FETCH DATA BEFORE INIZIALIZE
     const token = localStorage.getItem('token');
@@ -194,7 +219,6 @@ export class ModifyPostComponent implements OnInit {
       ])
       .then(value => {
         this.listCategory = value[0];
-
       });
     // SETTING VARIABLE DEFAULT
     this.lang = '-';
