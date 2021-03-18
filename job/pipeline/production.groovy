@@ -16,7 +16,7 @@ pipeline {
     }
 
     triggers {
-        cron('*/30 * * * *')
+        cron('*/50 * * * *')
     }
 
     stages {
@@ -48,10 +48,24 @@ pipeline {
             }
         }
 
+        stage('Prepare Dockerfile for build') {
+            steps {
+                echo 'Init create file Dockerfile for build'
+                writeFile encoding: 'UTF-8', file: './app/Dockerfile', text: '\n' +
+                'FROM node:alpine' + '\n' +
+                'RUN mkdir /src' + '\n' +
+                'WORKDIR /src' + '\n' +
+                'ADD package.json /src' + '\n' +
+                'ADD ./* /src/' + '\n' +
+                'EXPOSE 9000' + '\n'
+                echo 'File created'
+            }
+        }
+
         stage('Build project') {
             steps {
                 echo 'Init build'
-                sh 'docker-compose up -d --build'
+                sh 'COMPOSE_HTTP_TIMEOUT=1000 docker-compose up -d --no-deps --build'
                 echo 'Build complete'
             }
         }
