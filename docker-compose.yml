@@ -29,21 +29,6 @@ services:
         networks:
             - cms_app_net
     
-    mongoclient:
-        container_name: mongoku
-        image: huggingface/mongoku
-        restart: always
-        ports:
-            - "3100:3100"
-        env_file: 
-            - ./config/env/.env
-        depends_on:
-            - mongo
-        links:
-            - "mongo"
-        networks:
-            - cms_app_net
-    
     redis:
         image: redis:alpine
         restart: always
