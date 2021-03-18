@@ -4,8 +4,6 @@ services:
         build: ./app
         restart: always
         working_dir: /src
-        volumes: 
-            - ./app:/src
         ports:
             - "9000"
         command: sh -c "npm install --legacy-peer-deps && npm run dev-legacy"

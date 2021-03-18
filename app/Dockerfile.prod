@@ -1,0 +1,7 @@
+FROM node:alpine
+RUN mkdir /src
+WORKDIR /src
+ADD package.json /src
+ADD ./* /src
+#RUN mv .env.dev .env
+EXPOSE 9000
