@@ -34,29 +34,6 @@ export class IndexLoginComponent implements OnInit
     setTimeout(() => this.checkData = false, 1000);
   }
 
-  onSubmit(): void {
-    this.spinner = true;
-    this
-      .http
-      .login(this.email, this.password)
-      .then(success =>
-      {
-        if(success)
-        {
-          this.spinner = false;
-          this
-            .route
-            .navigate(['/', 'dashboard']);
-        }
-      })
-      .catch(success =>
-      {
-        if(!success) {
-          this.spinner = false;
-          this.checkData = true;
-        }
-      });
-  }
 
   ngOnInit(): void {
     this.spinner = false;

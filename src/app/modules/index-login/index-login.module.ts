@@ -6,11 +6,13 @@ import {FormComponent} from './components/form/form.component';
 import {LeftboxComponent} from './components/leftbox/leftbox.component';
 import {SpinnerComponent} from '../../core/spinner/spinner.component';
 import {IndexLoginRoutingModule} from './index-login-routing.module';
+import {FormsModule} from "@angular/forms";
 @NgModule({
   imports: [
     CommonModule,
     SharedModules,
-    IndexLoginRoutingModule
+    IndexLoginRoutingModule,
+    FormsModule
   ],
   declarations: [
     RightboxComponent,
