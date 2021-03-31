@@ -15,4 +15,4 @@ import {RowComponent} from './components/row/row.component';
     ContainerFluidComponent
   ]
 })
-export class SharedModules {}
+export class SharedModule {}

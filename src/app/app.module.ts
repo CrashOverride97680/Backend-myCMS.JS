@@ -30,15 +30,13 @@ import {
   faFeather,
   faTrash
 } from '@fortawesome/free-solid-svg-icons';
-import {IndexLoginModule} from './modules/index-login/index-login.module';
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    IndexLoginModule,
     FontAwesomeModule
   ],
   providers: [],

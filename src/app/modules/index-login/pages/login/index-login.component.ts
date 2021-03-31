@@ -1,17 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-// IMPORT INTERFACES
-import { accessLoginInterface } from '../../../../shared/models/login.interface';
-// IMPORT SERVICES
-import { HttpService } from '../../../../core/http/http.service';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 @Component({
   selector: 'app-index-login',
   templateUrl: './index-login.component.html',
   styleUrls: ['./index-login.component.scss']
 })
-export class IndexLoginComponent implements OnInit
-{
-  public email: string;
+export class IndexLoginComponent {
+  /* email: string;
   public password: string;
   public checkData: boolean;
   public toast: any = {
@@ -44,6 +38,6 @@ export class IndexLoginComponent implements OnInit
       this
         .route
         .navigate(['/', 'dashboard']);
-  }
+  }*/
 
 }
