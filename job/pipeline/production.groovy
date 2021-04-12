@@ -4,11 +4,11 @@ pipeline {
     environment {
         NODE_ENV_DEV=false
         NODE_ENV_TEST=false
-        NODE_ENV_HOST_SMTP='smtp.gmail.com'
+        NODE_ENV_HOST_SMTP='smtp email'
         NODE_ENV_PORT_SMTP='465'
         NODE_ENV_SECURE_SMTP=false
-        NODE_ENV_USER_SMTP='mannafabrizio83@gmail.com'
-        NODE_ENV_PASS_SMTP='FmDj)/&(=0@'
+        NODE_ENV_USER_SMTP='email
+        NODE_ENV_PASS_SMTP='password'
         NODE_ENV_SERVICE_SMTP=true
         NODE_ENV_DEBUG_SMTP=true
         NODE_ENV_REJECT_UNAUTHORIZED_SMTP=false
