@@ -2986,6 +2986,116 @@ module.exports =
     }
   },
 // FATTO
+  getAllUnvisibleNumberCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+          .then(result => {
+            const res = result[1];
+            const { admin } = res;
+            if(admin)
+            {
+              const category = mongoose.model('category', 'category');
+              category
+                  .count({visible: false}, (err, count) => {
+                    if(process.env.NODE_ENV_DEV) {
+                      console.log(lang.LANG_DEBUG_RESULT, count);
+                      console.log(lang.LANG_DEBUG_ERROR, err);
+                    }
+
+                    if(!err)
+                      resp
+                          .status(200)
+                          .json({count});
+                    else
+                      resp
+                          .status(500)
+                          .json(lang.LABEL_500_HTTP);
+                  });
+            }
+            else
+              resp
+                  .json(lang.LABEL_403_HTTP);
+          })
+          .catch(err => {
+            console.log(lang.LANG_DEBUG_ERROR, err);
+            resp
+                .status(err.status)
+                .json(err.lang);
+          });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getAllVisibleNumberCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+          .then(result => {
+            const res = result[1];
+            const { admin } = res;
+            if(admin)
+            {
+              const category = mongoose.model('category', 'category');
+              category
+                  .count({visible: true}, (err, count) => {
+                    if(process.env.NODE_ENV_DEV) {
+                      console.log(lang.LANG_DEBUG_RESULT, count);
+                      console.log(lang.LANG_DEBUG_ERROR, err);
+                    }
+
+                    if(!err)
+                      resp
+                          .status(200)
+                          .json({count});
+                    else
+                      resp
+                          .status(500)
+                          .json(lang.LABEL_500_HTTP);
+                  });
+            }
+            else
+              resp
+                  .json(lang.LABEL_403_HTTP);
+          })
+          .catch(err => {
+            console.log(lang.LANG_DEBUG_ERROR, err);
+            resp
+                .status(err.status)
+                .json(err.lang);
+          });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
   getImagesUploaded: (req, resp) => {
     try {
       const token = req.headers['authorization'];
@@ -3439,6 +3549,64 @@ module.exports =
       resp
         .status(500)
         .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  findSingleCategory: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      const code = req.body.code;
+
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+          .then(result => {
+            const res = result[1];
+            const { admin } = res;
+            if(admin)
+            {
+              const modifyCategory = mongoose.model('category', 'category');
+              modifyCategory.findById(code,
+                  (err, result) => {
+
+                    if(process.env.NODE_ENV_DEV) {
+                      console.log(lang.LANG_DEBUG_RESULT, result);
+                      console.log(lang.LANG_DEBUG_ERROR, err);
+                    }
+
+                    if(!err)
+                      resp
+                          .status(200)
+                          .json(result);
+                    else
+                      resp
+                          .status(500)
+                          .json(lang.LABEL_500_HTTP);
+                  });
+            }
+            else
+              resp
+                  .json(lang.LABEL_403_HTTP);
+          })
+          .catch(err => {
+            console.log(lang.LANG_DEBUG_ERROR, err);
+            resp
+                .status(err.status)
+                .json(err.lang);
+          });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
     }
   },
 // FATTO

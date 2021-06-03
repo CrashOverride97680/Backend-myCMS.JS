@@ -14,6 +14,9 @@ const registerUsers = (process.env.NODE_USER_SUBSCRIBE) ? process.env.NODE_USER_
 // -> GET
 router
 	.get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
+	.get('/getCategoryTotal', auth.getCategoryTotal, isValid.runValidation, controller.getAllNumberCategory)
+	.get('/getUnvisibleCategory', auth.getCategoryUnvisible, isValid.runValidation, controller.getAllUnvisibleNumberCategory)
+	.get('/getVisibleCategory', auth.getCategoryVisible, isValid.runValidation, controller.getAllVisibleNumberCategory)
   	.get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
   	.get('/getChatsNumbers', auth.getChatsUsersNumbers, isValid.runValidation, controller.getChatsUsersNumbers)
   	.get('/getEarningNumber', auth.getEarningNumber, isValid.runValidation, controller.getEarningNumber)
@@ -35,7 +38,8 @@ router
 
 // -> POST
 router
-	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login);
+	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
+	.post('/getSingleCategory', auth.getSingleCategory, isValid.runValidation, controller.findSingleCategory);
 if (process.env.NODE_USER_SUBSCRIBE)
 	router
 		.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register);
