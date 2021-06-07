@@ -28,3 +28,4 @@ package-lock.json
 /app/uploads/*.rar
 app/.env
 .idea
+job/pipeline/production.groovy

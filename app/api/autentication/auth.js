@@ -7,6 +7,15 @@ module.exports = {
 		check('email').isEmail(),
 		check('password').isLength({ min: minPassword })
 	],
+	getCategoryTotal: [
+		check('authorization').notEmpty()
+	],
+	getCategoryUnvisible: [
+		check('authorization').notEmpty()
+	],
+	getCategoryVisible: [
+		check('authorization').notEmpty()
+	],
 	userCreateValidator: [
 		check('email').isEmail(),
 		check('password').isLength({ min: minPassword }),
@@ -54,8 +63,19 @@ module.exports = {
 		check('visible').isBoolean(),
 		check('category').notEmpty()
 	],
+	getListNumberImage: [
+		check('authorization').notEmpty()
+	],
 	updateVideo: [
 		check('authorization').notEmpty()
+	],
+	getSingleCategory: [
+		check('authorization').notEmpty(),
+		check('code').notEmpty()
+	],
+	getSinglePost: [
+		check('authorization').notEmpty(),
+		check('code').notEmpty()
 	],
 	deletePosts: [
 		check('authorization').notEmpty()
