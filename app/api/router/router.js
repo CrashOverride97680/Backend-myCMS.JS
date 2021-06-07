@@ -34,12 +34,14 @@ router
 	.get('/getVideos/:max', auth.getVideosListWithFilter, isValid.runValidation, controller.getAllVideoWithFilter)
 	.get('/getListFilesUploaded', auth.getFilesList, isValid.runValidation, controller.getFilesUploaded)
 	.get('/getFiles/:max', auth.getFilesListWithFilter, isValid.runValidation, controller.getAllFilesWithFilter)
+	.get('/getNumberTotalImage', auth.getListNumberImage, isValid.runValidation, controller.getImagesTotal)
 	.get('/validateRegistration/:token', controller.validateRegistration);
 
 // -> POST
 router
 	.post('/login', auth.userLoginValidator, isValid.runValidation, controller.login)
-	.post('/getSingleCategory', auth.getSingleCategory, isValid.runValidation, controller.findSingleCategory);
+	.post('/getSingleCategory', auth.getSingleCategory, isValid.runValidation, controller.findSingleCategory)
+	.post('/getSinglePost', auth.getSinglePost, isValid.runValidation, controller.findSinglePost);
 if (process.env.NODE_USER_SUBSCRIBE)
 	router
 		.post('/register', auth.userCreateValidator, isValid.runValidation, controller.register);

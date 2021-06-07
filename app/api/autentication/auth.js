@@ -63,12 +63,19 @@ module.exports = {
 		check('visible').isBoolean(),
 		check('category').notEmpty()
 	],
+	getListNumberImage: [
+		check('authorization').notEmpty()
+	],
 	updateVideo: [
 		check('authorization').notEmpty()
 	],
 	getSingleCategory: [
 		check('authorization').notEmpty(),
-		check('authorization').notEmpty()
+		check('code').notEmpty()
+	],
+	getSinglePost: [
+		check('authorization').notEmpty(),
+		check('code').notEmpty()
 	],
 	deletePosts: [
 		check('authorization').notEmpty(),
