@@ -162,6 +162,29 @@ module.exports = {
           required: true
         }
     }),
+    uploadImgBase: new Schema({
+        imgName: {
+            type: String,
+            required: true
+        },
+        originalFileName: {
+            type: String,
+            required: true
+        },
+        imgPath: {
+            type: String,
+            required: true
+        },
+        baseString: {
+            type: String,
+            required: true
+        },
+        created: {
+            type: Date,
+            default: Date.now(),
+            required: true
+        }
+    }),
     uploadFile: new Schema({
         fileName: {
             type: String,

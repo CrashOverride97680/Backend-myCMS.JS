@@ -11,7 +11,7 @@ const path = require('path');
 const publicFiles = path.join(__dirname, 'uploads');
 const publicFileEmail = path.join(__dirname, 'api', 'template', 'email', 'img');
 const cors = require('cors');
-const bcrypt = require('bcryptjs'); 
+const bcrypt = require('bcryptjs');
 const locBlacklist = process.env.NODE_ENV_LOCAL_BLACKLIST
 					? require('./api/autentication/blacklist-local/blacklist-local')
 					: null;
@@ -112,8 +112,8 @@ app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
 	next();
 });
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(limiter);
 //  ROUTER ENTRYPOINT
 app.use('/api', router);
