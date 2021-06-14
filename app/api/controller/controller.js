@@ -1,6 +1,8 @@
 // IMPORT MODULES NODEJS
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
+// BUFFER LIBRARY
+const buffer = require('buffer').Buffer;
 // PASSWORD LIBRARY IMPORTING
 const generator = require('secure-random-password');
 // IMPORTING LOCAL CACHING BLACKLIST
@@ -1230,9 +1232,6 @@ module.exports =
         })
       ])
       .then(result => {
-        if (process.env.NODE_ENV_DEV)
-          console.log(lang.LANG_DEBUG_USER, user);
-
         jwt
           .verify(token, secret, (error, decode) =>
           {
@@ -1249,8 +1248,6 @@ module.exports =
                 {
                   if(data.confirmed)
                   {
-                    if(user.email && user.username && user.name && user.surname)
-                    {
                       const newUser =
                       {
                         email: req.body.email,
@@ -1276,11 +1273,6 @@ module.exports =
                             .status(500)
                             .json(lang.LABEL_500_HTTP);
                       });
-                    }
-                    else
-                      resp
-                        .status(403)
-                        .json(lang.LABEL_403_HTTP);
                   }
                   else
                     resp
@@ -1311,6 +1303,68 @@ module.exports =
       resp
         .status(500)
         .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getUserInfoAdmin: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        })
+      ])
+          .then(result => {
+            jwt
+                .verify(token, secret, (error, decode) =>
+                {
+                  if(error == null)
+                  {
+                    const findUser = mongoose.model('user', 'users');
+                    const {
+                      _id,
+                      username
+                    } = decode;
+                    findUser.findById(_id, (error, data) =>
+                    {
+                      if(error == null)
+                      {
+                        if(data.confirmed)
+                        {
+                          resp
+                              .json(data);
+                        }
+                        else
+                          resp
+                              .status(500)
+                              .json(lang.LABEL_500_HTTP);
+                      }
+                      else
+                        resp
+                            .status(500)
+                            .json(lang.LABEL_500_HTTP);
+                    });
+                  }
+                  else
+                    resp
+                        .status(500)
+                        .json(lang.LABEL_500_HTTP);
+                });
+          })
+          .catch(err => {
+            console.log(lang.LANG_DEBUG_ERROR, err);
+            resp
+                .status(err.status)
+                .json(err.lang);
+          });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
     }
   },
 // FATTO
@@ -2388,8 +2442,8 @@ module.exports =
                         } = decoded;
                         if(admin)
                         {
-                          const earning = mongoose.model('uploadImg', 'uploadImg');
-                          earning
+                          const image = mongoose.model('uploadImg', 'uploadImg');
+                          image
                               .count({}, (err, count) => {
                                 if(process.env.NODE_ENV_DEV) {
                                   console.log(lang.LANG_DEBUG_RESULT, count);
@@ -2454,8 +2508,150 @@ module.exports =
                               } = decoded;
                               if(admin)
                               {
-                                const earning = mongoose.model('uploadImg', 'uploadImg');
-                                earning
+                                const image = mongoose.model('uploadImg', 'uploadImg');
+                                image
+                                    .count({}, (err, count) => {
+                                      if(!err)
+                                        resp
+                                            .status(200)
+                                            .json({count});
+                                    });
+                              }
+                              else
+                                resp
+                                    .status(403)
+                                    .json(lang.LABEL_403_HTTP);
+                            }
+                            else
+                            {
+                              console.log(lang.LABEL_ERROR_RETURN, err);
+                              resp
+                                  .status(403)
+                                  .json(lang.LABEL_403_HTTP);
+                            }
+                          });
+                    }
+                    else
+                      resp
+                          .status(403)
+                          .json(lang.LABEL_403_HTTP);
+                  });
+
+            });
+      }
+    }
+    catch (err)
+    {
+      console.log(lang.LABEL_ERROR_RETURN, err);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }
+  },
+  // FATTO
+  getImagesBaseTotal: (req, resp) => {
+    try
+    {
+      const token = req.headers['authorization'];
+      if(blkLocal !== null)
+      {
+        jwt
+            .verify(token, secret, (err, decoded) =>
+            {
+              const { _id, username } = decoded;
+              const tokenBlacklist = blkLocal
+                  .findCache_LOCAL({
+                    name:'tokens',
+                    data:{
+                      token
+                    }
+                  });
+              if(!tokenBlacklist)
+              {
+                jwt
+                    .verify(token, secret, (err, decoded) =>
+                    {
+                      if(process.env.NODE_ENV_TEST)
+                      {
+                        console.log(lang.LANG_DEBUG_ERROR, err);
+                        console.log(lang.LANG_DEBUG_DATA, decoded);
+                      }
+
+                      if(err === null)
+                      {
+                        const {
+                          admin
+                        } = decoded;
+                        if(admin)
+                        {
+                          const image = mongoose.model('uploadImgBase', 'uploadImgBase');
+                          image
+                              .count({}, (err, count) => {
+                                if(process.env.NODE_ENV_DEV) {
+                                  console.log(lang.LANG_DEBUG_RESULT, count);
+                                  console.log(lang.LANG_DEBUG_ERROR, err);
+                                }
+
+                                if(!err)
+                                  resp
+                                      .status(200)
+                                      .json({count});
+                                else
+                                  resp
+                                      .status(500)
+                                      .json(lang.LABEL_500_HTTP);
+                              });
+                        }
+                        else
+                          resp
+                              .status(403)
+                              .json(lang.LABEL_403_HTTP);
+                      }
+                      else
+                      {
+                        console.log(lang.LABEL_ERROR_RETURN, err);
+                        resp
+                            .status(403)
+                            .json(lang.LABEL_403_HTTP);
+                      }
+                    });
+              }
+              else
+                resp
+                    .status(403)
+                    .json(lang.LABEL_403_HTTP);
+            });
+      }
+      else if (blkLocal === null)
+      {
+        jwt
+            .verify(token, secret, (err, decoded) =>
+            {
+              const { _id, username } = decoded;
+              const client = redisConfig.clientRedis();
+              const tokenBlacklist = client
+                  .get(token, (err, reply) =>
+                  {
+                    if(!reply)
+                    {
+                      jwt
+                          .verify(token, secret, (err, decoded) =>
+                          {
+                            if(process.env.NODE_ENV_TEST)
+                            {
+                              console.log(lang.LANG_DEBUG_ERROR, err);
+                              console.log(lang.LANG_DEBUG_DATA, decoded);
+                            }
+
+                            if(err === null)
+                            {
+                              const {
+                                admin
+                              } = decoded;
+                              if(admin)
+                              {
+                                const image = mongoose.model('uploadImgBase', 'uploadImgBase');
+                                image
                                     .count({}, (err, count) => {
                                       if(!err)
                                         resp
@@ -2495,7 +2691,7 @@ module.exports =
     }
   },
 // FATTO
-	getPostsWithFilter: (req, resp) => {
+  getPostsWithFilter: (req, resp) => {
 	  try {
       const token = req.headers['authorization'];
       const max = ( req.params.max ) ? parseInt(req.params.max) : null;
@@ -3294,6 +3490,65 @@ module.exports =
       resp
         .status(500)
         .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
+  getImagesUploadedBase: (req, resp) => {
+    try {
+      const token = req.headers['authorization'];
+      Promise.all([
+        genFunctions.isValidToken({
+          token,
+          localBlacklist: blkLocal,
+          redisBlacklist: redis
+        }),
+        genFunctions.checkTypeUser({
+          token
+        })
+      ])
+          .then(result => {
+            const res = result[1];
+            const { admin } = res;
+            if(admin)
+            {
+              const imageUploaded = mongoose.model('uploadImgBase', 'uploadImgBase');
+              imageUploaded
+                  .find({})
+                  .select({})
+                  .sort({created: 'desc'})
+                  .exec((err, result) =>
+                  {
+                    if(process.env.NODE_ENV_DEV) {
+                      console.log(lang.LANG_DEBUG_RESULT, result);
+                      console.log(lang.LANG_DEBUG_ERROR, err);
+                    }
+
+                    if (!err)
+                      resp
+                          .status(200)
+                          .json(result);
+                    else
+                      resp
+                          .status(500)
+                          .json(lang.LABEL_500_HTTP);
+                  });
+            }
+            else
+              resp
+                  .json(lang.LABEL_403_HTTP);
+          })
+          .catch(err => {
+            console.log(lang.LANG_DEBUG_ERROR, err);
+            resp
+                .status(err.status)
+                .json(err.lang);
+          });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
     }
   },
 // FATTO
@@ -4243,13 +4498,66 @@ module.exports =
     }
   },
 // FATTO
+  uploadImgBase: (req, resp) => {
+    try
+    {
+      const files = req.body.images;
+      const names = req.body.names;
+      const info = files.split(',');
+      console.log("info:", info[1]);
+      const bitmap = buffer.from(info[1], 'base64');
+      fs.writeFile(`uploads/${names}`, bitmap, error => {
+        if(!error) {
+          const upload = mongoose.model('uploadImgBase', 'uploadImgBase');
+          const date = new Date().toISOString();
+          bcrypt
+              .hash(date, 10, (err, hash) => {
+                const data = {
+                  imgName: `${names}`,
+                  originalFileName: `media/${names}`,
+                  imgPath: `media/${names}`,
+                  baseString: files
+                };
+                upload.create(
+                    data,
+                    (err, data) =>
+                    {
+                      if(process.env.NODE_ENV_DEV) {
+                        console.log(lang.LANG_DEBUG_RESULT, data);
+                        console.log(lang.LANG_DEBUG_ERROR, err);
+                      }
+
+                      if(err == null) {
+                        if(process.env.NODE_ENV_DEV)
+                          console.log(lang.LABEL_RESULT_UPLOAD_OK);
+                        resp
+                            .status(200)
+                            .json(lang.LABEL_200_HTTP);
+                      }
+                      else
+                        resp
+                            .status(500)
+                            .json(lang.LABEL_500_HTTP);
+                    });
+              });
+        }
+      });
+    }
+    catch (e) {
+      console.log(lang.LABEL_ERROR_RETURN, e);
+      resp
+          .status(500)
+          .json(lang.LABEL_500_HTTP);
+    }
+  },
+// FATTO
   uploadFiles: (req, resp) => {
     try 
     {
       const file = req.files.files;
       const upload = mongoose.model('uploadFile', 'uploadFile');
       const data = file.map(element => {
-        return { 
+        return {
           fileName: element.filename,
           originalFileName: element.originalname,
           destination: element.destination,
@@ -4260,15 +4568,15 @@ module.exports =
       });
       upload.create(
         data
-      , 
-      (err, data) => 
+      ,
+      (err, data) =>
       {
         if(process.env.NODE_ENV_DEV) {
           console.log(lang.LANG_DEBUG_RESULT, data);
           console.log(lang.LANG_DEBUG_ERROR, err);
         }
 
-        if(err == null) { 
+        if(err == null) {
           if(process.env.NODE_ENV_DEV)
             console.log(lang.LABEL_RESULT_UPLOAD_OK);
           resp
@@ -4279,7 +4587,7 @@ module.exports =
           resp
             .status(500)
             .json(lang.LABEL_500_HTTP);
-      }); 
+      });
     }
     catch (e) {
       console.log(lang.LABEL_ERROR_RETURN, e);

@@ -12,7 +12,8 @@
       uploadImg,
       uploadFile,
       uploadVideo,
-      settingGeneral
+      settingGeneral,
+      uploadImgBase
     } = APIMongo;
 // EXPORTING MODULE MONGO
     mongoose.model('user', users);
@@ -26,3 +27,4 @@
     mongoose.model('uploadFile', uploadFile);
     mongoose.model('uploadVideo', uploadVideo);
     mongoose.model('settingGeneral', settingGeneral);
+    mongoose.model('uploadImgBase', uploadImgBase);

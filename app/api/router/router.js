@@ -13,8 +13,10 @@ const registerUsers = (process.env.NODE_USER_SUBSCRIBE) ? process.env.NODE_USER_
 
 // -> GET
 router
+	.get('/getUserInfoAdmin', auth.getUserInfo, isValid.runValidation, controller.getUserInfoAdmin)
 	.get('/getPostsNumbers', auth.numberPosts, isValid.runValidation, controller.getPostsNumbers)
 	.get('/getCategoryTotal', auth.getCategoryTotal, isValid.runValidation, controller.getAllNumberCategory)
+	.get('/getBaseImageTotal', auth.getbaeImageTotal, isValid.runValidation, controller.getImagesBaseTotal)
 	.get('/getUnvisibleCategory', auth.getCategoryUnvisible, isValid.runValidation, controller.getAllUnvisibleNumberCategory)
 	.get('/getVisibleCategory', auth.getCategoryVisible, isValid.runValidation, controller.getAllVisibleNumberCategory)
   	.get('/getMailSubNumbers', auth.numberMailSub, isValid.runValidation, controller.getMailSubNumbers)
@@ -29,6 +31,7 @@ router
 	.get('/getAllNumberCategory', auth.getAllNumberCategory, isValid.runValidation, controller.getAllNumberCategory)
 	.get('/getCategory/:max', auth.getCategoryWithFilter, isValid.runValidation, controller.getCategoryWithFilter)
 	.get('/getListImagesUploaded', auth.getImagesList, isValid.runValidation, controller.getImagesUploaded)
+	.get('/getListImagesUploadedBase', auth.getImagesListBase, isValid.runValidation, controller.getImagesUploadedBase)
 	.get('/getListImage/:max', auth.getImagesListWithFilter, isValid.runValidation, controller.getAllImageWithFilter)
 	.get('/getListVideoUploaded', auth.getVideosList, isValid.runValidation, controller.getAllVideoUploaded)
 	.get('/getVideos/:max', auth.getVideosListWithFilter, isValid.runValidation, controller.getAllVideoWithFilter)
@@ -52,6 +55,7 @@ router
 	.post('/createSubcategory', auth.createSubcategory, isValid.runValidation, controller.createSubCategorySite)
 	.post('/createpost', auth.posts, isValid.runValidation, controller.createPost)
 	.post('/imgUpload', auth.imageUpload, isValid.runValidation, controller.checkAdminUser, uploadImg.imgUpload, controller.uploadImg)
+	.post('/imgUploadBase', auth.imageUploadBase, isValid.runValidation, controller.checkAdminUser, controller.uploadImgBase)
 	.post('/fileUpload', auth.uploadFile, isValid.runValidation, controller.checkAdminUser, uploadFile.fileUpload, controller.uploadFiles)
 	.post('/videoUpload', auth.updateVideo, isValid.runValidation, controller.checkAdminUser, uploadVideo.videoUpload, controller.uploadVideo);
 

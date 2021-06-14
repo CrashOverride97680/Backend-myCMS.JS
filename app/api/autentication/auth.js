@@ -10,6 +10,9 @@ module.exports = {
 	getCategoryTotal: [
 		check('authorization').notEmpty()
 	],
+	getbaeImageTotal: [
+		check('authorization').notEmpty()
+	],
 	getCategoryUnvisible: [
 		check('authorization').notEmpty()
 	],
@@ -158,10 +161,21 @@ module.exports = {
 	imageUpload:[
 		check('authorization').notEmpty()
 	],
+	imageUploadBase:[
+		check('authorization').notEmpty(),
+		check('images').notEmpty(),
+		check('names').notEmpty()
+	],
 	uploadFile: [
 		check('authorization').notEmpty()
 	],
 	getImagesList: [
+		check('authorization').notEmpty()
+	],
+	getImagesListBase: [
+		check('authorization').notEmpty()
+	],
+	getUserInfo: [
 		check('authorization').notEmpty()
 	],
 	getFilesList: [
