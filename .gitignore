@@ -28,4 +28,5 @@ package-lock.json
 /app/uploads/*.rar
 app/.env
 .idea
+.github
 node_modules
