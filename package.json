@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "base64-to-image": "^1.0.2",
+    "errorhandler": "^1.5.1",
     "fs": "^0.0.1-security"
   }
 }
