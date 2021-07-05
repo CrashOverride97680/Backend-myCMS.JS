@@ -1,940 +1,947 @@
 // IMPORT MODULES NODEJS
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 // EXPORTING MODULES WITH SCHEMA
 module.exports = {
-    users: new Schema({
-        admin:
+  users: new Schema({
+    admin:
         {
-            type: Boolean,
-            required: true,
-            default: false
+          type: Boolean,
+          required: true,
+          default: false,
         },
-        email:
+    email:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        password:
+    password:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        username:
+    username:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        name:
+    name:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        surname:
+    surname:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        confirmed:
+    confirmed:
         {
-            type: Boolean,
-            required: true,
-            default: false
+          type: Boolean,
+          required: true,
+          default: false,
         },
-        create: { type: Date },
-        updated: { type: Date, default: Date.now, required: true },
-        modified: { type: Date, default: Date.now, required: true },
-    }),
-    posts: new Schema({
-        lang: {
-            type: String,
-            required: true
-        },
-        type: {
-            type: String,
-            required: true
-        },
-        title: {
-            type: String,
-            required: true
-        },
-        seo: new Schema({
-            _id: false,
-            description: {
-                type: String,
-                required: true
-            },
-            ogTitle: {
-                type: String, 
-            },
-            ogType: {
-                type: String,
-            },
-            ogUrl: {
-                type: String,
-            },
-            ogSiteName: {
-                type: String,
-            },
-            geoRegion: {
-                type: String
-            },
-            geoPlacename: {
-                type: String
-            },
-            geoPosition: {
-                type: String
-            },
-            icbm: {
-                type: String
-            },
-            twitterCard: {
-                type: String
-            },
-            twitterSite: {
-                type: String    
-            },
-            twitterCreator: {
-                type: String
-            },
-            twitterUrl: {
-                type: String
-            },
-            twitterTitle: {
-                type: String
-            },
-        }),
-        important: {
-            type: Number,
-            required: true,
-            default: 0
-        },
-        content: {
-            type: String,
-            required: true
-        },
-        visible: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        category: [
-            new Schema({
-                _id: false,
-                codeCategory: {
-                    type: String,
-                    required: true
-                }
-            })
-        ],
-        create: { type: Date },
-        updated: { type: Date, default: Date.now, required: true },
-        modified: { type: Date, default: Date.now, required: true },
-    }),
-    uploadImg: new Schema({
-        imgName: {
-            type: String,
-            required: true
-        },
-        originalFileName: {
-            type: String,
-            required: true
-        },
-        destination: {
-            type: String,
-            required: true
-        },
-        imgPath: {
-            type: String,
-            required: true
-        },
-        imageType: {
-            type: String,
-            required: true
-        },
-        size: {
-            type: String,
-            required: true
-        },
-        created: { 
-          type: Date,
-          default: Date.now(),
-          required: true
-        }
-    }),
-    uploadImgBase: new Schema({
-        imgName: {
-            type: String,
-            required: true
-        },
-        originalFileName: {
-            type: String,
-            required: true
-        },
-        imgPath: {
-            type: String,
-            required: true
-        },
-        baseString: {
-            type: String,
-            required: true
-        },
-        created: {
-            type: Date,
-            default: Date.now(),
-            required: true
-        }
-    }),
-    uploadFile: new Schema({
-        fileName: {
-            type: String,
-            required: true
-        },
-        originalFileName: {
-            type: String,
-            required: true
-        },
-        destination: {
-            type: String,
-            required: true
-        },
-        filePath: {
-            type: String,
-            required: true
-        },
-        fileType: {
-            type: String,
-            required: true
-        },
-        size: {
-            type: String,
-            required: true
-        },
-        created: { 
-          type: Date,
-          default: Date.now(),
-          required: true
-        } 
-    }),
-    uploadVideo: new Schema({
-        videoName: {
-            type: String,
-            required: true
-        },
-        originalFileName: {
-            type: String,
-            required: true
-        },
-        destination: {
-            type: String,
-            required: true
-        },
-        filePath: {
-            type: String,
-            required: true
-        },
-        fileType: {
-            type: String,
-            required: true
-        },
-        size: {
-            type: String,
-            required: true
-        },
-        created: { 
-          type: Date,
-          default: Date.now(),
-          required: true
-        } 
-    }),
-    mailsubscribe: new Schema({
-      email:
-      {
+    create: { type: Date },
+    updated: { type: Date, default: Date.now, required: true },
+    modified: { type: Date, default: Date.now, required: true },
+  }),
+  posts: new Schema({
+    lang: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    seo: new Schema({
+      _id: false,
+      description: {
         type: String,
-        required: true
+        required: true,
       },
-      confirmed:
+      ogTitle: {
+        type: String,
+      },
+      ogType: {
+        type: String,
+      },
+      ogUrl: {
+        type: String,
+      },
+      ogSiteName: {
+        type: String,
+      },
+      geoRegion: {
+        type: String,
+      },
+      geoPlacename: {
+        type: String,
+      },
+      geoPosition: {
+        type: String,
+      },
+      icbm: {
+        type: String,
+      },
+      twitterCard: {
+        type: String,
+      },
+      twitterSite: {
+        type: String,
+      },
+      twitterCreator: {
+        type: String,
+      },
+      twitterUrl: {
+        type: String,
+      },
+      twitterTitle: {
+        type: String,
+      },
+    }),
+    important: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    visible: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    category: [
+      new Schema({
+        _id: false,
+        codeCategory: {
+          type: String,
+          required: true,
+        },
+      }),
+    ],
+    create: { type: Date },
+    updated: { type: Date, default: Date.now, required: true },
+    modified: { type: Date, default: Date.now, required: true },
+  }),
+  uploadImg: new Schema({
+    imgName: {
+      type: String,
+      required: true,
+    },
+    originalFileName: {
+      type: String,
+      required: true,
+    },
+    destination: {
+      type: String,
+      required: true,
+    },
+    imgPath: {
+      type: String,
+      required: true,
+    },
+    imageType: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: String,
+      required: true,
+    },
+    created: {
+      type: Date,
+      default: Date.now(),
+      required: true,
+    },
+  }),
+  uploadImgBase: new Schema({
+    imgName: {
+      type: String,
+      required: true,
+    },
+    originalFileName: {
+      type: String,
+      required: true,
+    },
+    imgPath: {
+      type: String,
+      required: true,
+    },
+    baseString: {
+      type: String,
+      required: true,
+    },
+    created: {
+      type: Date,
+      default: Date.now(),
+      required: true,
+    },
+  }),
+  uploadFile: new Schema({
+    fileName: {
+      type: String,
+      required: true,
+    },
+    originalFileName: {
+      type: String,
+      required: true,
+    },
+    destination: {
+      type: String,
+      required: true,
+    },
+    filePath: {
+      type: String,
+      required: true,
+    },
+    fileType: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: String,
+      required: true,
+    },
+    created: {
+      type: Date,
+      default: Date.now(),
+      required: true,
+    },
+  }),
+  uploadVideo: new Schema({
+    videoName: {
+      type: String,
+      required: true,
+    },
+    originalFileName: {
+      type: String,
+      required: true,
+    },
+    destination: {
+      type: String,
+      required: true,
+    },
+    filePath: {
+      type: String,
+      required: true,
+    },
+    fileType: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: String,
+      required: true,
+    },
+    created: {
+      type: Date,
+      default: Date.now(),
+      required: true,
+    },
+  }),
+  mailsubscribe: new Schema({
+    email:
       {
         type: String,
         required: true,
-        default: false
       },
-      create: { type: Date },
-      updated: { type: Date, default: Date.now, required: true },
-      modified: { type: Date, default: Date.now, required: true }
-    }),
-    lang: new Schema({
-        nameLang:
+    confirmed:
+      {
+        type: String,
+        required: true,
+        default: false,
+      },
+    create: { type: Date },
+    updated: { type: Date, default: Date.now, required: true },
+    modified: { type: Date, default: Date.now, required: true },
+  }),
+  lang: new Schema({
+    nameLang:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        codeLang:
+    codeLang:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        charset:
+    charset:
         {
-            type: String,
-            required: true
-        }
-    }),
-    typePosts: new Schema({
-        typePostCode:
-        {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        name:
+  }),
+  typePosts: new Schema({
+    typePostCode:
         {
-            type: String,
-            required: true
-        }
-    }),
-    info: new Schema({
-        name:
-        {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        logo: new Schema({
-            stringImg:
+    name:
+        {
+          type: String,
+          required: true,
+        },
+  }),
+  info: new Schema({
+    name:
+        {
+          type: String,
+          required: true,
+        },
+    logo: new Schema({
+      stringImg:
             {
-                type: String,
-                required: true
+              type: String,
+              required: true,
             },
-            alt:
+      alt:
             {
-                type:String,
-                required: true
-            }
-        }),
-        address:
-        {
-            type:String,
-            required: true
-        },
-        tel1: String,
-        tel2: String,
-        phone1: String,
-        phone2: String,
-        email:String,
-        pec: String,
-        lat: String,
-        long: String,
-        visible:
-        {
-            type: Boolean,
-            required: true,
-            default:false
-        }
+              type: String,
+              required: true,
+            },
     }),
-    options: new Schema({
-        siteurl:
+    address:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        home:
+    tel1: String,
+    tel2: String,
+    phone1: String,
+    phone2: String,
+    email: String,
+    pec: String,
+    lat: String,
+    long: String,
+    visible:
         {
-            type: String,
-            required: true
+          type: Boolean,
+          required: true,
+          default: false,
         },
-        site_name:
+  }),
+  options: new Schema({
+    siteurl:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        site_description:
+    home:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        users_can_register:
+    site_name:
         {
-            type: Boolean,
-            required: true
+          type: String,
+          required: true,
         },
-        admin_email:
+    site_description:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        start_of_week:
+    users_can_register:
         {
-            type: Number,
-            min: 0,
-            max: 6,
+          type: Boolean,
+          required: true,
         },
-        use_balance_tags:
+    admin_email:
         {
-            type: Boolean,
-            required: true
+          type: String,
+          required: true,
         },
-        use_smiles:
+    start_of_week:
         {
-           type: Boolean,
-           required: true
+          type: Number,
+          min: 0,
+          max: 6,
         },
-        require_name_email:
+    use_balance_tags:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        comments_notify:
+    use_smiles:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        posts_for_rss:
+    require_name_email:
         {
-            type: Number,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        rss_use_excerpt:
+    comments_notify:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        mail_server_url:
+    posts_for_rss:
         {
-            type: String,
-            required: true
+          type: Number,
+          required: true,
         },
-        mailserver_login:
+    rss_use_excerpt:
         {
-            type: String,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        mailserver_pass:
+    mail_server_url:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        mailserver_pass:
+    mailserver_login:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        mailserver_port:
+    mailserver_pass:
         {
-            type: Number,
-            required: true
+          type: String,
+          required: true,
         },
-        default_category:
+    mailserver_pass:
         {
-            type: Boolean,
-            required: true
+          type: String,
+          required: true,
         },
-        default_comment_status:
+    mailserver_port:
         {
-            type: String,
-            required: true,
+          type: Number,
+          required: true,
         },
-        default_ping_status:
+    default_category:
         {
-            type: String,
-            required: true,
+          type: Boolean,
+          required: true,
         },
-        default_pingback_flag:
+    default_comment_status:
         {
-            type: Boolean,
-            required: true,
-            default: true
+          type: String,
+          required: true,
         },
-        posts_for_page:
+    default_ping_status:
         {
-            type: Number,
-            min: 0,
-            max: 500
+          type: String,
+          required: true,
         },
-        date_format:
+    default_pingback_flag:
         {
-            type: String,
-            required: true
+          type: Boolean,
+          required: true,
+          default: true,
         },
-        time_format:
+    posts_for_page:
         {
-            type: String,
-            required: true
+          type: Number,
+          min: 0,
+          max: 500,
         },
-        links_updated_date_format:
+    date_format:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        comment_moderation:
+    time_format:
         {
-            type: Boolean,
-            required: true
+          type: String,
+          required: true,
         },
-        moderation_notify:
+    links_updated_date_format:
         {
-            type: Boolean,
-            required: true
+          type: String,
+          required: true,
         },
-        hack_file:
+    comment_moderation:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        site_charset:
+    moderation_notify:
         {
-            type: String,
-            required: true,
+          type: Boolean,
+          required: true,
         },
-        moderation_keys: String,
-        active_plugins:
+    hack_file:
+        {
+          type: Boolean,
+          required: true,
+        },
+    site_charset:
+        {
+          type: String,
+          required: true,
+        },
+    moderation_keys: String,
+    active_plugins:
         [
-            new Schema(
+          new Schema(
             {
-                name: String,
-            })
+              name: String,
+            },
+          ),
         ],
-        category_base: String,
-        ping_sites:
+    category_base: String,
+    ping_sites:
         {
-            type: String,
-            required: true,
+          type: String,
+          required: true,
         },
-        comment_max_links:
+    comment_max_links:
         {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
-        gmt_offset:
+    gmt_offset:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        default_email_category:
+    default_email_category:
         {
-            type: Boolean,
-            required: true,
+          type: Boolean,
+          required: true,
         },
-        recently_edited:
+    recently_edited:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        template:
+    template:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        stylesheet:
+    stylesheet:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        comment_whitelist:
+    comment_whitelist:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        blacklist_keys:
+    blacklist_keys:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        comment_registration:
+    comment_registration:
         {
-            type: Boolean,
-            required: true,
-            default: false
+          type: Boolean,
+          required: true,
+          default: false,
         },
-        html_type:
+    html_type:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        use_trackback:
+    use_trackback:
         {
-            type: Boolean,
-            required: true,
-            default: false
+          type: Boolean,
+          required: true,
+          default: false,
         },
-        default_role:
+    default_role:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        db_version:
+    db_version:
         {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
-        uploads_use_yearmonth_folders:
+    uploads_use_yearmonth_folders:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        upload_path:
+    upload_path:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        site_public:
+    site_public:
         {
-            type: Boolean,
-            required: true,
+          type: Boolean,
+          required: true,
         },
-        default_link_category:
+    default_link_category:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        show_on_front:
+    show_on_front:
         {
-            type: String,
-            required: true,
+          type: String,
+          required: true,
         },
-        tag_base: String,
-        show_avatars:
+    tag_base: String,
+    show_avatars:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        avatar_rating:
+    avatar_rating:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        upload_url_path: String,
-        thumbnail_size_w:
+    upload_url_path: String,
+    thumbnail_size_w:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        thumbnail_size_h:
+    thumbnail_size_h:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        thumbnail_crop:
+    thumbnail_crop:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        medium_size_w:
+    medium_size_w:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        medium_size_h:
+    medium_size_h:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        avatar_default:
+    avatar_default:
         {
-            type: String,
-            required: true,
+          type: String,
+          required: true,
         },
-        large_size_w:
+    large_size_w:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        large_size_h:
+    large_size_h:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        image_default_link_type:
+    image_default_link_type:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        image_default_size:
+    image_default_size:
         {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
-        image_default_align:
+    image_default_align:
         {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
-        close_comments_for_old_posts:
+    close_comments_for_old_posts:
         {
-            type: Boolean,
-            required: true,
+          type: Boolean,
+          required: true,
         },
-        close_comments_days_old:
+    close_comments_days_old:
         {
-            type: Number,
-            required: true,
+          type: Number,
+          required: true,
         },
-        thread_comments:
+    thread_comments:
         {
-            type: Boolean,
-            required: true,
+          type: Boolean,
+          required: true,
         },
-        thread_comments_depth:
+    thread_comments_depth:
         {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
-        page_comments:
+    page_comments:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        comments_per_page:
+    comments_per_page:
         {
-            type: Number,
-            min: 50,
-            max: 200
+          type: Number,
+          min: 50,
+          max: 200,
         },
-        default_comment_page:
+    default_comment_page:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        comment_order:
+    comment_order:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        widget_categories:
+    widget_categories:
         [
-            new Schema({
-                title: String
-            })
+          new Schema({
+            title: String,
+          }),
         ],
-        widget_text:
+    widget_text:
         [
-            new Schema(
+          new Schema(
             {
-                content: String
-            })
+              content: String,
+            },
+          ),
         ],
-        widget_rss:
+    widget_rss:
         [
-            new Schema(
+          new Schema(
             {
-                content: String
-            })
+              content: String,
+            },
+          ),
         ],
-        uninstall_plugins:
+    uninstall_plugins:
         [
-            new Schema(
+          new Schema(
             {
-                title: String,
-                content: String
-            })
+              title: String,
+              content: String,
+            },
+          ),
         ],
-        timezone_string:
+    timezone_string:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        page_for_posts:
+    page_for_posts:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        page_on_front:
+    page_on_front:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        default_post_format:
+    default_post_format:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        link_manager_enabled:
+    link_manager_enabled:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        finished_splitting_shared_terms:
+    finished_splitting_shared_terms:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        site_icon:
+    site_icon:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        medium_large_size_w:
+    medium_large_size_w:
         {
-            type: Number,
-            required: true,
-            min: 0
+          type: Number,
+          required: true,
+          min: 0,
         },
-        medium_large_size_w:
+    medium_large_size_w:
         {
-            type: Number,
-            required: true,
-            min: 0
+          type: Number,
+          required: true,
+          min: 0,
         },
-        page_for_privacy_policy:
+    page_for_privacy_policy:
         {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
-        show_comments_cookies_opt_in:
+    show_comments_cookies_opt_in:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        admin_email_lifespan:
+    admin_email_lifespan:
         {
-            type: Number,
-            min: 0,
-            required: true
+          type: Number,
+          min: 0,
+          required: true,
         },
-        initial_db_version:
+    initial_db_version:
         {
-            type: Number,
-            min: 0,
-            required: true
+          type: Number,
+          min: 0,
+          required: true,
         },
-        fresh_site:
+    fresh_site:
         {
-            type: Boolean,
-            required: true
+          type: Boolean,
+          required: true,
         },
-        CMSLANG:
+    CMSLANG:
         {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
-        cron:
+    cron:
         [
-            new Schema(
+          new Schema(
             {
-                name: String,
-                time: Number,
-                abilities: Boolean
-            })
+              name: String,
+              time: Number,
+              abilities: Boolean,
+            },
+          ),
         ],
-        recovery_keys:
+    recovery_keys:
         [
-            new Schema(
+          new Schema(
             {
-                name: String,
-                key: String
-            })
+              name: String,
+              key: String,
+            },
+          ),
         ],
-    }),
-    chat: new Schema({
-      pathPage: {
-        type: String,
-        required: true
-      },
-      langPage: {
-        type: String,
-        required: true
-      },
-      comment: {
-        type: String,
-        required: true
-      }
-    }),
-    earning: new Schema({
-      day:
+  }),
+  chat: new Schema({
+    pathPage: {
+      type: String,
+      required: true,
+    },
+    langPage: {
+      type: String,
+      required: true,
+    },
+    comment: {
+      type: String,
+      required: true,
+    },
+  }),
+  earning: new Schema({
+    day:
       {
         type: Date,
         default: Date.now,
-        required: true
+        required: true,
       },
-      payments: {
-        type: Number,
-        required: true
-      },
-      mounth: {
-        type: String,
-        required: true
-      },
-      year: {
-        type: String,
-        required: true
-      }
-    }),
-    category: new Schema({
+    payments: {
+      type: Number,
+      required: true,
+    },
+    mounth: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: String,
+      required: true,
+    },
+  }),
+  category: new Schema({
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    titleSEO: {
+      type: String,
+    },
+    important: {
+      type: Number,
+      required: true,
+    },
+    visible: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    subCategory: [
+      new Schema({
         name: {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
         description: {
-            type: String,
-            required: true
+          type: String,
+          required: true,
         },
         titleSEO: {
-            type: String
+          type: String,
         },
         important: {
-            type: Number,
-            required: true
+          type: Number,
+          required: true,
         },
         visible: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        subCategory: [
-            new Schema({
-                name: {
-                    type: String,
-                    required: true
-                },
-                description: {
-                    type: String,
-                    required: true
-                },
-                titleSEO: {
-                    type: String
-                },
-                important: {
-                    type: Number,
-                    required: true
-                },
-                visible: {
-                    type: Boolean,
-                    required: true,
-                    default: false
-                },
-                create: { type: Date },
-                updated: { type: Date, default: Date.now, required: true },
-                modified: { type: Date, default: Date.now, required: true },
-            })
-        ],
-        lang: {
-            type: String,
+          type: Boolean,
+          required: true,
+          default: false,
         },
         create: { type: Date },
         updated: { type: Date, default: Date.now, required: true },
         modified: { type: Date, default: Date.now, required: true },
-    }),
-    access: new Schema({
-        idUser: {
-            type: String,
-            required: true
-        },
-        ip: {
-            type: String,
-            required: true
-        },
-        dayHour: {
-            type: Date,
-            default: Date.now(),
-            required: true
-        }
-    }),
-    settingGeneral: new Schema({
-        setting: {
-            type: String,
-            required: true
-        },
-        value: {
-            type: String,
-            required: true
-        }
-    })
+      }),
+    ],
+    lang: {
+      type: String,
+    },
+    create: { type: Date },
+    updated: { type: Date, default: Date.now, required: true },
+    modified: { type: Date, default: Date.now, required: true },
+  }),
+  access: new Schema({
+    idUser: {
+      type: String,
+      required: true,
+    },
+    ip: {
+      type: String,
+      required: true,
+    },
+    dayHour: {
+      type: Date,
+      default: Date.now(),
+      required: true,
+    },
+  }),
+  settingGeneral: new Schema({
+    setting: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: String,
+      required: true,
+    },
+  }),
 };
