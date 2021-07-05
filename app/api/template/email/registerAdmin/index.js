@@ -1,11 +1,10 @@
-const domain = (process.env.NODE_ENV_DOMAIN_NAME_SMTP) ? process.env.NODE_ENV_DOMAIN_NAME_SMTP : 'http://localhost'; 
+const domain = (process.env.NODE_ENV_DOMAIN_NAME_SMTP) ? process.env.NODE_ENV_DOMAIN_NAME_SMTP : 'http://localhost';
 module.exports = ({
-    code,
-    name,
-    email,
-    password
-}) => {
-return `
+  code,
+  name,
+  email,
+  password,
+}) => `
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -135,4 +134,3 @@ return `
 </body>
 </html>
 `;
-};
